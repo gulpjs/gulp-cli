@@ -29,7 +29,7 @@ var cli = new Liftoff({
 var failed = false;
 process.once('exit', function(code) {
   if (code === 0 && failed) {
-    process.exit(1);
+    exit(1);
   }
 });
 
@@ -78,7 +78,7 @@ function handleArguments(env) {
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
       gutil.log('Local version', env.modulePackage.version);
     }
-    process.exit(0);
+    exit(0);
   }
 
   if (!env.modulePath) {
@@ -87,12 +87,12 @@ function handleArguments(env) {
       chalk.magenta(tildify(env.cwd))
     );
     gutil.log(chalk.red('Try running: npm install gulp'));
-    process.exit(1);
+    exit(1);
   }
 
   if (!env.configPath) {
     gutil.log(chalk.red('No gulpfile found'));
-    process.exit(1);
+    exit(1);
   }
 
   // check for semver difference between cli and local installation
@@ -207,6 +207,17 @@ function logEvents(gulpInst) {
       chalk.red('Task \'' + err.task + '\' is not in your gulpfile')
     );
     gutil.log('Please check the documentation for proper gulpfile formatting');
-    process.exit(1);
+    exit(1);
   });
+}
+
+// fix stdout truncation on windows
+function exit(code) {
+  if (process.platform === 'win32' && process.stdout.bufferSize) {
+    process.stdout.once('drain', function() {
+      process.exit(code);
+    });
+    return;
+  }
+  process.exit(code);
 }
