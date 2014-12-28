@@ -11,7 +11,7 @@ var output = fs.readFileSync(__dirname + '/expected/flags-tasks-simple.txt', 'ut
 lab.experiment('flag: --tasks-simple', function () {
 
   lab.test('prints the task list', function (done) {
-    child.exec(__dirname + '/../index.js --tasks-simple --cwd ./test', function(err, stdout) {
+    child.exec('node ' + __dirname + '/../index.js --tasks-simple --cwd ./test', function(err, stdout) {
       code.expect(stdout).to.equal(output);
       done(err);
     });
