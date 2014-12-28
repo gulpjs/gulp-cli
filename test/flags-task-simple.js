@@ -6,7 +6,7 @@ var code = require('code');
 var fs = require('fs');
 var child = require('child_process');
 
-var output = fs.readFileSync(__dirname + '/expected/flags-tasks-simple.txt', 'utf8');
+var output = fs.readFileSync(__dirname + '/expected/flags-tasks-simple.txt', 'utf8').replace(/\r\n/g, '\n');
 
 lab.experiment('flag: --tasks-simple', function () {
 
