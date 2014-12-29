@@ -17,10 +17,11 @@
   "files": [
     "index.js",
     "lib",
+    "bin",
     "completion"
   ],
   "bin": {
-    "gulp": "./index.js"
+    "gulp": "bin/gulp.js"
   },
   "man": "gulp.1",
   "dependencies": {

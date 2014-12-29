@@ -64,12 +64,16 @@ cli.on('respawn', function (flags, child) {
   gutil.log('Respawned to PID:', pid);
 });
 
-cli.launch({
-  cwd: argv.cwd,
-  configPath: argv.gulpfile,
-  require: argv.require,
-  completion: argv.completion
-}, handleArguments);
+function run() {
+  cli.launch({
+    cwd: argv.cwd,
+    configPath: argv.gulpfile,
+    require: argv.require,
+    completion: argv.completion
+  }, handleArguments);
+}
+
+module.exports = run;
 
 // the actual logic
 function handleArguments(env) {
