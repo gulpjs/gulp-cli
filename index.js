@@ -165,7 +165,7 @@ function gulp3(env){
 
 function gulp4(env){
   var logTasks = require('./lib/log/tasks');
-  var logEvents = require('./lib/logEvents');
+  var logEvents = require('./lib/log/events');
   var logTasksSimple = require('./lib/log/tasksSimple');
 
   var gulpInst = require(env.modulePath);
