@@ -3,7 +3,7 @@
 var lab = exports.lab = require('lab').script();
 var code = require('code');
 
-var taskTree = require('../lib/3/taskTree');
+var taskTree = require('../lib/versioned/^3.7.0/taskTree');
 
 lab.experiment('taskTree()', function() {
 
