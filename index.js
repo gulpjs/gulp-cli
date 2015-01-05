@@ -6,7 +6,6 @@ var path = require('path');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
 var nomnom = require('nomnom');
-var semver = require('semver');
 var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
@@ -117,14 +116,6 @@ function handleArguments(env) {
     exit(1);
   }
 
-  // Check for semver difference between cli and local installation
-  // TODO: remove when we support all
-  if (semver.gt(cliVersion, env.modulePackage.version)) {
-    gutil.log(chalk.red('Warning: gulp version mismatch:'));
-    gutil.log(chalk.red('Global gulp is', cliVersion));
-    gutil.log(chalk.red('Local gulp is', env.modulePackage.version));
-  }
-
   // Chdir before requiring gulpfile to make sure
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
@@ -137,6 +128,12 @@ function handleArguments(env) {
 
   // Find the correct CLI version to run
   var range = findRange(env.modulePackage.version, ranges);
+
+  if (!range) {
+    return gutil.log(
+      chalk.red('Unsupported gulp version', env.modulePackage.version)
+    );
+  }
 
   // Load and execute the CLI version
   require(path.join(__dirname, '/lib/versioned/', range, '/'))(opts, env);
