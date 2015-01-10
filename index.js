@@ -36,8 +36,12 @@ var cli = new Liftoff({
   v8flags: v8flags
 });
 
+var usage =
+  '\n' + chalk.bold('Usage:') +
+  ' gulp ' + chalk.blue('[options]') + ' tasks';
+
 var parser = yargs
-  .usage('\n' + chalk.bold('Usage:') + ' gulp ' + chalk.blue('[options]') + ' tasks', cliOptions);
+  .usage(usage, cliOptions);
 var opts = parser.argv;
 
 // this is a hold-over until we have a better logging system
