@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
-var nomnom = require('nomnom');
+var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
@@ -36,10 +36,9 @@ var cli = new Liftoff({
   nodeFlags: v8flags.fetch()
 });
 
-var opts = nomnom
-  .script('gulp')
-  .options(cliOptions)
-  .parse();
+var parser = yargs
+  .usage('\n' + chalk.bold('Usage:') + ' gulp ' + chalk.blue('[options]') + ' tasks', cliOptions);
+var opts = parser.argv;
 
 // this is a hold-over until we have a better logging system
 // with log levels
@@ -77,6 +76,11 @@ module.exports = run;
 
 // the actual logic
 function handleArguments(env) {
+  if (opts.help) {
+    console.log(parser.help());
+    exit(0);
+  }
+
   if (opts.version) {
     gutil.log('CLI version', cliVersion);
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
