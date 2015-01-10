@@ -28,7 +28,7 @@
     "archy": "^1.0.0",
     "chalk": "^0.5.0",
     "gulp-util": "^3.0.0",
-    "interpret": "^0.3.2",
+    "interpret": "^0.4.1",
     "liftoff": "^1.0.0",
     "minimist": "^1.1.0",
     "pretty-hrtime": "^0.2.0",
@@ -37,6 +37,7 @@
     "v8flags": "^1.0.1"
   },
   "devDependencies": {
+    "6to5": "^2.9.4",
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
     "gulp": ">=3.8.10",
