@@ -34,7 +34,7 @@
     "pretty-hrtime": "^0.2.0",
     "semver": "^4.1.0",
     "tildify": "^1.0.0",
-    "v8flags": "^2.0.0"
+    "v8flags": "^2.0.2"
   },
   "devDependencies": {
     "6to5": "^2.9.4",
