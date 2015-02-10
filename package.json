@@ -23,6 +23,7 @@
   "bin": {
     "gulp": "bin/gulp.js"
   },
+  "preferGlobal": true,
   "man": "gulp.1",
   "dependencies": {
     "archy": "^1.0.0",
