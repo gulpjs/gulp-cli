@@ -1,5 +1,5 @@
 # Completion for gulp
-> Thanks to grunt team and Tyler Kellen
+> Thanks to the grunt team, specifically Tyler Kellen
 
 To enable tasks auto-completion in shell you should add `eval "$(gulp --completion=shell)"` in your `.shellrc` file.
 
