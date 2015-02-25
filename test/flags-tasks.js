@@ -8,7 +8,7 @@ var child = require('child_process');
 lab.experiment('flag: --tasks', function () {
 
   lab.test('prints the task list', function (done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --tasks --cwd ./test', function(err, stdout) {
+    child.exec('node ' + __dirname + '/../bin/gulp.js --tasks --cwd ./test/fixtures', function(err, stdout) {
       stdout = stdout.replace(/\\/g, '/');
       code.expect(stdout).to.contain('/gulp-cli/test');
       code.expect(stdout).to.contain('├── test1');
