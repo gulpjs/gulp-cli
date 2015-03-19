@@ -16,7 +16,10 @@ lab.experiment('flag: --tasks', function () {
       code.expect(stdout[2]).to.contain('├─┬ test2');
       code.expect(stdout[3]).to.contain('│ └── test1');
       code.expect(stdout[4]).to.contain('├── test3    description');
-      code.expect(stdout[5]).to.contain('└── default');
+      code.expect(stdout[5]).to.contain('└─┬ default');
+      code.expect(stdout[6]).to.contain('  ├── test1');
+      code.expect(stdout[7]).to.contain('  └── test3');
+      code.expect(stdout[8]).to.not.contain('description');
       done(err);
     });
   });

@@ -137,6 +137,7 @@ function handleArguments(env) {
 function logTasks(env, localGulp) {
   var tree = taskTree(localGulp.tasks);
   var padding = 0;
+  var rdependency = /[ │] [├└]/;
   tree.label = 'Tasks for ' + chalk.magenta(tildify(env.configPath));
   archy(tree)
     .split('\n')
@@ -156,11 +157,11 @@ function logTasks(env, localGulp) {
       var line = v.split(' ');
       var task = line.slice(1).join(' ');
 
-      if ( /.└/.test(v) ) {
-        // log dependencies as is
+      // log dependencies as is
+      if ( rdependency.test(v) ) {
         gutil.log(v);
+      // pretty task with optionnal description
       } else {
-        // pretty task with optionnal description
         gutil.log(
           line[0] + ' ' +
           chalk.cyan(task) +

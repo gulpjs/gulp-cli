@@ -10,4 +10,4 @@ gulp.task('test1', noop);
 gulp.task('test2', ['test1'], noop);
 gulp.task('test3', described);
 
-gulp.task('default', noop);
+gulp.task('default', ['test1', 'test3'], noop);
