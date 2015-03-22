@@ -2,8 +2,8 @@
 
 var gulp = require('gulp');
 
-function noop(){}
-function described(){}
+function noop() {}
+function described() {}
 described.description = 'description';
 
 gulp.task('test1', noop);
