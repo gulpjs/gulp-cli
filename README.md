@@ -12,12 +12,12 @@
 [gittip-url]: https://www.gittip.com/WeAreFractal/
 [gittip-image]: http://img.shields.io/gittip/WeAreFractal.svg
 
-[downloads-image]: http://img.shields.io/npm/dm/gulp.svg
-[npm-url]: https://npmjs.org/package/gulp
-[npm-image]: http://img.shields.io/npm/v/gulp.svg
+[downloads-image]: http://img.shields.io/npm/dm/gulp-cli.svg
+[npm-url]: https://npmjs.org/package/gulp-cli
+[npm-image]: http://img.shields.io/npm/v/gulp-cli.svg
 
-[travis-url]: https://travis-ci.org/gulpjs/gulp
-[travis-image]: http://img.shields.io/travis/gulpjs/gulp.svg
+[travis-url]: https://travis-ci.org/gulpjs/gulp-cli
+[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg
 
-[coveralls-url]: https://coveralls.io/r/gulpjs/gulp
-[coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp/master.svg
+[coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
+[coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp-cli/master.svg
