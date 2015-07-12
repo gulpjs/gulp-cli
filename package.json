@@ -1,7 +1,7 @@
 {
   "name": "gulp-cli",
   "description": "The streaming build system",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "homepage": "http://gulpjs.com",
   "repository": "gulpjs/gulp-cli",
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
