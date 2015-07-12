@@ -200,14 +200,14 @@ function formatError(e) {
 // Wire up logging events
 function logEvents(gulpInst) {
 
-  // total hack due to poor error management in orchestrator
+  // Total hack due to poor error management in orchestrator
   gulpInst.on('err', function() {
     failed = true;
   });
 
   gulpInst.on('task_start', function(e) {
     // TODO: batch these
-    // so when 5 tasks start at once it only logs one time with all 5
+    // So when 5 tasks start at once it only logs one time with all 5
     gutil.log('Starting', '\'' + chalk.cyan(e.task) + '\'...');
   });
 
