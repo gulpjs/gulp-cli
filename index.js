@@ -43,10 +43,10 @@ var usage =
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
-// this translates the --continue flag in gulp
-// to the settle env variable for undertaker
-// we use the process.env so the user's gulpfile
-// can know about the flag
+// This translates the --continue flag in gulp
+// To the settle env variable for undertaker
+// We use the process.env so the user's gulpfile
+// Can know about the flag
 if (opts.continue) {
   process.env.UNDERTAKER_SETTLE = 'true';
 }
