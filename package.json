@@ -37,11 +37,9 @@
     "v8flags": "^2.0.9"
   },
   "devDependencies": {
-    "6to5": "^2.9.4",
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
     "gulp": ">=3.8.10",
-    "istanbul": "^0.3.0",
     "jscs": "^1.11.3",
     "jshint": "^2.5.0",
     "jshint-stylish": "^2.0.1",
@@ -51,8 +49,8 @@
   "scripts": {
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "lint": "jshint lib index.js --reporter node_modules/jshint-stylish --exclude node_modules && jscs index.js lib bin test",
-    "test": "npm run-script lint && lab -cv",
-    "coveralls": "istanbul cover _mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "test": "npm run lint && lab -cv",
+    "coveralls": "lab -r lcov | coveralls"
   },
   "engines": {
     "node": ">= 0.9"
