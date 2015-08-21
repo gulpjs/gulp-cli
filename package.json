@@ -31,6 +31,7 @@
     "interpret": "^0.6.4",
     "liftoff": "^2.1.0",
     "matchdep": "^0.3.0",
+    "mute-stdout": "^0.1.0",
     "pretty-hrtime": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.0.0",
     "tildify": "^1.0.0",
