@@ -4,6 +4,7 @@
 var fs = require('fs');
 var path = require('path');
 var gutil = require('gulp-util');
+var log = require('gulplog');
 var chalk = require('chalk');
 var yargs = require('yargs');
 var Liftoff = require('liftoff');
@@ -17,6 +18,7 @@ var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verifyDependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
+var toConsole = require('./lib/shared/toConsole');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -24,6 +26,9 @@ var logBlacklistError = require('./lib/shared/log/blacklistError');
 
 // Get supported ranges
 var ranges = fs.readdirSync(__dirname + '/lib/versioned/');
+
+// Set up event listeners for logging.
+toConsole(log);
 
 // Set env var for ORIGINAL cwd
 // before anything touches it
@@ -59,9 +64,15 @@ if (!shouldLog) {
   gutil.log = function() {};
 }
 
+// cli.on('require', function(name) {
+//   gutil.log('Requiring external module', chalk.magenta(name));
+// });
+
 cli.on('require', function(name) {
-  gutil.log('Requiring external module', chalk.magenta(name));
+  log.info('Requiring external module', chalk.magenta(name));
 });
+
+
 
 cli.on('requireFail', function(name) {
   gutil.log(chalk.red('Failed to load external module'), chalk.magenta(name));
