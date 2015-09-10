@@ -54,7 +54,7 @@
   "scripts": {
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "lint": "jshint lib index.js --reporter node_modules/jshint-stylish --exclude node_modules && jscs index.js lib bin test",
-    "test": "npm run lint && lab -cv",
+    "test": "npm run lint && lab test/*.js -cv",
     "coveralls": "lab -r lcov | coveralls"
   },
   "engines": {
