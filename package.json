@@ -27,7 +27,6 @@
   "dependencies": {
     "archy": "^1.0.0",
     "chalk": "^1.1.0",
-    "gulp-util": "^3.0.6",
     "gulplog": "0.0.0",
     "interpret": "^0.6.4",
     "liftoff": "^2.1.0",
@@ -43,6 +42,7 @@
   "devDependencies": {
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
+    "fancy-log": "^1.0.0",
     "gulp": ">=3.8.10",
     "jscs": "^1.11.3",
     "jshint": "^2.5.0",

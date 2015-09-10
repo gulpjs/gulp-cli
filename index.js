@@ -3,7 +3,6 @@
 'use strict';
 var fs = require('fs');
 var path = require('path');
-var gutil = require('gulp-util');
 var log = require('gulplog');
 var chalk = require('chalk');
 var yargs = require('yargs');
@@ -26,9 +25,6 @@ var logBlacklistError = require('./lib/shared/log/blacklistError');
 
 // Get supported ranges
 var ranges = fs.readdirSync(__dirname + '/lib/versioned/');
-
-// Set up event listeners for logging.
-toConsole(log);
 
 // Set env var for ORIGINAL cwd
 // before anything touches it
@@ -56,33 +52,22 @@ if (opts.continue) {
   process.env.UNDERTAKER_SETTLE = 'true';
 }
 
-// This is a hold-over until we have a better logging system
-// with log levels
-var shouldLog = !opts.silent && !opts.tasksSimple;
-
-if (!shouldLog) {
-  gutil.log = function() {};
-}
-
-// cli.on('require', function(name) {
-//   gutil.log('Requiring external module', chalk.magenta(name));
-// });
+// Set up event listeners for logging.
+toConsole(log, { logLevel: opts.logLevel });
 
 cli.on('require', function(name) {
   log.info('Requiring external module', chalk.magenta(name));
 });
 
-
-
 cli.on('requireFail', function(name) {
-  gutil.log(chalk.red('Failed to load external module'), chalk.magenta(name));
+  log.error(chalk.red('Failed to load external module'), chalk.magenta(name));
 });
 
 cli.on('respawn', function(flags, child) {
   var nodeFlags = chalk.magenta(flags.join(', '));
   var pid = chalk.magenta(child.pid);
-  gutil.log('Node flags detected:', nodeFlags);
-  gutil.log('Respawned to PID:', pid);
+  log.info('Node flags detected:', nodeFlags);
+  log.info('Respawned to PID:', pid);
 });
 
 function run() {
@@ -104,9 +89,9 @@ function handleArguments(env) {
   }
 
   if (opts.version) {
-    gutil.log('CLI version', cliVersion);
+    log.info('CLI version', cliVersion);
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
-      gutil.log('Local version', env.modulePackage.version);
+      log.info('Local version', env.modulePackage.version);
     }
     exit(0);
   }
@@ -116,7 +101,7 @@ function handleArguments(env) {
     if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
       pkgPath = path.join(env.configBase, pkgPath);
     }
-    gutil.log('Verifying plugins in ' + pkgPath);
+    log.info('Verifying plugins in ' + pkgPath);
     return getBlacklist(function(err, blacklist) {
       if (err) {
         return logBlacklistError(err);
@@ -129,16 +114,16 @@ function handleArguments(env) {
   }
 
   if (!env.modulePath) {
-    gutil.log(
+    log.error(
       chalk.red('Local gulp not found in'),
       chalk.magenta(tildify(env.cwd))
     );
-    gutil.log(chalk.red('Try running: npm install gulp'));
+    log.error(chalk.red('Try running: npm install gulp'));
     exit(1);
   }
 
   if (!env.configPath) {
-    gutil.log(chalk.red('No gulpfile found'));
+    log.error(chalk.red('No gulpfile found'));
     exit(1);
   }
 
@@ -146,7 +131,7 @@ function handleArguments(env) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    gutil.log(
+    log.info(
       'Working directory changed to',
       chalk.magenta(tildify(env.cwd))
     );
@@ -156,7 +141,7 @@ function handleArguments(env) {
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    return gutil.log(
+    return log.error(
       chalk.red('Unsupported gulp version', env.modulePackage.version)
     );
   }
