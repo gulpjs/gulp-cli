@@ -17,7 +17,7 @@ var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verifyDependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
-var toConsole = require('./lib/shared/toConsole');
+var toConsole = require('./lib/shared/log/toConsole');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
