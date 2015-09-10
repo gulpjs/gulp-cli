@@ -53,7 +53,7 @@ if (opts.continue) {
 }
 
 // Set up event listeners for logging.
-toConsole(log, { logLevel: opts.logLevel });
+toConsole(log, opts);
 
 cli.on('require', function(name) {
   log.info('Requiring external module', chalk.magenta(name));
