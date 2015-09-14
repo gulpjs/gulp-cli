@@ -5,8 +5,8 @@ var code = require('code');
 var child = require('child_process');
 
 lab.experiment('logging', function() {
-  lab.test('flag: --log-level debug', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js --log-level debug', function(err, stdout) {
+  lab.test('log-level flag for debug: -llll', function(done) {
+    child.exec('node ' + __dirname + '/fixtures/logging.js -llll', function(err, stdout) {
       stdout = stdout.replace(/\\/g, '/').split('\n');
       code.expect(stdout[0]).to.contain('test debug');
       code.expect(stdout[1]).to.contain('test info');
@@ -16,8 +16,8 @@ lab.experiment('logging', function() {
     });
   });
 
-  lab.test('flag: --log-level info', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js --log-level info', function(err, stdout) {
+  lab.test('no log-level flag: defaults to -lll', function(done) {
+    child.exec('node ' + __dirname + '/fixtures/logging.js', function(err, stdout) {
       stdout = stdout.replace(/\\/g, '/').split('\n');
       code.expect(stdout[0]).to.contain('test info');
       code.expect(stdout[1]).to.contain('test warn');
@@ -26,8 +26,18 @@ lab.experiment('logging', function() {
     });
   });
 
-  lab.test('flag: --log-level info', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js --log-level warn', function(err, stdout) {
+  lab.test('log-level flag for info: -lll', function(done) {
+    child.exec('node ' + __dirname + '/fixtures/logging.js -lll', function(err, stdout) {
+      stdout = stdout.replace(/\\/g, '/').split('\n');
+      code.expect(stdout[0]).to.contain('test info');
+      code.expect(stdout[1]).to.contain('test warn');
+      code.expect(stdout[2]).to.contain('test error');
+      done(err);
+    });
+  });
+
+  lab.test('log-level flag for warn: -ll', function(done) {
+    child.exec('node ' + __dirname + '/fixtures/logging.js -ll', function(err, stdout) {
       stdout = stdout.replace(/\\/g, '/').split('\n');
       code.expect(stdout[0]).to.contain('test warn');
       code.expect(stdout[1]).to.contain('test error');
@@ -35,8 +45,8 @@ lab.experiment('logging', function() {
     });
   });
 
-  lab.test('flag: --log-level error', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js --log-level error', function(err, stdout) {
+  lab.test('log-level flag for error: -l', function(done) {
+    child.exec('node ' + __dirname + '/fixtures/logging.js -l', function(err, stdout) {
       code.expect(stdout).to.contain('test error');
       done(err);
     });
