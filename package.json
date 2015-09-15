@@ -28,7 +28,6 @@
     "archy": "^1.0.0",
     "chalk": "^1.1.0",
     "fancy-log": "^1.1.0",
-    "gulp-util": "^3.0.6",
     "gulplog": "0.0.0",
     "interpret": "^0.6.4",
     "liftoff": "^2.1.0",
