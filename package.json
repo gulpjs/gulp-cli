@@ -27,7 +27,9 @@
   "dependencies": {
     "archy": "^1.0.0",
     "chalk": "^1.1.0",
+    "fancy-log": "^1.1.0",
     "gulp-util": "^3.0.6",
+    "gulplog": "0.0.0",
     "interpret": "^0.6.4",
     "liftoff": "^2.1.0",
     "matchdep": "^0.3.0",
@@ -52,7 +54,7 @@
   "scripts": {
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "lint": "jshint lib index.js --reporter node_modules/jshint-stylish --exclude node_modules && jscs index.js lib bin test",
-    "test": "npm run lint && lab -cv",
+    "test": "npm run lint && lab test/*.js -cv",
     "coveralls": "lab -r lcov | coveralls"
   },
   "engines": {
