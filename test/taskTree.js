@@ -22,22 +22,43 @@ lab.experiment('taskTree()', function() {
       },
     };
 
-    var expectTree = {
-      nodes: [
-        {
-          label: 'test',
-          nodes: ['abc', 'def'],
-        },
-        {
-          label: 'abc',
-          nodes: ['def'],
-        },
-        {
-          label: 'def',
-          nodes: [],
-        },
-      ],
-    };
+    var expectTree =  {
+       nodes: [
+         {
+           label: 'test',
+           nodes: [
+             {
+               label: 'abc',
+             nodes: [
+                 {
+                   label: 'def',
+                   nodes:
+           []
+                 }
+               ]
+         },
+         {
+           label: 'def',
+               nodes: []
+             }
+           ]
+         },
+         {
+           label: 'abc',
+           nodes: [
+             {
+               label: 'def',
+               nodes:
+           []
+             }
+           ]
+         },
+         {
+           label: 'def',
+           nodes: []
+         }
+       ]
+     };
 
     code.expect(taskTree(tasks)).to.deep.equal(expectTree);
     done();
