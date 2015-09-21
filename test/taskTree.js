@@ -33,14 +33,14 @@ lab.experiment('taskTree()', function() {
                 {
                   label: 'def',
                   nodes: [],
-                }
-              ]
+                },
+              ],
             },
             {
               label: 'def',
               nodes: [],
-            }
-          ]
+            },
+          ],
         },
         {
           label: 'abc',
@@ -48,14 +48,14 @@ lab.experiment('taskTree()', function() {
             {
               label: 'def',
               nodes: [],
-            }
-          ]
+            },
+          ],
         },
         {
           label: 'def',
           nodes: [],
-        }
-      ]
+        },
+      ],
     };
 
     code.expect(taskTree(tasks)).to.deep.equal(expectTree);
