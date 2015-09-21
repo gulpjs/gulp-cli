@@ -26,11 +26,30 @@ lab.experiment('taskTree()', function() {
       nodes: [
         {
           label: 'test',
-          nodes: ['abc', 'def'],
+          nodes: [
+            {
+              label: 'abc',
+              nodes: [
+                {
+                  label: 'def',
+                  nodes: [],
+                },
+              ],
+            },
+            {
+              label: 'def',
+              nodes: [],
+            },
+          ],
         },
         {
           label: 'abc',
-          nodes: ['def'],
+          nodes: [
+            {
+              label: 'def',
+              nodes: [],
+            },
+          ],
         },
         {
           label: 'def',
