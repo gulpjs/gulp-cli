@@ -12,12 +12,12 @@ lab.experiment('taskTree()', function() {
 
     var tasks = {
       test: {
-        dep: ['abc', 'def'],
+        dep: ['dep1', 'dep2'],
       },
-      abc: {
-        dep: ['def'],
+      test2: {
+        dep: ['dep3'],
       },
-      def: {
+      test3: {
         dep: [],
       },
     };
@@ -26,14 +26,14 @@ lab.experiment('taskTree()', function() {
       nodes: [
         {
           label: 'test',
-          nodes: ['abc', 'def'],
+          nodes: ['dep1', 'dep2'],
         },
         {
-          label: 'abc',
-          nodes: ['def'],
+          label: 'test2',
+          nodes: ['dep3'],
         },
         {
-          label: 'def',
+          label: 'test3',
           nodes: [],
         },
       ],
