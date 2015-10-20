@@ -3,7 +3,6 @@
 var lab = exports.lab = require('lab').script();
 var code = require('code');
 
-var fs = require('fs');
 var child = require('child_process');
 
 lab.experiment('flag: --require', function() {

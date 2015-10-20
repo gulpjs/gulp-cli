@@ -2,7 +2,7 @@
 var gulp = require('gulp');
 
 function noop(cb) {
-  return cb()
+  return cb();
 }
 
 gulp.task('default', gulp.series(noop));
