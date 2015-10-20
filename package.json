@@ -20,7 +20,7 @@
     "tildify": "^1.0.0",
     "v8flags": "^2.0.9",
     "wreck": "^5.0.1",
-    "yargs": "^3.25.0"
+    "yargs": "^3.28.0"
   },
   "devDependencies": {
     "code": "^1.2.1",
