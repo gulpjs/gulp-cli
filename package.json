@@ -2,6 +2,7 @@
   "name": "gulp-cli",
   "description": "The streaming build system",
   "version": "0.4.0",
+  "license": "MIT",
   "homepage": "http://gulpjs.com",
   "repository": "gulpjs/gulp-cli",
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
@@ -58,11 +59,5 @@
   },
   "engines": {
     "node": ">= 0.9"
-  },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.githubusercontent.com/gulpjs/gulp/master/LICENSE"
-    }
-  ]
+  }
 }
