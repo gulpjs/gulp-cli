@@ -1,0 +1,21 @@
+{
+  "name": "test-package-2",
+  "description": "Test Package for Testing!",
+  "version": "0.0.1",
+  "tags": [
+  ],
+  "files": [
+  ],
+  "dependencies": {
+    "yargs": "^3.27.0"
+  },
+  "engines": {
+    "node": ">= 0.9"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/gulpjs/gulp/master/LICENSE"
+    }
+  ]
+}
