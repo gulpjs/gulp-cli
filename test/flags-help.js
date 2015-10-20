@@ -1,3 +1,5 @@
+'use strict';
+
 var lab = exports.lab = require('lab').script();
 var code = require('code');
 
@@ -14,12 +16,12 @@ lab.experiment('flag: help', function() {
       done();
     });
   });
-  
-    lab.test('shows help using short --h', function(done) {
+
+  lab.test('shows help using short --h', function(done) {
     child.exec('node ' + __dirname + '/../bin/gulp.js --h', function(err, stdout) {
       code.expect(stdout).to.equals(output);
       done();
     });
-  });  
-  
+  });
+
 });
