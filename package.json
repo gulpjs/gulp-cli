@@ -2,6 +2,9 @@
   "name": "gulp-cli",
   "description": "The streaming build system",
   "version": "0.3.0",
+  "license": "MIT",
+  "homepage": "http://gulpjs.com",
+  "repository": "gulpjs/gulp-cli",
   "author": "Fractal <contact@wearefractal.com> (http://wearefractal.com/)",
   "bin": {
     "gulp": "bin/gulp.js"
@@ -42,10 +45,7 @@
     "bin",
     "completion"
   ],
-  "homepage": "http://gulpjs.com",
-  "license": "MIT",
   "man": "gulp.1",
-  "repository": "gulpjs/gulp-cli",
   "scripts": {
     "coveralls": "lab -r lcov | coveralls",
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
