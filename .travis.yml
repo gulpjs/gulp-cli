@@ -6,5 +6,6 @@ node_js:
   - "0.10"
 after_script:
   - npm run coveralls
+  - npm run lint
 git:
   depth: 10

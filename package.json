@@ -40,7 +40,8 @@
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
     "gulp": ">=3.8.10",
-    "jscs": "^1.11.3",
+    "jscs": "^2.3.5",
+    "jscs-preset-gulp": "^1.0.0",
     "jshint": "^2.5.0",
     "jshint-stylish": "^2.0.1",
     "lab": "^5.1.0",
@@ -55,10 +56,5 @@
   "engines": {
     "node": ">= 0.9"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.githubusercontent.com/gulpjs/gulp/master/LICENSE"
-    }
-  ]
+  "license": "MIT"
 }
