@@ -21,7 +21,7 @@
   "devDependencies": {
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
-    "eslint": "^1.7.2",
+    "eslint": "^1.7.3",
     "eslint-config-gulp": "^2.0.0",
     "gulp": ">=3.8.10",
     "jscs": "^2.3.5",
@@ -46,7 +46,8 @@
     "coveralls": "lab -r lcov | coveralls",
     "lint": "eslint . && jscs *.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
-    "test": "npm run lint && lab -cv"
+    "pretest": "npm run lint",
+    "test": "lab -cv"
   },
   "tags": [
     "build",

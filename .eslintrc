@@ -1,7 +1,3 @@
 {
-  "extends": "gulp",
-  "rules": {
-    "comma-dangle": 0,
-    "no-console": 0
-  }
+  "extends": "gulp"
 }
