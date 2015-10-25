@@ -44,7 +44,7 @@
   "repository": "gulpjs/gulp-cli",
   "scripts": {
     "coveralls": "lab -r lcov | coveralls",
-    "lint": "eslint . && jscs *.js bin/ lib/ test/",
+    "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
     "test": "lab -cv"
