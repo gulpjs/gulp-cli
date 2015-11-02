@@ -1,6 +1,8 @@
 'use strict';
 var gulp = require('gulp');
 
-function noop() {}
+function noop(cb) {
+  return cb()
+}
 
-gulp.task('default', noop);
+gulp.task('default', gulp.series(noop));
