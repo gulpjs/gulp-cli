@@ -12,14 +12,14 @@ lab.experiment('flag: help', function() {
 
   lab.test('shows help using --help', function(done) {
     child.exec('node ' + __dirname + '/../bin/gulp.js --help --cwd ./test/fixtures', function(err, stdout) {
-      code.expect(stdout).to.equals(output);
+      code.expect(stdout.replace(/\r\n/g, '\n')).to.equals(output);
       done(err);
     });
   });
 
   lab.test('shows help using short --h', function(done) {
     child.exec('node ' + __dirname + '/../bin/gulp.js --h --cwd ./test/fixtures', function(err, stdout) {
-      code.expect(stdout).to.equals(output);
+      code.expect(stdout.replace(/\r\n/g, '\n')).to.equals(output);
       done(err);
     });
   });
