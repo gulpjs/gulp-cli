@@ -1,0 +1,26 @@
+gulp-cli/test
+├─┬ test1
+│ └─┬ <series>
+│   └── noop
+├─┬ test2
+│ └─┬ <series>
+│   ├─┬ test1
+│   │ └─┬ <series>
+│   │   └── noop
+│   └── noop
+├─┬ test3
+│ └─┬ <series>
+│   └── described
+├─┬ test4
+│ └─┬ <series>
+│   ├── errorFunction
+│   └── anon
+└─┬ default
+  └─┬ <series>
+    ├─┬ test1
+    │ └─┬ <series>
+    │   └── noop
+    ├─┬ test3
+    │ └─┬ <series>
+    │   └── described
+    └── noop

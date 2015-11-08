@@ -11,16 +11,16 @@ var output = fs.readFileSync(__dirname + '/expected/flags-help.txt', 'utf8').rep
 lab.experiment('flag: help', function() {
 
   lab.test('shows help using --help', function(done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --help', function(err, stdout) {
+    child.exec('node ' + __dirname + '/../bin/gulp.js --help --cwd ./test/fixtures', function(err, stdout) {
       code.expect(stdout).to.equals(output);
-      done();
+      done(err);
     });
   });
 
   lab.test('shows help using short --h', function(done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --h', function(err, stdout) {
+    child.exec('node ' + __dirname + '/../bin/gulp.js --h --cwd ./test/fixtures', function(err, stdout) {
       code.expect(stdout).to.equals(output);
-      done();
+      done(err);
     });
   });
 
