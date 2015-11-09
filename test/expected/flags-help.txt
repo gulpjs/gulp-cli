@@ -7,7 +7,7 @@ Options:
   --require        Will require a module before running the gulpfile. This is useful for transpilers but also has other applications.  [string]
   --gulpfile       Manually set path of gulpfile. Useful if you have multiple gulpfiles. This will set the CWD to the gulpfile directory as well.  [string]
   --cwd            Manually set the CWD. The search for the gulpfile, as well as the relativity of all requires will be from here.  [string]
-  --verify         Will verify plugins referenced in project's package.json against the plugins blacklist.  [string]
+  --verify         Will verify plugins referenced in project's package.json against the plugins blacklist.
   --tasks, -T      Print the task dependency tree for the loaded gulpfile.  [boolean]
   --tasks-simple   Print a plaintext list of tasks for the loaded gulpfile.  [boolean]
   --tasks-json     Print the task dependency tree, in JSON format, for the loaded gulpfile.
