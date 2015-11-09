@@ -44,7 +44,8 @@
   "devDependencies": {
     "code": "^1.2.1",
     "coveralls": "^2.7.0",
-    "gulp": ">=3.8.10",
+    "fs-extra": "^0.26.1",
+    "gulp": "gulpjs/gulp#4.0",
     "jscs": "^2.3.5",
     "jshint": "^2.5.0",
     "jshint-stylish": "^2.0.1",
