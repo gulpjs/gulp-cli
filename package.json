@@ -52,7 +52,7 @@
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
-    "test": "lab -cv"
+    "test": "lab test/*.js -cv"
   },
   "tags": [
     "build",

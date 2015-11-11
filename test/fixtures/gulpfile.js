@@ -3,14 +3,14 @@
 var gulp = require('gulp');
 
 function noop(cb) {
-  return cb()
+  return cb();
 }
 function described() {}
 function errorFunction() {
   throw new Error('Error!');
 }
 function anon(cb) {
-  return cb()
+  return cb();
 }
 described.description = 'description';
 
