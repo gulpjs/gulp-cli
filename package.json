@@ -19,7 +19,8 @@
     "index.js",
     "lib",
     "bin",
-    "completion"
+    "completion",
+    "gulp.1"
   ],
   "scripts": {
     "coveralls": "lab -r lcov | coveralls",

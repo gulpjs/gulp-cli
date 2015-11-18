@@ -13,10 +13,26 @@ Command Line Utility for Gulp
 ## Usage
 
 ```bash
-> gulp [options] tasks
+> gulp [flags] tasks
 ```
 
-## Options
+## Tasks
+
+Tasks can be executed by running `gulp <task> <othertask>`. Just running `gulp` will execute the task you registered called `default`. If there is no `default` task, gulp will error.
+
+## Compilers
+
+You can find a list of supported languages at https://github.com/js-cli/js-interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
+
+## Environment
+
+The CLI adds process.env.INIT_CWD which is the original cwd it was launched from.
+
+## Flags
+
+gulp has very few flags to know about. All other flags are for tasks to use if needed.
+
+__Some flags only work with gulp 4 and will be ignored when invoked against gulp 3.__
 
 <table>
   <thead>
