@@ -1,8 +1,8 @@
 {
   "name": "gulp-cli",
   "version": "0.3.0",
-  "description": "The streaming build system",
-  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com)",
+  "description": "Command line interface for gulp",
+  "author": "Gulp Team <team@gulpjs.com> (http://gulpjs.com/)",
   "contributors": [],
   "homepage": "http://gulpjs.com",
   "repository": "gulpjs/gulp-cli",
@@ -56,7 +56,7 @@
     "lab": "^6.2.0",
     "marked-man": "^0.1.3"
   },
-  "tags": [
+  "keywords": [
     "build",
     "stream",
     "system",
