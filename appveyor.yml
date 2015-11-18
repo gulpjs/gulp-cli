@@ -11,8 +11,8 @@ environment:
     # node.js
     - nodejs_version: "0.10"
     - nodejs_version: "0.12"
-    # io.js
-    - nodejs_version: "1"
+    - nodejs_version: "4"
+    - nodejs_version: "5"
 
 install:
   - ps: Install-Product node $env:nodejs_version
@@ -22,7 +22,7 @@ test_script:
   - node --version
   - npm --version
   - npm test
-  
+
 build: off
 
 # build version format
