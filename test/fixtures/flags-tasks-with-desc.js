@@ -2,7 +2,7 @@
 
 var gulp = require('gulp');
 
-function clean () {}
+function clean() {}
 gulp.task(clean).description = 'Delete dist folder';
 
 gulp.task('scripts', function() {})
@@ -15,7 +15,7 @@ gulp.task('build', gulp.series('clean', 'scripts', 'styles'))
   .description = {
     '': 'Build all the things!',
     '--dev': 'un-minified',
-    '--production': 'compressed into single bundle'
+    '--production': 'compressed into single bundle',
   };
 
 gulp.task('serve', function() {
