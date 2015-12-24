@@ -1,4 +1,13 @@
 gulp-cli/test
+├─┬ default
+│ └─┬ <series>
+│   ├─┬ test1
+│   │ └─┬ <series>
+│   │   └── noop
+│   ├─┬ test3
+│   │ └─┬ <series>
+│   │   └── described
+│   └── noop
 ├─┬ test1
 │ └─┬ <series>
 │   └── noop
@@ -11,16 +20,7 @@ gulp-cli/test
 ├─┬ test3
 │ └─┬ <series>
 │   └── described
-├─┬ test4
-│ └─┬ <series>
-│   ├── errorFunction
-│   └── anon
-└─┬ default
+└─┬ test4
   └─┬ <series>
-    ├─┬ test1
-    │ └─┬ <series>
-    │   └── noop
-    ├─┬ test3
-    │ └─┬ <series>
-    │   └── described
-    └── noop
+    ├── errorFunction
+    └── anon
