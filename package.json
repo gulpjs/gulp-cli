@@ -36,6 +36,7 @@
     "gulplog": "^1.0.0",
     "interpret": "^1.0.0",
     "liftoff": "^2.1.0",
+    "lodash": "^3.10.1",
     "matchdep": "^1.0.0",
     "mute-stdout": "^1.0.0",
     "pretty-hrtime": "^1.0.0",
