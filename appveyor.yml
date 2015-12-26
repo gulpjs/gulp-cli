@@ -21,7 +21,7 @@ install:
 test_script:
   - node --version
   - npm --version
-  - npm test
+  - for %%f in (test\*.js) do node_modules\.bin\lab %%f -cv
 
 build: off
 
