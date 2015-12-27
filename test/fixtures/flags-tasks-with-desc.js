@@ -3,29 +3,36 @@
 var gulp = require('gulp');
 
 function clean() {}
-gulp.task(clean).description = 'Delete dist folder';
+clean.description = 'Delete dist folder';
+gulp.task(clean);
 
-gulp.task('scripts', function() {})
-  .description = 'Bundles JavaScript';
+gulp.task('scripts', scripts);
+function scripts() {};
+scripts.description = 'Bundles JavaScript';
 
-gulp.task('styles', function() {})
-  .description = 'Compiles and bundles CSS';
+var styles = function() {};
+gulp.task('styles', styles);
+gulp.task('styles').description = 'Compiles and bundles CSS';
 
-gulp.task('build', gulp.series('clean', 'scripts', 'styles'))
-  .description = {
-    '': 'Build all the things!',
-    '--dev': 'un-minified',
-    '--production': 'compressed into single bundle',
-  };
+var build = gulp.series('clean', 'scripts', 'styles');
+build.description = 'Build all the things!';
+build.flag = {
+  '--dev': 'un-minified',
+  '--production': 'compressed into single bundle',
+  '': 'dummy-empty-string',
+};
+gulp.task('build', build);
 
-gulp.task('serve', function() {
-}).description = {
-    '': 'Serves files reloading',
-    '--lr': 'with live reloading',
-  };
+gulp.task('serve', serve);
+function serve() {};
+serve.description = 'Serves files reloading';
+serve.flag = {
+  '--lr': 'with live reloading',
+};
 
-gulp.task('watch', function() {})
-  .description = 'Watch files and build on change';
+function watch() {};
+gulp.task('watch', watch);
+watch.description = 'Watch files and build on change';
 
-gulp.task('default', gulp.series('build', 'watch'))
-  .description = 'Build and watch for changes';
+gulp.task('default', gulp.series('build', 'watch'));
+gulp.task('default').description = 'Build and watch for changes';
