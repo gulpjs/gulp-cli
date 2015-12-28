@@ -21,7 +21,7 @@ install:
 test_script:
   - node --version
   - npm --version
-  - npm test
+  - for %%f in (test\*.js) do node_modules\.bin\lab %%f -v -m 5000 & if errorlevel 1 exit /b 1
 
 build: off
 
