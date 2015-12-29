@@ -16,7 +16,7 @@ gulp.task('styles').description = 'Compiles and bundles CSS';
 
 var build = gulp.series('clean', 'scripts', 'styles');
 build.description = 'Build all the things!';
-build.flag = {
+build.flags = {
   '--dev': 'un-minified',
   '--production': 'compressed into single bundle',
   '': 'dummy-empty-string',
@@ -26,7 +26,7 @@ gulp.task('build', build);
 gulp.task('serve', serve);
 function serve() {};
 serve.description = 'Serves files reloading';
-serve.flag = {
+serve.flags = {
   '--lr': 'with live reloading',
 };
 

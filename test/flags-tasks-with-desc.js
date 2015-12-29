@@ -7,7 +7,7 @@ var child = require('child_process');
 
 var output = fs.readFileSync(__dirname + '/expected/flags-tasks-with-desc.txt', 'utf8').replace(/(\r\n|\n|\r)/gm,'\n');
 
-lab.experiment('flag: --tasks', function() {
+lab.experiment('flag: --tasks (with description and flags)', function() {
 
   lab.test('prints the task list', function(done) {
     child.exec('node ' + __dirname + '/../bin/gulp.js --tasks --gulpfile ./test/fixtures/flags-tasks-with-desc.js', function(err, stdout) {

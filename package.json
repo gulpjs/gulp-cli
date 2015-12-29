@@ -33,7 +33,6 @@
     "archy": "^1.0.0",
     "chalk": "^1.1.0",
     "fancy-log": "^1.1.0",
-    "gulp": "gulpjs/gulp#4.0",
     "gulplog": "^1.0.0",
     "interpret": "^1.0.0",
     "liftoff": "^2.1.0",
@@ -43,7 +42,6 @@
     "pretty-hrtime": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.0.0",
     "tildify": "^1.0.0",
-    "undertaker": "sttk/undertaker#modify_for_gulp_tasks",
     "v8flags": "^2.0.9",
     "wreck": "^6.3.0",
     "yargs": "^3.28.0"
@@ -54,6 +52,7 @@
     "eslint": "^1.7.3",
     "eslint-config-gulp": "^2.0.0",
     "fs-extra": "^0.26.1",
+    "gulp": "gulpjs/gulp#4.0",
     "jscs": "^2.3.5",
     "jscs-preset-gulp": "^1.0.0",
     "lab": "^6.2.0",
