@@ -11,12 +11,12 @@ var output = require('./expected/flags-tasks-json.json');
 
 lab.experiment('flag: --tasks-json', function() {
 
-  var outputString = JSON.stringify(output).replace(/{{path}}/, tildify(path.join(__dirname, 'fixtures/gulpfile.js')));
+  var outputString = JSON.stringify(output).replace(/{{path}}/, tildify(path.join(__dirname, 'fixtures/gulpfile.js')).replace(/\\/g, '\\\\'));
   var expected = JSON.parse(outputString);
 
   lab.test('prints the task list with no args', function(done) {
     child.exec('node ' + __dirname + '/../bin/gulp.js --tasks-json --gulpfile "./test/fixtures/gulpfile.js" ', function(err, stdout) {
-      stdout = stdout.replace(/\\/g, '/').split('\n');
+      stdout = stdout.split('\n');
       var parsedJson = JSON.parse(stdout[1]);
       code.expect(parsedJson).to.deep.equal(expected);
       done(err);
