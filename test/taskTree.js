@@ -23,14 +23,20 @@ lab.experiment('taskTree()', function() {
     };
 
     var expectTree = {
+      label: 'Tasks',
       nodes: [
         {
           label: 'test',
-          nodes: ['dep1', 'dep2'],
+          nodes: [
+            { label: 'dep1', nodes: [], },
+            { label: 'dep2', nodes: [], },
+          ],
         },
         {
           label: 'test2',
-          nodes: ['dep3'],
+          nodes: [
+            { label: 'dep3', nodes: [], },
+          ],
         },
         {
           label: 'test3',
