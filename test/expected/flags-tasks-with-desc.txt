@@ -1,13 +1,13 @@
 gulp-cli/test
-├─┬ build        Build all the things!
-│ │ --dev        …un-minified
-│ │ --production …compressed into single bundle
+├─┬ build         Build all the things!
+│ │ --dev         …un-minified
+│ │ --production  …compressed into single bundle
 │ └─┬ <series>
 │   ├── clean
 │   ├── scripts
 │   └── styles
-├── clean        Delete dist folder
-├─┬ default      Build and watch for changes
+├── clean         Delete dist folder
+├─┬ default       Build and watch for changes
 │ └─┬ <series>
 │   ├─┬ build
 │   │ └─┬ <series>
@@ -15,8 +15,8 @@ gulp-cli/test
 │   │   ├── scripts
 │   │   └── styles
 │   └── watch
-├── scripts      Bundles JavaScript
-├── serve        Serves files reloading
-│   --lr         …with live reloading
-├── styles       Compiles and bundles CSS
-└── watch        Watch files and build on change
+├── scripts       Bundles JavaScript
+├── serve         Serves files reloading
+│   --lr          …with live reloading
+├── styles        Compiles and bundles CSS
+└── watch         Watch files and build on change

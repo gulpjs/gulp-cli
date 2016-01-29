@@ -79,6 +79,11 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>Print the task dependency tree for the loaded gulpfile.</td>
     </tr>
     <tr>
+      <td>--depth [number]</td>
+      <td></td>
+      <td>Specify the depth of the task dependency tree to print.</td>
+    </tr>
+    <tr>
       <td>--tasks-simple</td>
       <td></td>
       <td>Print a plaintext list of tasks for the loaded gulpfile.</td>
