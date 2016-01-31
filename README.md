@@ -16,6 +16,26 @@ Command Line Utility for Gulp
 > gulp [flags] tasks
 ```
 
+## Custom Metadata
+
+When listing tasks with the `gulp -T` command, gulp-cli displays some custom metadata as defined upon task functions. Currently supported properties:
+
+* `task.description` - String of the description to display.
+
+```js
+function clean() { ... }
+clean.description = 'Cleans up generated files.';
+```
+
+* `task.flags` - Object with key/value pairs being flag/description to display.
+
+```js
+function build() { ... }
+build.flags = {
+  '--prod': 'Builds in production mode.'
+};
+```
+
 ## Tasks
 
 Tasks can be executed by running `gulp <task> <othertask>`. Just running `gulp` will execute the task you registered called `default`. If there is no `default` task, gulp will error.
