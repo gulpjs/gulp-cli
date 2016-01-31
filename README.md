@@ -133,10 +133,10 @@ MIT
 [npm-image]: http://img.shields.io/npm/v/gulp-cli.svg
 
 [travis-url]: https://travis-ci.org/gulpjs/gulp-cli
-[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg
+[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg?label=travis-ci
 
 [appveyor-url]: https://ci.appveyor.com/project/gulpjs/gulp-cli
-[appveyor-image]: https://img.shields.io/appveyor/ci/gulpjs/gulp-cli.svg
+[appveyor-image]: https://img.shields.io/appveyor/ci/gulpjs/gulp-cli.svg?label=appveyor
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
 [coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp-cli/master.svg
