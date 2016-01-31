@@ -6,7 +6,7 @@
 
 # gulp-cli
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![AppVeyor Build Status][appveyor-image]][appveyor-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
 
 Command Line Utility for Gulp
 
@@ -133,7 +133,10 @@ MIT
 [npm-image]: http://img.shields.io/npm/v/gulp-cli.svg
 
 [travis-url]: https://travis-ci.org/gulpjs/gulp-cli
-[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg
+[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg?label=travis-ci
+
+[appveyor-url]: https://ci.appveyor.com/project/gulpjs/gulp-cli
+[appveyor-image]: https://img.shields.io/appveyor/ci/gulpjs/gulp-cli.svg?label=appveyor
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
 [coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp-cli/master.svg
