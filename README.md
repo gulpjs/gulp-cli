@@ -36,6 +36,20 @@ build.flags = {
 };
 ```
 
+Example Usage:
+
+```js
+function build() { ... }
+build.description = 'Build entire project.';
+build.flags = {
+  '--prod': 'Builds in production mode (minification, etc).'
+};
+// gulp 3.x
+gulp.task('build', build);
+// gulp 4.x
+gulp.task(build);
+```
+
 ## Tasks
 
 Tasks can be executed by running `gulp <task> <othertask>`. Just running `gulp` will execute the task you registered called `default`. If there is no `default` task, gulp will error.
