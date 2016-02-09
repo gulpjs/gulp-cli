@@ -1,0 +1,7 @@
+gulp-cli/test
+├── build
+├── clean
+└─┬ dist
+  └─┬ <series>
+    ├── clean
+    └── build
