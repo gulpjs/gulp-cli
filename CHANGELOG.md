@@ -1,5 +1,19 @@
 ## Change Log
 
+### upcoming (2016/03/03 00:36 +00:00)
+- [2579884](https://github.com/gulpjs/gulp-cli/commit/2579884f3945f1597524eb68ef2b31b0e070cb12) update tests to reflect undertaker updates (@phated)
+- [#58](https://github.com/gulpjs/gulp-cli/pull/58) Add changelog (@Xiphe)
+- [#64](https://github.com/gulpjs/gulp-cli/pull/64) Avoid locking errors on AppVeyor (@sttk)
+- [07b061c](https://github.com/gulpjs/gulp-cli/commit/07b061cf6f689fd9871bdd3ff7f6bc6164a10d03) Change to specifying npm version only in verion 0.10 of node.js (@sttk)
+- [8dc8e6e](https://github.com/gulpjs/gulp-cli/commit/8dc8e6ea1ee6da0bf04a2980d214b8a97da53b9c) Avoid locking errors on AppVeyor (@sttk)
+
+### v1.2.1 (2016/02/09 20:47 +00:00)
+- [fef30d8](https://github.com/gulpjs/gulp-cli/commit/fef30d8de1dc32437fe796c7c07e94e58abd71bb) 1.2.1 (@phated)
+- [0af0e01](https://github.com/gulpjs/gulp-cli/commit/0af0e01f3e605f86b77e1f7909a709e16be38796) back out displayName change from #53 - add regression test (@phated)
+- [7d56090](https://github.com/gulpjs/gulp-cli/commit/7d56090c29da791e351c448e358a01f5a5372379) add example usage (@phated)
+- [745d2c2](https://github.com/gulpjs/gulp-cli/commit/745d2c230892aaaa5c6b3493c88a3b04b30d365e) docs: add initial changelog (@Xiphe)
+- [c80b6b2](https://github.com/gulpjs/gulp-cli/commit/c80b6b2eff1e5ec0343744ba4b7f7eae922a25be) chore: add NPM script for changelog (@Xiphe)
+
 ### v1.2.0 (2016/01/31 20:01 +00:00)
 - [962d465](https://github.com/gulpjs/gulp-cli/commit/962d46545b60acfad95807b4eacd59cee7e7e6be) 1.2.0 (@phated)
 - [c6aba4a](https://github.com/gulpjs/gulp-cli/commit/c6aba4a09abf95af2aaf2578fd365b7f8fded245) Add custom metadata docs (@phated)
@@ -38,45 +52,45 @@
 - [62a896e](https://github.com/gulpjs/gulp-cli/commit/62a896e5da8d82a8de2ecf3439bbb8f75262751f) ^4.0.0 support which is a mirror of alpha.2 logic
 - [565cf68](https://github.com/gulpjs/gulp-cli/commit/565cf68ab6c543931d20e3d559f8ac214cc53921) ignore test output
 - [e69cfdc](https://github.com/gulpjs/gulp-cli/commit/e69cfdc83770100d0f3841f9f19e95099661d85e) make CLI support new undertaker tree return value
+- [b4cbc14](https://github.com/gulpjs/gulp-cli/commit/b4cbc14e7e2ce22a2325ccfae785e7d1420b52e6) add license file
 - [9bc66cc](https://github.com/gulpjs/gulp-cli/commit/9bc66cc10b432f8a30c538761fc071d49ef5c5e3) Improve task not found messaging (@soulcutter)
 - [7387dec](https://github.com/gulpjs/gulp-cli/commit/7387decbd4322c71aef5083fd6a01126d6994af0) reorganize package.json
-- [b4cbc14](https://github.com/gulpjs/gulp-cli/commit/b4cbc14e7e2ce22a2325ccfae785e7d1420b52e6) add license file
-- [0fd9075](https://github.com/gulpjs/gulp-cli/commit/0fd9075968c8f9038ced6c770137d75b3d30f4ad) linting and cleanup
 - [d543afc](https://github.com/gulpjs/gulp-cli/commit/d543afcee30874a74b773ec78443ff8b9bc761ce) temporarily update gulp version for travis tests
-- [f44cfa7](https://github.com/gulpjs/gulp-cli/commit/f44cfa71df06cdefcf6498a1ec98584ee0ecd29b) Added tests for require module option (@Romanx)
+- [0fd9075](https://github.com/gulpjs/gulp-cli/commit/0fd9075968c8f9038ced6c770137d75b3d30f4ad) linting and cleanup
+- [72592bd](https://github.com/gulpjs/gulp-cli/commit/72592bd125c8a20f9d68837882780273dacaaa1c) bump yargs for awesome CLI fixes
+- [c26cf2e](https://github.com/gulpjs/gulp-cli/commit/c26cf2ed3e0bb829323312f47ad32544668d9ce9) add usage docs + options - closes #38
 - [6f367a6](https://github.com/gulpjs/gulp-cli/commit/6f367a671f05485b5d387d6c6e575ecf36be41d5) Added more integration tests, switch to gulp 4 for devDep (@Romanx)
 - [bda8ac3](https://github.com/gulpjs/gulp-cli/commit/bda8ac3a7381f5ef9b4b565e8b251539fde05a6a) bump deps
 - [b86ea81](https://github.com/gulpjs/gulp-cli/commit/b86ea8103e5b3ac6f634a44b3a4da9889d564049) fix license property
-- [72592bd](https://github.com/gulpjs/gulp-cli/commit/72592bd125c8a20f9d68837882780273dacaaa1c) bump yargs for awesome CLI fixes
-- [c26cf2e](https://github.com/gulpjs/gulp-cli/commit/c26cf2ed3e0bb829323312f47ad32544668d9ce9) add usage docs + options - closes #38
+- [d0fba75](https://github.com/gulpjs/gulp-cli/commit/d0fba7525cda9ca353a317ea05ad7f47bd2268f0) Added some integration tests (@Romanx)
+- [f44cfa7](https://github.com/gulpjs/gulp-cli/commit/f44cfa71df06cdefcf6498a1ec98584ee0ecd29b) Added tests for require module option (@Romanx)
 - [b45beeb](https://github.com/gulpjs/gulp-cli/commit/b45beebbdaf33a73421469e2b467a24688a07e0c) Package path should no longer be relative (@Romanx)
 - [9ec3baa](https://github.com/gulpjs/gulp-cli/commit/9ec3baa1baa431c7038ccbb2aa03e28a6b162346) Verify pkgPath should use env.cwd (@Romanx)
-- [d0fba75](https://github.com/gulpjs/gulp-cli/commit/d0fba7525cda9ca353a317ea05ad7f47bd2268f0) Added some integration tests (@Romanx)
 - [92e0356](https://github.com/gulpjs/gulp-cli/commit/92e03568d3178f947caa1f2355385c21b4719bdf) Add task not completed warnings
 - [832a6a5](https://github.com/gulpjs/gulp-cli/commit/832a6a5de53c98dcbd771f1488d21dd5897ede1e) avoid marking --tasks-json as string to catch booleans - closes #41
 - [320c02c](https://github.com/gulpjs/gulp-cli/commit/320c02c3fef35a41829f1caebdb6f3dde365524e) update taskTree test to be more clear
-- [ec9f42a](https://github.com/gulpjs/gulp-cli/commit/ec9f42aba7c2c37a429efb760d8a6e1841bee433) introduce gulplog and wire up listener (@kahlil)
 - [62a7cae](https://github.com/gulpjs/gulp-cli/commit/62a7cae69bf23116184551772b1f82e85358ea89) use 1.0.0 of gulplog
 - [7baf41f](https://github.com/gulpjs/gulp-cli/commit/7baf41f580d0d656cc6ea0438dc66eba7d134c07) update yargs and switch aliases plus some cleanup
-- [0226d55](https://github.com/gulpjs/gulp-cli/commit/0226d5584ecad0cf6132b1414ac012755957c334) Fix #19 support tasks description
-- [f6aec36](https://github.com/gulpjs/gulp-cli/commit/f6aec36d11fc13a159ea08daa015b5a241cfa594) mute stream when listing tasks - closes #24
+- [ec9f42a](https://github.com/gulpjs/gulp-cli/commit/ec9f42aba7c2c37a429efb760d8a6e1841bee433) introduce gulplog and wire up listener (@kahlil)
 - [08ad295](https://github.com/gulpjs/gulp-cli/commit/08ad295fc2c3105c57b06987e834f8b7a03731ca) allow an output file to be specified for --tasks-json option - ref #24
-- [6e698e4](https://github.com/gulpjs/gulp-cli/commit/6e698e4be72c72aac1e6dd6debd83c64481c4201) make lint pass
-- [94c07da](https://github.com/gulpjs/gulp-cli/commit/94c07da0dd7ce46feead00fcffc9d58429774795) use `.task` to get the task - closes #28
-- [298df67](https://github.com/gulpjs/gulp-cli/commit/298df672683eb2a7e35f9cf1e6084c67213778ba) Update cliOptions.js (@stramel)
-- [d42fb9e](https://github.com/gulpjs/gulp-cli/commit/d42fb9ef6c42aa36963dde73be7539f3c70f68b9) Fix typo (@NicoSantangelo)
-- [3870672](https://github.com/gulpjs/gulp-cli/commit/38706722754fb13c61056f9be9d830f72f9c4e10) Fix dependency regex in logTasks
-- [a8371e0](https://github.com/gulpjs/gulp-cli/commit/a8371e0bb0a8b810920bab62c303e82a8fad5f10) DRY tasks.js
-- [5e82b4f](https://github.com/gulpjs/gulp-cli/commit/5e82b4fc39db8bbd863afc19619121ce7899689b) add support for settling (--continue flag)
+- [f6aec36](https://github.com/gulpjs/gulp-cli/commit/f6aec36d11fc13a159ea08daa015b5a241cfa594) mute stream when listing tasks - closes #24
 - [5376c22](https://github.com/gulpjs/gulp-cli/commit/5376c22414517b77fe2e15ea97ff258102473b44) make things work with babel change
-- [b0fa8f8](https://github.com/gulpjs/gulp-cli/commit/b0fa8f8f412cbd667b4258d877748c8cf08de322) rename versioned directory
+- [5e82b4f](https://github.com/gulpjs/gulp-cli/commit/5e82b4fc39db8bbd863afc19619121ce7899689b) add support for settling (--continue flag)
+- [0226d55](https://github.com/gulpjs/gulp-cli/commit/0226d5584ecad0cf6132b1414ac012755957c334) Fix #19 support tasks description
+- [a8371e0](https://github.com/gulpjs/gulp-cli/commit/a8371e0bb0a8b810920bab62c303e82a8fad5f10) DRY tasks.js
+- [3870672](https://github.com/gulpjs/gulp-cli/commit/38706722754fb13c61056f9be9d830f72f9c4e10) Fix dependency regex in logTasks
+- [d42fb9e](https://github.com/gulpjs/gulp-cli/commit/d42fb9ef6c42aa36963dde73be7539f3c70f68b9) Fix typo (@NicoSantangelo)
+- [298df67](https://github.com/gulpjs/gulp-cli/commit/298df672683eb2a7e35f9cf1e6084c67213778ba) Update cliOptions.js (@stramel)
+- [94c07da](https://github.com/gulpjs/gulp-cli/commit/94c07da0dd7ce46feead00fcffc9d58429774795) use `.task` to get the task - closes #28
+- [6e698e4](https://github.com/gulpjs/gulp-cli/commit/6e698e4be72c72aac1e6dd6debd83c64481c4201) make lint pass
+- [5235056](https://github.com/gulpjs/gulp-cli/commit/52350568af409e8e21f8c9a4454cb8a699fe6bd5) initial commit to support 3.x & 4.0
+- [52ef399](https://github.com/gulpjs/gulp-cli/commit/52ef3996e5789a7ef4519fadaf9bafa795c5dd4a) fix autocompletion (@heikki)
 - [fccc041](https://github.com/gulpjs/gulp-cli/commit/fccc041ec0a39b9b46566114e6bbcd0692a25944) fix lint
 - [ae4f954](https://github.com/gulpjs/gulp-cli/commit/ae4f954dcf2a241bdd4a84879408239a2c260bfa) switch nomnom for yargs
 - [8dfc1f1](https://github.com/gulpjs/gulp-cli/commit/8dfc1f17a6fe5c493e86b045c87a8cde3e89040a) cleanup for unsupported versions
 - [76ae4d2](https://github.com/gulpjs/gulp-cli/commit/76ae4d278414d62014fa397c03c4277c854b987a) reorg file structure and add version matching based on semver ranges
 - [1629465](https://github.com/gulpjs/gulp-cli/commit/1629465078e3fd8a6c1843e3eac30cf2ae950038) fix require path (@heikki)
-- [5235056](https://github.com/gulpjs/gulp-cli/commit/52350568af409e8e21f8c9a4454cb8a699fe6bd5) initial commit to support 3.x & 4.0
-- [52ef399](https://github.com/gulpjs/gulp-cli/commit/52ef3996e5789a7ef4519fadaf9bafa795c5dd4a) fix autocompletion (@heikki)
+- [b0fa8f8](https://github.com/gulpjs/gulp-cli/commit/b0fa8f8f412cbd667b4258d877748c8cf08de322) rename versioned directory
 - [#43](https://github.com/gulpjs/gulp-cli/pull/43) Switching to ESLint (@pdehaan)
 - [2360108](https://github.com/gulpjs/gulp-cli/commit/2360108ebba136a76cdb77981cc91c0a912c11e5) Remove glob from JSCS lint (@pdehaan)
 - [2a49e20](https://github.com/gulpjs/gulp-cli/commit/2a49e2056dc0cb8093d093f7a0af54232e863297) Bump eslint-config-gulp and jscs-preset-gulp deps (@pdehaan)
