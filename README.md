@@ -64,9 +64,13 @@ The CLI adds process.env.INIT_CWD which is the original cwd it was launched from
 
 ## Flags
 
-Gulp has very few flags to know about. All other flags are for tasks to use if needed. But beware, **some flags only work with gulp 4 and will be ignored when invoked against gulp 3**.
+Gulp has very few flags to know about. All other flags are for tasks to use if needed. Simply run this command to list all available flags:
 
-Simply run this command to list all available flags: `gulp help`
+```bash
+gulp help
+```
+
+But beware, some flags only work with gulp 4 and will be ignored when invoked against gulp 3. 
 
 ## License
 
