@@ -9,7 +9,7 @@
   "license": "MIT",
   "man": "gulp.1",
   "engines": {
-    "node": ">= 0.10"
+    "node": ">= 4.0.0"
   },
   "main": "index.js",
   "bin": {
