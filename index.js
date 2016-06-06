@@ -23,7 +23,7 @@ for (var option in cliOptions) {
   var details = cliOptions[option];
   var name = details.short ? [details.short, details.name] : details.name;
 
-  args.option(name, details.description);
+  args.option(name, details.description, details.pre, details.init);
 }
 
 var opts = args.parse(process.argv, {
