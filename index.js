@@ -1,11 +1,10 @@
 #!/usr/bin/env node
-
 'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
 var chalk = require('chalk');
-var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
@@ -18,6 +17,19 @@ var verifyDeps = require('./lib/shared/verifyDependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
 var toConsole = require('./lib/shared/log/toConsole');
+var args = require('args');
+
+for (var option in cliOptions) {
+  var details = cliOptions[option];
+  var name = details.short ? [details.short, details.name] : details.name;
+
+  args.option(name, details.description, details.pre, details.init);
+}
+
+var opts = args.parse(process.argv, {
+  version: false,
+  value: '<tasks>'
+});
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -36,13 +48,6 @@ var cli = new Liftoff({
   extensions: interpret.jsVariants,
   v8flags: v8flags,
 });
-
-var usage =
-  '\n' + chalk.bold('Usage:') +
-  ' gulp ' + chalk.blue('[options]') + ' tasks';
-
-var parser = yargs.usage(usage, cliOptions);
-var opts = parser.argv;
 
 // This translates the --continue flag in gulp
 // To the settle env variable for undertaker
@@ -83,11 +88,6 @@ module.exports = run;
 
 // The actual logic
 function handleArguments(env) {
-  if (opts.help) {
-    console.log(parser.help());
-    exit(0);
-  }
-
   if (opts.version) {
     log.info('CLI version', cliVersion);
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
