@@ -54,6 +54,27 @@ gulp.task(build);
 
 Tasks can be executed by running `gulp <task> <othertask>`. Just running `gulp` will execute the task you registered called `default`. If there is no `default` task, gulp will error.
 
+## Completion
+> Thanks to the grunt team, specifically Tyler Kellen
+
+To enable tasks auto-completion in shell you should add `eval "$(gulp --completion=shell)"` in your `.shellrc` file.
+
+###### Bash:
+
+Add `eval "$(gulp --completion=bash)"` to `~/.bashrc`.
+
+###### Zsh:
+
+Add `eval "$(gulp --completion=zsh)"` to `~/.zshrc`.
+
+###### Powershell:
+
+Add `Invoke-Expression ((gulp --completion=powershell) -join [System.Environment]::NewLine)` to `$PROFILE`.
+
+###### Fish:
+
+Add `gulp --completion=fish | source` to `~/.config/fish/config.fish`.
+
 ## Compilers
 
 You can find a list of supported languages at https://github.com/js-cli/js-interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
