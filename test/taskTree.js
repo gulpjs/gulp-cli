@@ -48,4 +48,58 @@ lab.experiment('taskTree()', function() {
     code.expect(taskTree(tasks)).to.deep.equal(expectTree);
     done();
   });
+
+  lab.test('processes children recursively.', function(done) {
+    var tasks = {
+      test: {
+        dep: ['test2', 'test3'],
+      },
+      test2: {
+        dep: ['test3'],
+      },
+      test3: {
+        dep: [],
+      },
+    };
+
+    var expectTree = {
+      label: 'Tasks',
+      nodes: [
+        {
+          label: 'test',
+          nodes: [
+            {
+              label: 'test2',
+              nodes: [
+                {
+                  label: 'test3',
+                  nodes: [],
+                },
+              ],
+            },
+            {
+              label: 'test3',
+              nodes: [],
+            },
+          ],
+        },
+        {
+          label: 'test2',
+          nodes: [
+            {
+              label: 'dep3',
+              nodes: [],
+            },
+          ],
+        },
+        {
+          label: 'test3',
+          nodes: [],
+        },
+      ],
+    };
+
+    code.expect(taskTree(tasks)).to.deep.equal(expectTree);
+    done();
+  });
 });
