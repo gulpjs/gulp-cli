@@ -27,7 +27,7 @@
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
-    "test": "lab test/*.js -cv",
+    "test": "lab test/*.js -cv -I Reflect",
     "changelog": "github-changes -o gulpjs -r gulp-cli -b master -f ./CHANGELOG.md --order-semver --use-commit-body"
   },
   "dependencies": {
@@ -37,7 +37,10 @@
     "gulplog": "^1.0.0",
     "interpret": "^1.0.0",
     "liftoff": "^2.1.0",
-    "lodash.sortby": "^4.0.1",
+    "lodash.isfunction": "^3.0.8",
+    "lodash.isplainobject": "^4.0.4",
+    "lodash.isstring": "^4.0.1",
+    "lodash.sortby": "^4.5.0",
     "matchdep": "^1.0.0",
     "mute-stdout": "^1.0.0",
     "pretty-hrtime": "^1.0.0",
