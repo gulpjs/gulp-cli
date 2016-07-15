@@ -13,17 +13,18 @@ environment:
     - nodejs_version: "0.12"
     - nodejs_version: "4"
     - nodejs_version: "5"
+    - nodejs_version: "6"
 
 install:
-  - IF %nodejs_version% EQU 0.10 npm -g install npm@2
-  - IF %nodejs_version% EQU 0.10 set PATH=%APPDATA%\npm;%PATH%
+  - npm -g install npm@latest
+  - set PATH=%APPDATA%\npm;%PATH%
   - ps: Install-Product node $env:nodejs_version
   - npm install
 
 test_script:
   - node --version
   - npm --version
-  - for %%f in (test\*.js) do node_modules\.bin\lab %%f -v -m 5000 & if errorlevel 1 exit /b 1
+  - for %%f in (test\*.js) do node_modules\.bin\lab %%f -v -m 5000 -I Reflect & if errorlevel 1 exit /b 1
 
 build: off
 
