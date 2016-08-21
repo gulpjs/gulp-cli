@@ -1,26 +1,31 @@
 'use strict';
 
 var lab = exports.lab = require('lab').script();
-var code = require('code');
+var expect = require('code').expect;
 var fs = require('fs');
-var child = require('child_process');
+var path = require('path');
+var skipLines = require('./tools/skip-lines');
+var eraseTime = require('./tools/erase-time');
+var runner = require('./tools/run-gulp');
 
-var output = fs.readFileSync(__dirname + '/expected/tasks-as-exports.txt', 'utf8').replace(/(\r\n|\n|\r)/gm,'\n');
+var expectedDir = path.join(__dirname, 'expected');
 
 // Long timeout is required because parse time is slow
 lab.experiment('exports as tasks', { timeout: 0 }, function() {
 
   lab.test('prints the task list', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks',
+        '--gulpfile ./fixtures/gulpfiles/gulpfile-exports.babel.js')
+      .run(cb);
 
-    child.exec('node ' + __dirname + '/../bin/gulp.js --tasks --gulpfile "./test/fixtures/gulpfile-exports.babel.js"', function(err, stdout) {
-      code.expect(stdout).to.contain('Tasks for');
-      stdout = stdout.replace(/\\/g, '/').split('Tasks for')[1].split('\n');
-      var outputArray = output.split('\n');
-      for (var i = 0; i < stdout.length; i++) {
-        code.expect(stdout[i]).to.contain(outputArray[i]);
-      }
-      done(err);
-    });
+    function cb(err, stdout) {
+      var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 2));
+      expect(stdout).to.equal(expected);
+      done();
+    }
   });
 
 });

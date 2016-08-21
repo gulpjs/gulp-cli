@@ -1,0 +1,2 @@
+Description by .gulp.json in directory foo/bar
+└── default

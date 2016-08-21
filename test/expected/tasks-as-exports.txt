@@ -1,4 +1,4 @@
-gulp-cli/test
+gulp-cli/test/fixtures/gulpfiles
 ├── build
 ├── clean
 └─┬ dist
