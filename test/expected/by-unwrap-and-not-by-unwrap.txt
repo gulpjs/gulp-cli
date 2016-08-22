@@ -1,4 +1,4 @@
-gulp-cli/test
+gulp-cli/test/fixtures
 ├─┬ default
 │ └─┬ <series>
 │   ├── task1

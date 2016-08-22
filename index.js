@@ -9,6 +9,8 @@ var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
+var merge = require('lodash.merge');
+var isString = require('lodash.isstring');
 var findRange = require('semver-greatest-satisfied-range');
 var exit = require('./lib/shared/exit');
 var cliOptions = require('./lib/shared/cliOptions');
@@ -34,6 +36,18 @@ var cli = new Liftoff({
   completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
+  configFiles: {
+    '.gulp': {
+      home: {
+        path: '~',
+        extensions: interpret.extensions,
+      },
+      cwd: {
+        path: '.',
+        extensions: interpret.extensions,
+      },
+    },
+  },
 });
 
 var usage =
@@ -82,6 +96,15 @@ module.exports = run;
 
 // The actual logic
 function handleArguments(env) {
+
+  // Map an array of keys to preserve order
+  var configFilePaths = ['home', 'cwd'].map(function(key) {
+    return env.configFiles['.gulp'][key];
+  });
+  configFilePaths.filter(isString).forEach(function(filePath) {
+    merge(opts, require(filePath));
+  });
+
   if (opts.help) {
     console.log(parser.help());
     exit(0);
