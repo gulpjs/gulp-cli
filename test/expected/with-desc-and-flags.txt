@@ -1,4 +1,4 @@
-gulp-cli/test
+gulp-cli/test/fixtures
 ├─┬ build         Build all the things!
 │ │ --dev         …un-minified
 │ │ --production  …compressed into single bundle

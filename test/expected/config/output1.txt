@@ -1,0 +1,2 @@
+description by .gulp.js in directory qux
+└── default

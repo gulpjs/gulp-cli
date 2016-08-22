@@ -83,6 +83,18 @@ You can find a list of supported languages at https://github.com/js-cli/js-inter
 
 The CLI adds process.env.INIT_CWD which is the original cwd it was launched from.
 
+## Configuration
+
+Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.json`, `.gulp.yml`). You can find a list of supported languages at https://github.com/js-cli/js-interpret.
+
+Configuration from the home directory (`~`) and current working directory (`cwd`) are merged with `cwd` taking precedence.
+
+Supported configurations properties:
+
+| Property    | Description |
+|-------------|-------------|
+| description | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
+
 ## Flags
 
 gulp has very few flags to know about. All other flags are for tasks to use if needed.
