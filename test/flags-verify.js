@@ -49,7 +49,7 @@ lab.experiment('flag: --verify', function() {
 
   lab.test('default args with invalid dependency', function(done) {
     runner({ verbose: false })
-      .gulp('--verify package.json', '--cwd ./test/fixtures/packages/')
+      .gulp('--verify', '--cwd ./test/fixtures/packages/')
       .run(cb);
 
     function cb(err, stdout) {
