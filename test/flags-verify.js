@@ -14,7 +14,7 @@ lab.experiment('flag: --verify', function() {
       .run(cb);
 
     function cb(err, stdout) {
-      expect(err).to.be.not.null;
+      expect(err).to.be.not.null();
 
       stdout = eraseTime(stdout);
       expect(stdout).to.equal(
@@ -53,7 +53,7 @@ lab.experiment('flag: --verify', function() {
       .run(cb);
 
     function cb(err, stdout) {
-      expect(err).to.be.not.null;
+      expect(err).to.be.not.null();
 
       stdout = eraseTime(stdout);
       expect(stdout).to.equal(

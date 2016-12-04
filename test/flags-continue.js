@@ -16,7 +16,7 @@ lab.experiment('flag: --continue', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).to.be.not.null;
+      expect(err).to.be.not.null();
 
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).to.equal(
@@ -42,7 +42,7 @@ lab.experiment('flag: --continue', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).to.be.not.null;
+      expect(err).to.be.not.null();
 
       expect(stdout).to.not.contain('Starting \'anon\'');
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
