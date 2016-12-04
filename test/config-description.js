@@ -11,7 +11,7 @@ var runner = require('gulp-test-tools').gulpRunner;
 var fixturesDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');
 
-describe('gulp configuration', function() {
+describe('config: description', function() {
 
   it('Should configure with a .gulp.* file in cwd', function(done) {
     runner({ verbose: false })

@@ -3,14 +3,13 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
+var fancyLog = require('fancy-log');
 var chalk = require('chalk');
 var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
-var merge = require('lodash.merge');
-var isString = require('lodash.isstring');
 var findRange = require('semver-greatest-satisfied-range');
 var exit = require('./lib/shared/exit');
 var cliOptions = require('./lib/shared/cliOptions');
@@ -19,6 +18,10 @@ var verifyDeps = require('./lib/shared/verifyDependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
 var toConsole = require('./lib/shared/log/toConsole');
+
+var loadConfigFiles = require('./lib/shared/config/loadfiles');
+var mergeToCliFlags = require('./lib/shared/config/cli-flags');
+var mergeToEnvFlags = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -65,15 +68,13 @@ if (opts.continue) {
   process.env.UNDERTAKER_SETTLE = 'true';
 }
 
-// Set up event listeners for logging.
-toConsole(log, opts);
-
 cli.on('require', function(name) {
-  log.info('Requiring external module', chalk.magenta(name));
+  fancyLog('Requiring external module', chalk.magenta(name));
 });
 
 cli.on('requireFail', function(name) {
-  log.error(chalk.red('Failed to load external module'), chalk.magenta(name));
+  fancyLog.error(
+    chalk.red('Failed to load external module'), chalk.magenta(name));
 });
 
 cli.on('respawn', function(flags, child) {
@@ -84,26 +85,35 @@ cli.on('respawn', function(flags, child) {
 });
 
 function run() {
-  cli.launch({
+  var envOpts = {
     cwd: opts.cwd,
     configPath: opts.gulpfile,
     require: opts.require,
     completion: opts.completion,
-  }, handleArguments);
+  };
+
+  cli.launch(envOpts, function(env) {
+    var config;
+    try {
+      config = loadConfigFiles(env.configFiles['.gulp'], ['home', 'cwd']);
+    } catch (e) {
+      log.error(chalk.red(e.message));
+      exit(1);
+    }
+
+    mergeToCliFlags(opts, config, cliOptions);
+    mergeToEnvFlags(env, config, envOpts);
+
+    handleArguments(env, opts, config);
+  });
 }
 
 module.exports = run;
 
 // The actual logic
-function handleArguments(env) {
-
-  // Map an array of keys to preserve order
-  var configFilePaths = ['home', 'cwd'].map(function(key) {
-    return env.configFiles['.gulp'][key];
-  });
-  configFilePaths.filter(isString).forEach(function(filePath) {
-    merge(opts, require(filePath));
-  });
+function handleArguments(env, opts, cfg) {
+  // Set up event listeners for logging.
+  toConsole(log, opts);
 
   if (opts.help) {
     console.log(parser.help());
@@ -169,5 +179,5 @@ function handleArguments(env) {
   }
 
   // Load and execute the CLI version
-  require(path.join(__dirname, '/lib/versioned/', range, '/'))(opts, env);
+  require(path.join(__dirname, '/lib/versioned/', range, '/'))(opts, env, cfg);
 }
