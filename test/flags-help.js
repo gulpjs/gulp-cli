@@ -1,42 +1,44 @@
 'use strict';
 
 var lab = exports.lab = require('lab').script();
-var code = require('code');
-
-var fs = require('fs-extra');
-var child = require('child_process');
+var expect = require('code').expect;
+var runner = require('gulp-test-tools').gulpRunner;
 
 var path = require('path');
-var outfile = path.resolve(__dirname, 'output/flags-help.out');
+var fs = require('fs');
 
-var output = fs.readFileSync(__dirname + '/expected/flags-help.txt', 'utf8').replace(/(\r\n|\n|\r)\s?/gm,'\n');
+// Erases a first space inserted by `chalk`.
+function eraseFirstSpace(s) {
+  return s.replace(/^(\r\n|\n|\r)\s?/g, '\n');
+}
+
+var outputFile = path.join(__dirname, 'expected/flags-help.txt');
+var outputText = fs.readFileSync(outputFile, 'utf8');
 
 lab.experiment('flag: --help', function() {
 
-  lab.before(function(done) {
-    fs.mkdirpSync(path.resolve(__dirname, 'output'));
-    done();
-  });
-
-  lab.after(function(done) {
-    fs.removeSync(path.resolve(__dirname, 'output'));
-    done();
-  });
-
   lab.test('shows help using --help', function(done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --help --cwd ./test/fixtures/gulpfiles > ' + outfile, function(err) {
-      var stdout = fs.readFileSync(outfile, { encoding: 'utf8' });
-      code.expect(stdout.replace(/(\r\n|\n|\r)\s?/gm,'\n')).to.equals(output);
+    runner({ verbose: false })
+      .gulp('--help', '--cwd ./test/fixtures/gulpfiles')
+      .run(cb);
+
+    function cb(err, stdout) {
+      stdout = eraseFirstSpace(stdout);
+      expect(stdout).to.equal(outputText);
       done(err);
-    });
+    }
   });
 
   lab.test('shows help using short --h', function(done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --h --cwd ./test/fixtures/gulpfiles > ' + outfile, function(err) {
-      var stdout = fs.readFileSync(outfile, { encoding: 'utf8' });
-      code.expect(stdout.replace(/(\r\n|\n|\r)\s?/gm,'\n')).to.equals(output);
+    runner({ verbose: false })
+      .gulp('--h', '--cwd ./test/fixtures/gulpfiles')
+      .run(cb);
+
+    function cb(err, stdout) {
+      stdout = eraseFirstSpace(stdout);
+      expect(stdout).to.equal(outputText);
       done(err);
-    });
+    }
   });
 
 });

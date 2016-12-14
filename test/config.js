@@ -5,9 +5,9 @@ var expect = require('code').expect;
 var path = require('path');
 var fs = require('fs');
 
-var skipLines = require('./tools/skip-lines');
-var eraseTime = require('./tools/erase-time');
-var runner = require('./tools/run-gulp');
+var skipLines = require('gulp-test-tools').skipLines;
+var eraseTime = require('gulp-test-tools').eraseTime;
+var runner = require('gulp-test-tools').gulpRunner;
 
 var fixturesDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');

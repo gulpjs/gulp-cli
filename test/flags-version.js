@@ -1,9 +1,9 @@
 'use strict';
 
 var lab = exports.lab = require('lab').script();
-var code = require('code');
-
-var child = require('child_process');
+var expect = require('code').expect;
+var runner = require('gulp-test-tools').gulpRunner;
+var eraseTime = require('gulp-test-tools').eraseTime;
 
 var cliVersion = require('../package.json').version;
 var gulpVersion = require('gulp/package.json').version;
@@ -11,11 +11,19 @@ var gulpVersion = require('gulp/package.json').version;
 lab.experiment('flag: --version', function() {
 
   lab.test('prints the version of CLI and local gulp', function(done) {
-    child.exec('node ' + __dirname + '/../bin/gulp.js --version --cwd ./test/fixtures/gulpfiles', function(err, stdout) {
-      code.expect(stdout).to.contain('CLI version ' + cliVersion);
-      code.expect(stdout).to.contain('Local version ' + gulpVersion);
+    runner({ verbose: false })
+      .gulp('--version --cwd ./test/fixtures/gulpfiles')
+      .run(cb);
+
+    function cb(err, stdout) {
+      stdout = eraseTime(stdout);
+      expect(stdout).to.equal(
+        'CLI version ' + cliVersion + '\n' +
+        'Local version ' + gulpVersion + '\n' +
+        ''
+      );
       done(err);
-    });
+    }
   });
 
 });

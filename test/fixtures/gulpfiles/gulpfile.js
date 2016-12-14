@@ -5,7 +5,9 @@ var gulp = require('gulp');
 function noop(cb) {
   return cb();
 }
-function described() {}
+function described(cb) {
+  cb();
+}
 function errorFunction() {
   throw new Error('Error!');
 }
