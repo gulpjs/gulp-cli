@@ -1,8 +1,9 @@
 'use strict';
 var gulp = require('gulp');
 
-function noop(cb) {
+function logGulpfilePath(cb) {
+  console.log(__filename);
   return cb();
 }
 
-gulp.task('default', gulp.series(noop));
+gulp.task('default', gulp.series(logGulpfilePath));

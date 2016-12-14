@@ -4,8 +4,8 @@ var lab = exports.lab = require('lab').script();
 var expect = require('code').expect;
 var fs = require('fs-extra');
 var path = require('path');
-var skipLines = require('./tools/skip-lines');
-var runner = require('./tools/run-gulp');
+var skipLines = require('gulp-test-tools').skipLines;
+var runner = require('gulp-test-tools').gulpRunner;
 
 var expected = require(path.join(__dirname, 'expected/flags-tasks-json.json'));
 
@@ -13,7 +13,7 @@ lab.experiment('flag: --tasks-json', function() {
 
   lab.test('prints the task list with no args', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks-json --gulpfile ./fixtures/gulpfiles/gulpfile.js')
+      .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
       .run(cb);
 
     function cb(err, stdout) {
@@ -31,7 +31,7 @@ lab.experiment('flag: --tasks-json', function() {
 
       runner({ verbose: false })
         .gulp('--tasks-json ../../output/tasks.json',
-          '--gulpfile fixtures/gulpfiles/gulpfile.js')
+          '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
         .run(cb);
 
       function cb(err) {
