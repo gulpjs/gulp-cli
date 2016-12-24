@@ -1,14 +1,13 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var code = require('code');
+var expect = require('expect');
 
 var taskTree = require('../lib/versioned/^3.7.0/taskTree');
 
-lab.experiment('taskTree()', function() {
+describe('taskTree', function() {
 
-  lab.test('forms a tree properly', function(done) {
-    code.expect(taskTree).to.exist(); // Lol shutup jshint
+  it('forms a tree properly', function(done) {
+    expect(taskTree).toExist(); // Lol shutup jshint
 
     var tasks = {
       test: {
@@ -45,11 +44,11 @@ lab.experiment('taskTree()', function() {
       ],
     };
 
-    code.expect(taskTree(tasks)).to.deep.equal(expectTree);
+    expect(taskTree(tasks)).toEqual(expectTree);
     done();
   });
 
-  lab.test('processes children recursively.', function(done) {
+  it('processes children recursively.', function(done) {
     var tasks = {
       test: {
         dep: ['test2', 'test3'],
@@ -87,7 +86,7 @@ lab.experiment('taskTree()', function() {
           label: 'test2',
           nodes: [
             {
-              label: 'dep3',
+              label: 'test3',
               nodes: [],
             },
           ],
@@ -99,7 +98,7 @@ lab.experiment('taskTree()', function() {
       ],
     };
 
-    code.expect(taskTree(tasks)).to.deep.equal(expectTree);
+    expect(taskTree(tasks)).toEqual(expectTree);
     done();
   });
 });

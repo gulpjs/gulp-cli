@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
 var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
@@ -9,9 +8,9 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
 
-lab.experiment('flag: --gulpfile', function() {
+describe('flag: --gulpfile', function() {
 
-  lab.test('Manually set path of gulpfile', function(done) {
+  it('Manually set path of gulpfile', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
     runner({ verbose: false })
@@ -21,11 +20,11 @@ lab.experiment('flag: --gulpfile', function() {
     function cb(err, stdout) {
       var chgWorkdirLog = headLines(stdout, 1);
       var workdir = path.dirname(gulpfilePath).replace(/\//g, path.sep);
-      expect(chgWorkdirLog).to.contain('Working directory changed to ');
-      expect(chgWorkdirLog).to.contain(workdir);
+      expect(chgWorkdirLog).toMatch('Working directory changed to ');
+      expect(chgWorkdirLog).toMatch(workdir);
 
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
-      expect(stdout).to.equal(
+      expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'logGulpfilePath\'...\n' +
         path.resolve(gulpfilePath) + '\n' +

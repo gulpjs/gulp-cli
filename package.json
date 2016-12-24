@@ -23,11 +23,11 @@
     "gulp.1"
   ],
   "scripts": {
-    "coveralls": "lab -r lcov | coveralls",
+    "coveralls": "istanbul cover _mocha --report --lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
-    "test": "lab test/*.js -cv -I Reflect",
+    "test": "mocha --reporter spec",
     "changelog": "github-changes -o gulpjs -r gulp-cli -b master -f ./CHANGELOG.md --order-semver --use-commit-body"
   },
   "dependencies": {
@@ -54,18 +54,19 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
     "babel-register": "^6.5.1",
-    "code": "^1.2.1",
     "coveralls": "^2.7.0",
     "eslint": "^1.7.3",
     "eslint-config-gulp": "^2.0.0",
+    "expect": "^1.20.2",
     "fs-extra": "^0.26.1",
     "github-changes": "^1.0.1",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-test-tools": "^0.5.2",
+    "istanbul": "^0.4.5",
     "jscs": "^2.3.5",
     "jscs-preset-gulp": "^1.0.0",
-    "lab": "^6.2.0",
-    "marked-man": "^0.1.3"
+    "marked-man": "^0.1.3",
+    "mocha": "^3.2.0"
   },
   "keywords": [
     "build",
