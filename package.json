@@ -23,11 +23,12 @@
     "gulp.1"
   ],
   "scripts": {
-    "coveralls": "istanbul cover _mocha --report --lcovonly -- -R spec && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
     "test": "mocha --reporter spec",
+    "coverage": "rm -rf ./coverage && istanbul cover _mocha --print none && istanbul report lcov text-summary",
+    "coveralls": "rm -rf ./coverage && istanbul cover _mocha --print none && istanbul report lcovonly && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "changelog": "github-changes -o gulpjs -r gulp-cli -b master -f ./CHANGELOG.md --order-semver --use-commit-body"
   },
   "dependencies": {
@@ -61,7 +62,7 @@
     "fs-extra": "^0.26.1",
     "github-changes": "^1.0.1",
     "gulp": "gulpjs/gulp#4.0",
-    "gulp-test-tools": "^0.5.2",
+    "gulp-test-tools": "^0.6.0",
     "istanbul": "^0.4.5",
     "jscs": "^2.3.5",
     "jscs-preset-gulp": "^1.0.0",

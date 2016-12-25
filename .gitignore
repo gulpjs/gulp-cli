@@ -5,6 +5,7 @@ build
 *.node
 components
 coverage
+.coveralls.yml
 *.orig
 .idea
 sandbox
