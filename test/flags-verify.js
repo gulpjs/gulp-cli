@@ -13,7 +13,7 @@ describe('flag: --verify', function() {
       .run(cb);
 
     function cb(err, stdout) {
-      expect(err).toNotBe(null);
+      expect(err).toNotEqual(null);
 
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
@@ -52,7 +52,7 @@ describe('flag: --verify', function() {
       .run(cb);
 
     function cb(err, stdout) {
-      expect(err).toNotBe(null);
+      expect(err).toNotEqual(null);
 
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(

@@ -26,7 +26,7 @@
     "lint": "eslint . && jscs index.js bin/ lib/ test/",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
-    "test": "mocha --reporter spec",
+    "test": "mocha --async-only",
     "coverage": "rm -rf ./coverage && istanbul cover _mocha --print none && istanbul report lcov text-summary",
     "coveralls": "rm -rf ./coverage && istanbul cover _mocha --print none && istanbul report lcovonly && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "changelog": "github-changes -o gulpjs -r gulp-cli -b master -f ./CHANGELOG.md --order-semver --use-commit-body"
