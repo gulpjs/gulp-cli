@@ -1,31 +1,39 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
+var path = require('path');
+var fs = require('fs');
 
-lab.experiment('flag: --completion', function() {
+describe('flag: --completion', function() {
 
   ['bash', 'fish', 'powershell', 'zsh'].forEach(function(type) {
-    lab.test('returns completion script for ' + type, function(done) {
+    it('returns completion script for ' + type, function(done) {
+      var file = path.resolve(__dirname, '../completion', type);
+      var expected = fs.readFileSync(file, 'utf8') + '\n';
+
       runner({ verbose: false })
         .gulp('--completion=' + type)
         .run(cb);
 
       function cb(err, stdout) {
-        expect(stdout).to.contain('gulp --completion=' + type);
+        expect(stdout).toEqual(expected);
         done(err);
       }
     });
   });
 
-  lab.test('shows error message for unknown completion type', function(done) {
+  it('shows error message for unknown completion type', function(done) {
+    var expected =
+      'echo "gulp autocompletion rules for \'unknown\' not found"\n';
+
     runner({ verbose: false })
       .gulp('--completion=unknown')
       .run(cb);
 
     function cb(err, stdout) {
-      expect(stdout).to.contain('rules for \'unknown\' not found');
+      expect(err).toExist();
+      expect(stdout).toEqual(expected);
       done();
     }
   });

@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var path = require('path');
 var fs = require('fs');
 
@@ -12,10 +11,9 @@ var runner = require('gulp-test-tools').gulpRunner;
 var fixturesDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');
 
-lab.experiment('gulp configuration', function() {
+describe('gulp configuration', function() {
 
-  lab.test('Should configure with a .gulp.* file in cwd',
-  function(done) {
+  it('Should configure with a .gulp.* file in cwd', function(done) {
     runner({ verbose: false })
       .basedir(fixturesDir)
       .chdir('foo/bar')
@@ -26,13 +24,12 @@ lab.experiment('gulp configuration', function() {
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
         'utf-8');
       stdout = eraseTime(stdout);
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done(err);
     }
   });
 
-  lab.test('Should configure with a .gulp.* file in cwd found up',
-  function(done) {
+  it('Should configure with a .gulp.* file in cwd found up', function(done) {
     runner({ verbose: false })
       .basedir(fixturesDir)
       .chdir('foo/bar/baz')
@@ -43,13 +40,12 @@ lab.experiment('gulp configuration', function() {
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
         'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done(err);
     }
   });
 
-  lab.test('Should configure with a .gulp.* file in cwd by --cwd',
-  function(done) {
+  it('Should configure with a .gulp.* file in cwd by --cwd', function(done) {
     runner({ verbose: false })
       .basedir(fixturesDir)
       .chdir('qux')
@@ -60,7 +56,7 @@ lab.experiment('gulp configuration', function() {
       var expected = fs.readFileSync(path.join(expectedDir, 'output1.txt'),
         'utf-8');
       stdout = eraseTime(stdout);
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done(err);
     }
   });
