@@ -5,6 +5,8 @@ build
 *.node
 components
 coverage
+.coveralls.yml
+.nyc_output
 *.orig
 .idea
 sandbox

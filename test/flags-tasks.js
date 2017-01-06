@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var fs = require('fs');
 var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
@@ -10,9 +9,9 @@ var runner = require('gulp-test-tools').gulpRunner;
 
 var expectedDir = path.join(__dirname, 'expected');
 
-lab.experiment('flag: --tasks', function() {
+describe('flag: --tasks', function() {
 
-  lab.test('prints the task list', function(done) {
+  it('prints the task list', function(done) {
     runner({ verbose: false })
       .gulp('--tasks --cwd ./test/fixtures/gulpfiles')
       .run(cb);
@@ -21,12 +20,12 @@ lab.experiment('flag: --tasks', function() {
       var filepath = path.join(expectedDir, 'flags-tasks.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done();
     }
   });
 
-  lab.test('print the task list with description and flags', function(done) {
+  it('print the task list with description and flags', function(done) {
     runner({ verbose: false })
       .gulp('--tasks',
         '--gulpfile ./test/fixtures/gulpfiles/with-desc-and-flags.js',
@@ -37,12 +36,12 @@ lab.experiment('flag: --tasks', function() {
       var filepath = path.join(expectedDir, 'with-desc-and-flags.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done();
     }
   });
 
-  lab.test('print the task list by gulp.task(s).unwrap and gulp.task(s)',
+  it('print the task list by gulp.task(s).unwrap and gulp.task(s)',
   function(done) {
     runner({ verbose: false })
       .gulp('--tasks',
@@ -54,7 +53,7 @@ lab.experiment('flag: --tasks', function() {
       var filepath = path.join(expectedDir, 'by-unwrap-and-not-by-unwrap.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done();
     }
   });

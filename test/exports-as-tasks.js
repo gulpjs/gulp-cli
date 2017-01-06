@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var fs = require('fs');
 var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
@@ -11,9 +10,10 @@ var runner = require('gulp-test-tools').gulpRunner;
 var expectedDir = path.join(__dirname, 'expected');
 
 // Long timeout is required because parse time is slow
-lab.experiment('exports as tasks', { timeout: 0 }, function() {
+describe('exports as tasks', function() {
+  this.timeout(0);
 
-  lab.test('prints the task list', function(done) {
+  it('prints the task list', function(done) {
     runner({ verbose: false })
       .gulp('--tasks',
         '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
@@ -23,7 +23,7 @@ lab.experiment('exports as tasks', { timeout: 0 }, function() {
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 2));
-      expect(stdout).to.equal(expected);
+      expect(stdout).toEqual(expected);
       done();
     }
   });

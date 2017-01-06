@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
 var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
@@ -9,28 +8,28 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
 
-lab.experiment('flag: --require', function() {
+describe('flag: --require', function() {
 
-  lab.test('requires module before running gulpfile', function(done) {
+  it('requires module before running gulpfile', function(done) {
     runner({ verbose: false })
       .gulp('--require ../test-module.js', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
     function cb(err, stdout) {
       var insideLog = headLines(stdout, 1);
-      expect(insideLog).to.equal('inside test module');
+      expect(insideLog).toEqual('inside test module');
 
       var requireLog = eraseTime(headLines(stdout, 1, 1));
-      expect(requireLog).to.equal(
+      expect(requireLog).toEqual(
         'Requiring external module ../test-module.js');
 
       var chgWorkdirLog = headLines(stdout, 1, 2);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
-      expect(chgWorkdirLog).to.contains('Working directory changed to ');
-      expect(chgWorkdirLog).to.contains(workdir);
+      expect(chgWorkdirLog).toMatch('Working directory changed to ');
+      expect(chgWorkdirLog).toMatch(workdir);
 
       stdout = eraseLapse(eraseTime(skipLines(stdout, 4)));
-      expect(stdout).to.equal(
+      expect(stdout).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
           'Starting \'noop\'...\n' +
@@ -49,23 +48,23 @@ lab.experiment('flag: --require', function() {
     }
   });
 
-  lab.test('errors if module doesn\'t exist', function(done) {
+  it('errors if module doesn\'t exist', function(done) {
     runner({ verbose: false })
       .gulp('--require ./null-module.js', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
     function cb(err, stdout, stderr) {
-      expect(stdout).to.not.contain('inside test module');
-      expect(stdout).to.not.contain(
+      expect(stdout).toNotMatch('inside test module');
+      expect(stdout).toNotMatch(
         'Requiring external module ../test-module.js');
 
       var chgWorkdirLog = headLines(stdout, 1);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
-      expect(chgWorkdirLog).to.contains('Working directory changed to ');
-      expect(chgWorkdirLog).to.contains(workdir);
+      expect(chgWorkdirLog).toMatch('Working directory changed to ');
+      expect(chgWorkdirLog).toMatch(workdir);
 
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
-      expect(stdout).to.equal(
+      expect(stdout).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
           'Starting \'noop\'...\n' +
@@ -82,7 +81,7 @@ lab.experiment('flag: --require', function() {
       );
 
       stderr = eraseTime(stderr);
-      expect(stderr).to.equal(
+      expect(stderr).toEqual(
         'Failed to load external module ./null-module.js\n');
       done(err);
     }

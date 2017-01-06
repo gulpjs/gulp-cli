@@ -1,7 +1,6 @@
 'use strict';
 
-var lab = exports.lab = require('lab').script();
-var expect = require('code').expect;
+var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
 
 var path = require('path');
@@ -15,28 +14,28 @@ function eraseFirstSpace(s) {
 var outputFile = path.join(__dirname, 'expected/flags-help.txt');
 var outputText = fs.readFileSync(outputFile, 'utf8');
 
-lab.experiment('flag: --help', function() {
+describe('flag: --help', function() {
 
-  lab.test('shows help using --help', function(done) {
+  it('shows help using --help', function(done) {
     runner({ verbose: false })
       .gulp('--help', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
     function cb(err, stdout) {
       stdout = eraseFirstSpace(stdout);
-      expect(stdout).to.equal(outputText);
+      expect(stdout).toEqual(outputText);
       done(err);
     }
   });
 
-  lab.test('shows help using short --h', function(done) {
+  it('shows help using short --h', function(done) {
     runner({ verbose: false })
       .gulp('--h', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
     function cb(err, stdout) {
       stdout = eraseFirstSpace(stdout);
-      expect(stdout).to.equal(outputText);
+      expect(stdout).toEqual(outputText);
       done(err);
     }
   });
