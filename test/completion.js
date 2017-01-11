@@ -44,9 +44,7 @@ describe('flag: --completion', function() {
       .run(cb);
 
     function cb(err) {
-      expect(function() {
-        throw err;
-      }).toThrow(/Missing completion type/);
+      expect(err.message).toMatch('Missing completion type');
       done();
     }
   });
