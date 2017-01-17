@@ -43,12 +43,8 @@ describe('flag: --completion', function() {
       .gulp('--completion')
       .run(cb);
 
-    function cb(err) {
-      if (process.version.slice(0, 5) === 'v0.10' && process.platform === 'win32') {
-        expect(err.message).toMatch('Command failed: ');
-      } else {
-        expect(err.message).toMatch('Missing completion type');
-      }
+    function cb(err, stdout, stderr) {
+      expect(stderr).toMatch('Missing completion type');
       done();
     }
   });
