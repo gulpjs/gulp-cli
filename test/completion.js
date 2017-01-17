@@ -38,4 +38,15 @@ describe('flag: --completion', function() {
     }
   });
 
+  it('shows error message for missing completion type', function(done) {
+    runner({ verbose: false })
+      .gulp('--completion')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(stderr).toMatch('Missing completion type');
+      done();
+    }
+  });
+
 });
