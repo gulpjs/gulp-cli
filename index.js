@@ -19,9 +19,9 @@ var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
 var toConsole = require('./lib/shared/log/toConsole');
 
-var loadConfigFiles = require('./lib/shared/config/loadfiles');
-var mergeToCliFlags = require('./lib/shared/config/cli-flags');
-var mergeToEnvFlags = require('./lib/shared/config/env-flags');
+var loadConfigFiles = require('./lib/shared/config/load-files');
+var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
+var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -85,30 +85,22 @@ cli.on('respawn', function(flags, child) {
 });
 
 function run() {
-  var envOpts = {
+  cli.launch({
     cwd: opts.cwd,
     configPath: opts.gulpfile,
     require: opts.require,
     completion: opts.completion,
-  };
-
-  cli.launch(envOpts, function(env) {
-    var config;
-    try {
-      config = loadConfigFiles(env.configFiles['.gulp'], ['home', 'cwd']);
-    } catch (e) {
-      log.error(chalk.red(e.message));
-      exit(1);
-    }
-
-    mergeToCliFlags(opts, config, cliOptions);
-    mergeToEnvFlags(env, config, envOpts);
-
-    handleArguments(env, opts, config);
-  });
+  }, configureAndInvoke);
 }
 
 module.exports = run;
+
+function configureAndInvoke(env) {
+  var config = loadConfigFiles(env.configFiles['.gulp'], ['home', 'cwd']);
+  opts = mergeConfigToCliFlags(opts, config);
+  env = mergeConfigToEnvFlags(env, config);
+  handleArguments(env, opts, config);
+}
 
 // The actual logic
 function handleArguments(env, opts, cfg) {

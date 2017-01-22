@@ -1,169 +1,92 @@
 'use strict';
 
 var expect = require('expect');
-
-var mergeToEnvFlags = require('../../lib/shared/config/env-flags');
+var mergeConfig = require('../../lib/shared/config/env-flags');
 
 describe('lib: config/env-flags', function() {
 
-  describe('config.flags is not empty', function() {
-    it('Should merge target flags which is not specified by user',
-    function(done) {
-      var envOpts = {
-        cwd: null,
-        configPath: null,
-        require: null,
-        completion: null,
-      };
-      var config = {
-        flags: { gulpfile: 'path/to/gulpfile.js' },
-      };
+  it('Should copy only config props specified to env flags', function(done) {
+    var env = {};
 
-      var envFlags = {};
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({
-        configPath: 'path/to/gulpfile.js',
-        configBase: 'path/to',
-      });
+    var config = {
+      description: 'DESCRIPTION.',
+      flags: {
+        silent: true,
+        gulpfile: '/path/to/gulpfile',
+      },
+    };
 
-      envFlags = {
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      };
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'path/to/gulpfile.js',
-        configBase: 'path/to',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      });
-      done();
+    var result =  mergeConfig(env, config);
+    expect(result).toNotBe(env);
+    expect(result).toEqual({
+      configPath: '/path/to/gulpfile',
+      configBase: '/path/to',
     });
-
-    it('Should not merge target flags which is specified by user',
-    function(done) {
-      var envOpts = {
-        cwd: '.',
-        configPath: 'x',
-        require: 'y',
-        completion: 'z',
-      };
-      var config = {
-        flags: { gulpfile: 'path/to/gulpfile.js' },
-      };
-
-      var envFlags = {};
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({});
-
-      envFlags = {
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      };
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      });
-      done();
-    });
+    done();
   });
 
-  describe('config.flags is empty', function() {
-    it('Should not case error when user specified no arg', function(done) {
-      var envOpts = {
-        cwd: null,
-        configPath: null,
-        require: null,
-        completion: null,
-      };
-      var config = {};
+  it('Should override env flags with config props', function(done) {
+    var env = {
+      cwd: '/path/to/cwd',
+      require: 'preload',
+      configNameSearch: 'configNameSearch',
+      configPath: '/path/of/config/path',
+      configBase: '/path/of/config/base',
+      modulePath: '/path/of/module/path',
+      modulePackage: { name: 'modulePackage' },
+      configFiles: { aaa: {} },
+    };
 
-      var envFlags = {};
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({});
+    var config = {
+      description: 'DESCRIPTION.',
+      flags: {
+        silent: false,
+        gulpfile: '/path/to/gulpfile',
+      },
+    };
 
-      envFlags = {
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      };
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      });
-      done();
+    var result =  mergeConfig(env, config);
+    expect(result).toNotBe(env);
+    expect(result).toEqual({
+      cwd: '/path/to/cwd',
+      require: 'preload',
+      configNameSearch: 'configNameSearch',
+      configPath: '/path/to/gulpfile',
+      configBase: '/path/to',
+      modulePath: '/path/of/module/path',
+      modulePackage: { name: 'modulePackage' },
+      configFiles: { aaa: {} },
     });
-
-    it('Should not case error when user specified args', function(done) {
-      var envOpts = {
-        cwd: '.',
-        configPath: 'x',
-        require: 'y',
-        completion: 'z',
-      };
-      var config = {};
-
-      var envFlags = {};
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({});
-
-      envFlags = {
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      };
-      mergeToEnvFlags(envFlags, config, envOpts);
-      expect(envFlags).toEqual({
-        cwd: 'c/w/d',
-        require: ['r/e/q'],
-        configNameSearch: ['config/name/search'],
-        configPath: 'config/path',
-        configBase: 'config/base',
-        modulePath: 'module/path',
-        modulePackage: 'module/package',
-        configFiles: {},
-      });
-      done();
-    });
+    done();
   });
+
+  it('Should not cause error if config is empty', function(done) {
+    var env = {
+      cwd: '/path/to/cwd',
+      require: 'preload',
+      configNameSearch: 'configNameSearch',
+      configPath: '/path/of/config/path',
+      configBase: '/path/of/config/base',
+      modulePath: '/path/of/module/path',
+      modulePackage: { name: 'modulePackage' },
+      configFiles: { aaa: {} },
+    };
+
+    var config = {};
+
+    var result =  mergeConfig(env, config);
+    expect(result).toNotBe(env);
+    expect(result).toEqual({
+      cwd: '/path/to/cwd',
+      require: 'preload',
+      configNameSearch: 'configNameSearch',
+      configPath: '/path/of/config/path',
+      configBase: '/path/of/config/base',
+      modulePath: '/path/of/module/path',
+      modulePackage: { name: 'modulePackage' },
+      configFiles: { aaa: {} },
+    });
+    done();
+  });
+
 });
