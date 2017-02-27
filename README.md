@@ -13,7 +13,7 @@ Command Line Utility for Gulp
 ## Usage
 
 ```bash
-> gulp [flags] tasks
+> gulp [flags] <task> <task>...
 ```
 
 ## Custom Metadata
@@ -52,7 +52,19 @@ gulp.task(build);
 
 ## Tasks
 
-Tasks can be executed by running `gulp <task> <othertask>`. Just running `gulp` will execute the task you registered called `default`. If there is no `default` task, gulp will error.
+The task(s) listed on the command line will be executed.
+If more than one task is listed, Gulp will execute all of them
+concurrently, that is, as if they had all been listed as dependencies of
+a single task.
+
+Gulp does not serialize tasks listed on the command line. From using
+other comparable tools users may expect to execute something like
+`gulp clean build`, with tasks named `clean` and `build`. This will not
+produce the intended result, as the two tasks will be executed
+concurrently.
+
+Just running `gulp` will execute the task `default`. If there is no
+`default` task, gulp will error.
 
 ## Completion
 > Thanks to the grunt team, specifically Tyler Kellen
