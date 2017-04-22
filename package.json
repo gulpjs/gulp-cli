@@ -41,7 +41,6 @@
     "liftoff": "^2.3.0",
     "lodash.isfunction": "^3.0.8",
     "lodash.isplainobject": "^4.0.4",
-    "lodash.isstring": "^4.0.1",
     "lodash.sortby": "^4.5.0",
     "matchdep": "^1.0.0",
     "mute-stdout": "^1.0.0",
