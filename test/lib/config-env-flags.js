@@ -17,7 +17,6 @@ describe('lib: config/env-flags', function() {
     };
 
     var result =  mergeConfig(env, config);
-    expect(result).toNotBe(env);
     expect(result).toEqual({
       configPath: '/path/to/gulpfile',
       configBase: '/path/to',
@@ -46,7 +45,6 @@ describe('lib: config/env-flags', function() {
     };
 
     var result =  mergeConfig(env, config);
-    expect(result).toNotBe(env);
     expect(result).toEqual({
       cwd: '/path/to/cwd',
       require: 'preload',
@@ -75,7 +73,6 @@ describe('lib: config/env-flags', function() {
     var config = {};
 
     var result =  mergeConfig(env, config);
-    expect(result).toNotBe(env);
     expect(result).toEqual({
       cwd: '/path/to/cwd',
       require: 'preload',

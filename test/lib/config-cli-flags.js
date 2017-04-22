@@ -17,7 +17,6 @@ describe('lib: config/cli-flags', function() {
     };
 
     var result =  mergeConfig(opts, config);
-    expect(result).toNotBe(opts);
     expect(result).toEqual({
       silent: true,
     });
@@ -41,7 +40,6 @@ describe('lib: config/cli-flags', function() {
     };
 
     var result =  mergeConfig(opts, config);
-    expect(result).toNotBe(opts);
     expect(result).toEqual({
       help: false,
       depth: 4,
@@ -62,7 +60,6 @@ describe('lib: config/cli-flags', function() {
     var config = {};
 
     var result =  mergeConfig(opts, config);
-    expect(result).toNotBe(opts);
     expect(result).toEqual({
       help: false,
       depth: 4,
