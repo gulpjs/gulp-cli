@@ -1,3 +1,6 @@
 {
-  "extends": "gulp"
+  "extends": "gulp",
+  "rules": {
+    "max-statements": [1, 40]
+  }
 }

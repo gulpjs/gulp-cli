@@ -9,8 +9,6 @@ var Liftoff = require('liftoff');
 var tildify = require('tildify');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
-var merge = require('lodash.merge');
-var isString = require('lodash.isstring');
 var findRange = require('semver-greatest-satisfied-range');
 var exit = require('./lib/shared/exit');
 var cliOptions = require('./lib/shared/cliOptions');
@@ -19,6 +17,10 @@ var verifyDeps = require('./lib/shared/verifyDependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/getBlacklist');
 var toConsole = require('./lib/shared/log/toConsole');
+
+var loadConfigFiles = require('./lib/shared/config/load-files');
+var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
+var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -65,7 +67,7 @@ if (opts.continue) {
   process.env.UNDERTAKER_SETTLE = 'true';
 }
 
-// Set up event listeners for logging.
+// Set up event listeners for logging temporarily.
 toConsole(log, opts);
 
 cli.on('require', function(name) {
@@ -96,14 +98,13 @@ module.exports = run;
 
 // The actual logic
 function handleArguments(env) {
+  var cfgLoadOrder = ['home', 'cwd'];
+  var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
+  opts = mergeConfigToCliFlags(opts, cfg);
+  env = mergeConfigToEnvFlags(env, cfg);
 
-  // Map an array of keys to preserve order
-  var configFilePaths = ['home', 'cwd'].map(function(key) {
-    return env.configFiles['.gulp'][key];
-  });
-  configFilePaths.filter(isString).forEach(function(filePath) {
-    merge(opts, require(filePath));
-  });
+  // Set up event listeners for logging again after configuring.
+  toConsole(log, opts);
 
   if (opts.help) {
     console.log(parser.help());
@@ -169,5 +170,5 @@ function handleArguments(env) {
   }
 
   // Load and execute the CLI version
-  require(path.join(__dirname, '/lib/versioned/', range, '/'))(opts, env);
+  require(path.join(__dirname, '/lib/versioned/', range, '/'))(opts, env, cfg);
 }
