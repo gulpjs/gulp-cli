@@ -1,9 +1,10 @@
 'use strict';
 
+/* eslint max-statements: [1, 40] */
+
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
-var fancyLog = require('fancy-log');
 var chalk = require('chalk');
 var yargs = require('yargs');
 var Liftoff = require('liftoff');
@@ -68,13 +69,15 @@ if (opts.continue) {
   process.env.UNDERTAKER_SETTLE = 'true';
 }
 
+// Set up event listeners for logging temporarily.
+toConsole(log, opts);
+
 cli.on('require', function(name) {
-  fancyLog('Requiring external module', chalk.magenta(name));
+  log.info('Requiring external module', chalk.magenta(name));
 });
 
 cli.on('requireFail', function(name) {
-  fancyLog.error(
-    chalk.red('Failed to load external module'), chalk.magenta(name));
+  log.error(chalk.red('Failed to load external module'), chalk.magenta(name));
 });
 
 cli.on('respawn', function(flags, child) {
@@ -90,21 +93,19 @@ function run() {
     configPath: opts.gulpfile,
     require: opts.require,
     completion: opts.completion,
-  }, configureAndInvoke);
+  }, handleArguments);
 }
 
 module.exports = run;
 
-function configureAndInvoke(env) {
-  var config = loadConfigFiles(env.configFiles['.gulp'], ['home', 'cwd']);
-  opts = mergeConfigToCliFlags(opts, config);
-  env = mergeConfigToEnvFlags(env, config);
-  handleArguments(env, opts, config);
-}
-
 // The actual logic
-function handleArguments(env, opts, cfg) {
-  // Set up event listeners for logging.
+function handleArguments(env) {
+
+  var cfg = loadConfigFiles(env.configFiles['.gulp'], ['home', 'cwd']);
+  opts = mergeConfigToCliFlags(opts, cfg);
+  env = mergeConfigToEnvFlags(env, cfg);
+
+  // Set up event listeners for logging again after configuring.
   toConsole(log, opts);
 
   if (opts.help) {
