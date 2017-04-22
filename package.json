@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "archy": "^1.0.0",
-    "camelcase": "^3.0.0",
     "chalk": "^1.1.0",
     "copy-props": "^1.4.1",
     "fancy-log": "^1.1.0",
