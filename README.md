@@ -103,9 +103,11 @@ Configuration from the home directory (`~`) and current working directory (`cwd`
 
 Supported configurations properties:
 
-| Property    | Description |
-|-------------|-------------|
-| description | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
+| Property       | Description |
+|----------------|-------------|
+| description    | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
+| flags.gulpfile | Set a default gulpfile |
+| flags.silent   | Silence logging by default |
 
 ## Flags
 
