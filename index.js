@@ -59,14 +59,6 @@ var usage =
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
-// This translates the --continue flag in gulp
-// To the settle env variable for undertaker
-// We use the process.env so the user's gulpfile
-// Can know about the flag
-if (opts.continue) {
-  process.env.UNDERTAKER_SETTLE = 'true';
-}
-
 // Set up event listeners for logging temporarily.
 toConsole(log, opts);
 
@@ -102,6 +94,14 @@ function handleArguments(env) {
   var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
   opts = mergeConfigToCliFlags(opts, cfg);
   env = mergeConfigToEnvFlags(env, cfg);
+
+  // This translates the --continue flag in gulp
+  // To the settle env variable for undertaker
+  // We use the process.env so the user's gulpfile
+  // Can know about the flag
+  if (opts.continue) {
+    process.env.UNDERTAKER_SETTLE = 'true';
+  }
 
   // Set up event listeners for logging again after configuring.
   toConsole(log, opts);

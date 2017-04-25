@@ -12,6 +12,7 @@ describe('lib: config/cli-flags', function() {
       description: 'DESCRIPTION.',
       flags: {
         silent: true,
+        continue: true,
         gulpfile: '/path/to/gulpfile',
       },
     };
@@ -19,6 +20,7 @@ describe('lib: config/cli-flags', function() {
     var result =  mergeConfig(opts, config);
     expect(result).toEqual({
       silent: true,
+      continue: true,
     });
     done();
   });
