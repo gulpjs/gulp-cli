@@ -13,7 +13,7 @@ describe('flag: --tasks', function() {
 
   it('prints the task list', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks --cwd ./test/fixtures/gulpfiles')
+      .gulp('--tasks --sort-tasks --cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -29,7 +29,7 @@ describe('flag: --tasks', function() {
 
   it('print the task list with description and flags', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks',
+      .gulp('--tasks', '--sort-tasks',
         '--gulpfile ./test/fixtures/gulpfiles/with-desc-and-flags.js',
         '--cwd ./test/fixtures')
       .run(cb);
@@ -48,7 +48,7 @@ describe('flag: --tasks', function() {
   it('print the task list by gulp.task(s).unwrap and gulp.task(s)',
   function(done) {
     runner({ verbose: false })
-      .gulp('--tasks',
+      .gulp('--tasks', '--sort-tasks',
         '--gulpfile ./test/fixtures/gulpfiles/by-unwrap-and-not-by-unwrap.js',
         '--cwd ./test/fixtures')
       .run(cb);
@@ -57,6 +57,65 @@ describe('flag: --tasks', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'by-unwrap-and-not-by-unwrap.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done();
+    }
+  });
+
+  it('prints the task list without --sort-tasks flag', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js')
+      .run(cb);
+
+    function cb(err, stdout) {
+      var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done();
+    }
+  });
+
+  it('prints the task list with --sort-tasks flag', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+        '--sort-tasks')
+      .run(cb);
+
+    function cb(err, stdout) {
+      var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done();
+    }
+  });
+
+  it('prints the task list with --tasks-depth flag', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+        '--tasks-depth 4')
+      .run(cb);
+
+    function cb(err, stdout) {
+      var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done();
+    }
+  });
+
+  it('prints the task list with --compact-tasks flag', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+        '--compact-tasks')
+      .run(cb);
+
+    function cb(err, stdout) {
+      var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);

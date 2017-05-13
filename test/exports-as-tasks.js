@@ -15,7 +15,7 @@ describe('exports as tasks', function() {
 
   it('prints the task list', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks',
+      .gulp('--tasks', '--sort-tasks',
         '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
       .run(cb);
 
