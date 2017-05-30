@@ -43,6 +43,7 @@ describe('config: flag.logLevel', function() {
       runner({ verbose: false })
         .gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
           expect(eraseTime(stdout)).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'There are no blacklisted plugins in this project\n');
@@ -86,6 +87,7 @@ describe('config: flag.logLevel', function() {
 
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
           expect(stdout).toEqual('');
           expect(stderr).toEqual('');
           done(err);
@@ -129,6 +131,7 @@ describe('config: flag.logLevel', function() {
 
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
           expect(stdout).toEqual('');
           expect(stderr).toEqual('');
           done(err);
@@ -173,6 +176,7 @@ describe('config: flag.logLevel', function() {
 
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
           expect(eraseTime(stdout)).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'There are no blacklisted plugins in this project\n');
