@@ -19,8 +19,9 @@ describe('config: flags.silent', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
-      expect(stdout).toEqual('');
+      expect(err).toEqual(null);
       expect(stderr).toEqual('');
+      expect(stdout).toEqual('');
       done(err);
     }
   });
@@ -33,13 +34,14 @@ describe('config: flags.silent', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Finished \'default\' after ?\n' +
         ''
       );
-      expect(stderr).toEqual('');
       done(err);
     }
   });

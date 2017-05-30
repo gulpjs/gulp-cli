@@ -15,7 +15,9 @@ describe('flag: --tasks-simple', function() {
       .gulp('--tasks-simple', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       expect(stdout).toEqual(outputText);
       done(err);
     }
