@@ -12,9 +12,9 @@ describe('flag: --verify', function() {
       .gulp('--verify invalid-package.json', '--cwd ./test/fixtures/packages/')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
+      expect(stderr).toEqual('');
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
@@ -33,7 +33,9 @@ describe('flag: --verify', function() {
       .gulp('--verify valid-package.json', '--cwd ./test/fixtures/packages/')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
@@ -51,9 +53,9 @@ describe('flag: --verify', function() {
       .gulp('--verify', '--cwd ./test/fixtures/packages/')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
+      expect(stderr).toEqual('');
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +

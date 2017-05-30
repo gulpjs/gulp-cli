@@ -16,7 +16,6 @@ describe('flag: --continue', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(
         'Starting \'test4\'...\n' +
@@ -42,7 +41,6 @@ describe('flag: --continue', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
       expect(stdout).toNotMatch('Starting \'anon\'');
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(

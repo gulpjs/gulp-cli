@@ -16,7 +16,9 @@ describe('flag: --completion', function() {
         .gulp('--completion=' + type)
         .run(cb);
 
-      function cb(err, stdout) {
+      function cb(err, stdout, stderr) {
+        expect(err).toNotExist();
+        expect(stderr).toEqual('');
         expect(stdout).toEqual(expected);
         done(err);
       }
@@ -31,8 +33,9 @@ describe('flag: --completion', function() {
       .gulp('--completion=unknown')
       .run(cb);
 
-    function cb(err, stdout) {
-      expect(err).toExist();
+    function cb(err, stdout, stderr) {
+      expect(err).toNotEqual(null);
+      expect(stderr).toEqual('');
       expect(stdout).toEqual(expected);
       done();
     }
@@ -44,7 +47,9 @@ describe('flag: --completion', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toNotEqual(null);
       expect(stderr).toMatch('Missing completion type');
+      expect(stdout).toEqual('');
       done();
     }
   });

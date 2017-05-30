@@ -9,11 +9,12 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LLLL', cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test debug');
       expect(stdout[1]).toMatch('test info');
       expect(stdout[2]).toMatch('test warn');
-      expect(stderr).toMatch('test error');
       done(err);
     }
   });
@@ -22,10 +23,11 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js', cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
       expect(stdout[1]).toMatch('test warn');
-      expect(stderr).toMatch('test error');
       done(err);
     }
   });
@@ -34,10 +36,11 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LLL', cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
       expect(stdout[1]).toMatch('test warn');
-      expect(stderr).toMatch('test error');
       done(err);
     }
   });
@@ -46,9 +49,10 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LL', cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test warn');
-      expect(stderr).toMatch('test error');
       done(err);
     }
   });
@@ -57,7 +61,9 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -L', cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
       expect(stderr).toMatch('test error');
+      expect(stdout).toEqual('');
       done(err);
     }
   });
