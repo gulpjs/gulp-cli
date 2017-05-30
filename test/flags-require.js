@@ -15,7 +15,9 @@ describe('flag: --require', function() {
       .gulp('--require ../test-module.js', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var insideLog = headLines(stdout, 1);
       expect(insideLog).toEqual('inside test module');
 
@@ -54,6 +56,9 @@ describe('flag: --require', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      stderr = eraseLapse(eraseTime(stderr));
+      expect(stderr).toMatch('Failed to load external module ./null-module.js');
       expect(stdout).toNotMatch('inside test module');
       expect(stdout).toNotMatch(
         'Requiring external module ../test-module.js');

@@ -16,7 +16,9 @@ describe('flag: --tasks', function() {
       .gulp('--tasks --cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
@@ -32,7 +34,9 @@ describe('flag: --tasks', function() {
         '--cwd ./test/fixtures')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'with-desc-and-flags.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
@@ -49,7 +53,9 @@ describe('flag: --tasks', function() {
         '--cwd ./test/fixtures')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'by-unwrap-and-not-by-unwrap.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));

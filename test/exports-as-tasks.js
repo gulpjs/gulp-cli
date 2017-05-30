@@ -19,9 +19,10 @@ describe('exports as tasks', function() {
         '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
+      expect(stderr).toEqual('');
       stdout = eraseTime(skipLines(stdout, 2));
       expect(stdout).toEqual(expected);
       done();

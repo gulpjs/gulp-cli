@@ -17,7 +17,10 @@ describe('flag: --gulpfile', function() {
       .gulp('--gulpfile', gulpfilePath)
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
       var chgWorkdirLog = headLines(stdout, 1);
       var workdir = path.dirname(gulpfilePath).replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');

@@ -20,7 +20,9 @@ describe('config: description', function() {
       .gulp('--tasks')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
         'utf-8');
       stdout = eraseTime(stdout);
@@ -36,7 +38,9 @@ describe('config: description', function() {
       .gulp('--tasks')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
         'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
@@ -52,7 +56,9 @@ describe('config: description', function() {
       .gulp('--tasks', '--gulpfile ../foo/bar/gulpfile.js', '--cwd .')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output1.txt'),
         'utf-8');
       stdout = eraseTime(stdout);

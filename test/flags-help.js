@@ -21,7 +21,9 @@ describe('flag: --help', function() {
       .gulp('--help', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
@@ -33,7 +35,9 @@ describe('flag: --help', function() {
       .gulp('--h', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);

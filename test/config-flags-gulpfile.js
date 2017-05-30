@@ -17,6 +17,8 @@ describe('config: flags.gulpfile', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = headLines(stdout, 2, 2);
       expect(stdout).toEqual(
         'This gulpfile : ' +
@@ -24,7 +26,6 @@ describe('config: flags.gulpfile', function() {
           '\n' +
         'The current directory : ' + path.join(fixturesDir, 'flags/gulpfile')
       );
-      expect(stderr).toEqual('');
       done(err);
     }
   });
@@ -36,6 +37,8 @@ describe('config: flags.gulpfile', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = headLines(stdout, 2, 3);
       expect(stdout).toEqual(
         'This gulpfile : ' +
@@ -43,7 +46,6 @@ describe('config: flags.gulpfile', function() {
           '\n' +
         'The current directory : ' + path.join(fixturesDir, 'flags/gulpfile')
       );
-      expect(stderr).toEqual('');
       done(err);
     }
   });
@@ -56,12 +58,13 @@ describe('config: flags.gulpfile', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = headLines(stdout, 1, 3);
       expect(stdout).toEqual(
         'Another gulpfile : ' +
           path.join(fixturesDir, 'flags/gulpfile/cwd/gulpfile.js')
       );
-      expect(stderr).toEqual('');
       done(err);
     }
   });
@@ -74,12 +77,13 @@ describe('config: flags.gulpfile', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = headLines(stdout, 1, 3);
       expect(stdout).toEqual(
         'Another gulpfile : ' +
           path.join(fixturesDir, 'flags/gulpfile/cwd/gulpfile.js')
       );
-      expect(stderr).toEqual('');
       done(err);
     }
   });
