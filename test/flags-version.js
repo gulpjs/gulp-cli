@@ -14,7 +14,8 @@ describe('flag: --version', function() {
       .gulp('--version --cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(stderr).toEqual('');
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'CLI version ' + cliVersion + '\n' +

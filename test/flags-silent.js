@@ -10,7 +10,9 @@ describe('flag: --silent', function() {
       .gulp('--silent', '--cwd ./test/fixtures/gulpfiles')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);
     }

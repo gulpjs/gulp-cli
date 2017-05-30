@@ -15,7 +15,9 @@ describe('flag: --tasks-json', function() {
       .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       stdout = skipLines(stdout, 1);
       expect(JSON.parse(stdout)).toEqual(expected);
       done();
@@ -33,7 +35,11 @@ describe('flag: --tasks-json', function() {
           '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
         .run(cb);
 
-      function cb(err) {
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        stdout = skipLines(stdout, 1);
+        expect(stdout).toEqual('');
         var file = fs.readFileSync(__dirname + '/output/tasks.json', 'utf8');
         var parsedJson = JSON.parse(file);
         expect(parsedJson).toEqual(expected);
