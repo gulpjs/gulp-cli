@@ -1,11 +1,6 @@
 # http://www.appveyor.com/docs/appveyor-yml
 # http://www.appveyor.com/docs/lang/nodejs-iojs
 
-branches:
-  # whitelist
-  only:
-    - master
-
 environment:
   matrix:
     # node.js
@@ -15,7 +10,7 @@ environment:
     - nodejs_version: "6"
 
 install:
-  - npm -g install npm@latest
+  - npm -g install npm@2
   - set PATH=%APPDATA%\npm;%PATH%
   - ps: Install-Product node $env:nodejs_version
   - npm install
