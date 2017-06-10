@@ -20,12 +20,13 @@ describe('exports as tasks', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(stderr).toEqual('');
       stdout = eraseTime(skipLines(stdout, 2));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 

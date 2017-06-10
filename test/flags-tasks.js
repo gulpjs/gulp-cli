@@ -23,7 +23,7 @@ describe('flag: --tasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 
@@ -41,7 +41,7 @@ describe('flag: --tasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 
@@ -60,7 +60,7 @@ describe('flag: --tasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 
@@ -69,12 +69,14 @@ describe('flag: --tasks', function() {
       .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 
@@ -84,12 +86,14 @@ describe('flag: --tasks', function() {
         '--sort-tasks')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 
@@ -99,12 +103,31 @@ describe('flag: --tasks', function() {
         '--tasks-depth 4')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
+    }
+  });
+
+  it('prints the task list with --depth flag', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+        '--depth 4')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done(err);
     }
   });
 
@@ -114,12 +137,14 @@ describe('flag: --tasks', function() {
         '--compact-tasks')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       stdout = eraseTime(skipLines(stdout, 1));
       expect(stdout).toEqual(expected);
-      done();
+      done(err);
     }
   });
 

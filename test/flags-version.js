@@ -15,6 +15,7 @@ describe('flag: --version', function() {
       .run(cb);
 
     function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
       expect(stderr).toEqual('');
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
