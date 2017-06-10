@@ -103,11 +103,14 @@ Configuration from the home directory (`~`) and current working directory (`cwd`
 
 Supported configurations properties:
 
-| Property       | Description |
-|----------------|-------------|
-| description    | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
-| flags.gulpfile | Set a default gulpfile |
-| flags.silent   | Silence logging by default |
+| Property           | Description |
+|--------------------|-------------|
+| description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
+| flags.continue     | Continue execution of tasks upon failure by default. |
+| flags.compactTasks | Reduce the output of task dependency tree by default. |
+| flags.tasksDepth   | Set default depth of task dependency tree. |
+| flags.gulpfile     | Set a default gulpfile |
+| flags.silent       | Silence logging by default |
 
 ## Flags
 
@@ -160,11 +163,6 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>Print the task dependency tree for the loaded gulpfile.</td>
     </tr>
     <tr>
-      <td>--depth [number]</td>
-      <td></td>
-      <td>Specify the depth of the task dependency tree to print.</td>
-    </tr>
-    <tr>
       <td>--tasks-simple</td>
       <td></td>
       <td>Print a plaintext list of tasks for the loaded gulpfile.</td>
@@ -173,6 +171,21 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>--tasks-json [path]</td>
       <td></td>
       <td>Print the task dependency tree, in JSON format, for the loaded gulpfile. The [path] argument is optional, and if given writes the JSON to the path.</td>
+    </tr>
+    <tr>
+      <td>--tasks-depth [number]</td>
+      <td></td>
+      <td>Specify the depth of the task dependency tree to print. This flag can be used with --tasks or --tasks-json. (This flag was named --depth before but is deprecated.)</td>
+    </tr>
+    <tr>
+      <td>--compact-tasks</td>
+      <td></td>
+      <td>Reduce the output of task dependency tree by printing only top tasks and their child tasks. This flag can be used with --tasks or --tasks-json.</td>
+    </tr>
+    <tr>
+      <td>--sort-tasks</td>
+      <td></td>
+      <td>Will sort top tasks of task dependency tree. This flag can be used with --tasks.</td>
     </tr>
     <tr>
       <td>--color</td>
