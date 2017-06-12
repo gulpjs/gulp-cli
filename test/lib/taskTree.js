@@ -2,9 +2,9 @@
 
 var expect = require('expect');
 
-var taskTree = require('../lib/versioned/^3.7.0/taskTree');
+var taskTree = require('../../lib/versioned/^3.7.0/taskTree');
 
-describe('taskTree', function() {
+describe('lib: taskTree', function() {
 
   it('forms a tree properly', function(done) {
     expect(taskTree).toExist(); // Lol shutup jshint

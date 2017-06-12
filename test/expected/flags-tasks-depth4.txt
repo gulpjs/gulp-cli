@@ -1,0 +1,17 @@
+gulp-cli/test/fixtures/gulpfiles
+├─┬ taskC
+│ └─┬ <series>
+│   ├── func1
+│   └── func2
+├─┬ taskB
+│ └─┬ <parallel>
+│   ├── func3
+│   └─┬ taskC
+│     └── <series>
+└─┬ default
+  └─┬ <parallel>
+    ├─┬ taskC
+    │ └── <series>
+    └─┬ <series>
+      ├── taskB
+      └── func4
