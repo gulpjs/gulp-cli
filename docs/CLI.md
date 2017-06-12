@@ -59,6 +59,15 @@ gulp has very few flags to know about. All other flags are for tasks to use if n
 **--tasks-json** [path]
     Print the task dependency tree, in JSON format, for the loaded gulpfile. The [path] argument is optional, and if given writes the JSON to the path.
 
+**--tasks-depth** [number]
+    Specify the depth of the task dependency tree to print. This flag can be used with --tasks or --tasks-json. (This flag was named --depth before but is deprecated.)
+
+**--compact-tasks**
+    Reduce the output of task dependency tree by printing only top tasks and their child tasks. This flag can be used with --tasks or --tasks-json.
+
+**--sort-tasks**
+    Will sort top tasks of task dependency tree. This flag can be used with --tasks.
+
 **--color**
     Will force gulp and gulp plugins to display colors, even when no color support is detected.
 

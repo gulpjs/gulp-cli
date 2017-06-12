@@ -20,7 +20,7 @@ describe('flag: --tasks-json', function() {
       expect(stderr).toEqual('');
       stdout = skipLines(stdout, 1);
       expect(JSON.parse(stdout)).toEqual(expected);
-      done();
+      done(err);
     }
   });
 

@@ -1,0 +1,44 @@
+{
+  "label": "Label of Top node",
+  "nodes": [
+    {
+      "label": "Label of node 1",
+      "branch": true,
+      "nodes": []
+    },
+    {
+      "label": "Label of node 2",
+      "branch": true,
+      "nodes": [
+        {
+          "label": "Label of node 2.1",
+          "branch": false,
+          "nodes": []
+        },
+        {
+          "label": "Label of node 2.2",
+          "branch": true,
+          "nodes": []
+        },
+        {
+          "label": "Label of node 2.3",
+          "nodes": []
+        }
+      ]
+    },
+    {
+      "label": "Label of node 3",
+      "nodes": [
+        {
+          "label": "Label of node 3.1",
+          "branch": true,
+          "nodes": []
+        },
+        {
+          "label": "Label of node 3.2",
+          "nodes": []
+        }
+      ]
+    }
+  ]
+}
