@@ -26,19 +26,22 @@ describe('lib: taskTree', function() {
       nodes: [
         {
           label: 'test',
+          type: 'task',
           nodes: [
-            { label: 'dep1', nodes: [], },
-            { label: 'dep2', nodes: [], },
+            { label: 'dep1', type: 'task', nodes: [], },
+            { label: 'dep2', type: 'task', nodes: [], },
           ],
         },
         {
           label: 'test2',
+          type: 'task',
           nodes: [
-            { label: 'dep3', nodes: [], },
+            { label: 'dep3', type: 'task', nodes: [], },
           ],
         },
         {
           label: 'test3',
+          type: 'task',
           nodes: [],
         },
       ],
@@ -66,33 +69,40 @@ describe('lib: taskTree', function() {
       nodes: [
         {
           label: 'test',
+          type: 'task',
           nodes: [
             {
               label: 'test2',
+              type: 'task',
               nodes: [
                 {
                   label: 'test3',
+                  type: 'task',
                   nodes: [],
                 },
               ],
             },
             {
               label: 'test3',
+              type: 'task',
               nodes: [],
             },
           ],
         },
         {
           label: 'test2',
+          type: 'task',
           nodes: [
             {
               label: 'test3',
+              type: 'task',
               nodes: [],
             },
           ],
         },
         {
           label: 'test3',
+          type: 'task',
           nodes: [],
         },
       ],
