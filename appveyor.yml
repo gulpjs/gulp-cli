@@ -1,6 +1,8 @@
 # http://www.appveyor.com/docs/appveyor-yml
 # http://www.appveyor.com/docs/lang/nodejs-iojs
 
+skip_branch_with_pr: true
+
 environment:
   matrix:
     # node.js
