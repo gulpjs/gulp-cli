@@ -56,7 +56,8 @@ var usage =
   '\n' + chalk.bold('Usage:') +
   ' gulp ' + chalk.blue('[options]') + ' tasks';
 
-var parser = yargs.usage(usage, cliOptions);
+var parser = yargs.usage(usage, cliOptions)
+                  .help('help', cliOptions.help.desc);
 var opts = parser.argv;
 
 // Set up event listeners for logging temporarily.
@@ -105,11 +106,6 @@ function handleArguments(env) {
 
   // Set up event listeners for logging again after configuring.
   toConsole(log, opts);
-
-  if (opts.help) {
-    console.log(parser.help());
-    exit(0);
-  }
 
   if (opts.version) {
     log.info('CLI version', cliVersion);
