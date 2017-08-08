@@ -111,6 +111,7 @@ Supported configurations properties:
 | flags.tasksDepth   | Set default depth of task dependency tree. |
 | flags.gulpfile     | Set a default gulpfile |
 | flags.silent       | Silence logging by default |
+| flags.series       | Run tasks given on the CLI in series (the default is parallel) |
 
 ## Flags
 
@@ -206,6 +207,11 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>--continue</td>
       <td></td>
       <td>Continue execution of tasks upon failure.</td>
+    </tr>
+    <tr>
+      <td>--series</td>
+      <td></td>
+      <td>Run tasks given on the CLI in series (the default is parallel).</td>
     </tr>
     <tr>
       <td>--log-level</td>
