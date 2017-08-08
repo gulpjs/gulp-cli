@@ -31,6 +31,8 @@ Options:
                           colors, even when color support is detected. [boolean]
   --silent, -S            Suppress all gulp logging.                   [boolean]
   --continue              Continue execution of tasks upon failure.    [boolean]
+  --series                Run tasks given on the CLI in series (the default is
+                          parallel).                                   [boolean]
   --log-level, -L         Set the loglevel. -L for least verbose and -LLLL for
                           most verbose. -LLL is default.                 [count]
 
