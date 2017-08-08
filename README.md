@@ -144,7 +144,7 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
     </tr>
     <tr>
       <td>--gulpfile [path]</td>
-      <td></td>
+      <td>-f</td>
       <td>Manually set path of gulpfile. Useful if you have multiple gulpfiles. This will set the CWD to the gulpfile directory as well.</td>
     </tr>
     <tr>
