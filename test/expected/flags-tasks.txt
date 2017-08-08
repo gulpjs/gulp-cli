@@ -20,7 +20,9 @@ gulp-cli/test/fixtures/gulpfiles
 ├─┬ test3
 │ └─┬ <series>
 │   └── described
-└─┬ test4
-  └─┬ <series>
-    ├── errorFunction
-    └── anon
+├─┬ test4
+│ └─┬ <series>
+│   ├── errorFunction
+│   └── anon
+├── test5
+└── test6
