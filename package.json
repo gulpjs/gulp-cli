@@ -42,7 +42,7 @@
     "lodash.isfunction": "^3.0.8",
     "lodash.isplainobject": "^4.0.4",
     "lodash.sortby": "^4.5.0",
-    "matchdep": "^1.0.0",
+    "matchdep": "^2.0.0",
     "mute-stdout": "^1.0.0",
     "pretty-hrtime": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.0.0",
