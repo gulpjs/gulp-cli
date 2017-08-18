@@ -1,8 +1,9 @@
 'use strict';
 
 var expect = require('expect');
-var fs = require('fs-extra');
+var fs = require('fs');
 var path = require('path');
+var rimraf = require('rimraf');
 var skipLines = require('gulp-test-tools').skipLines;
 var runner = require('gulp-test-tools').gulpRunner;
 
@@ -25,28 +26,26 @@ describe('flag: --tasks-json', function() {
   });
 
   it('writes the task list to file with path', function(done) {
-    fs.emptyDir(__dirname + '/output/', function(err) {
-      if (err) {
-        return done(err);
-      }
+    var output = path.join(__dirname, '/output/');
+    rimraf.sync(output);
+    fs.mkdirSync(output);
 
-      runner({ verbose: false })
-        .gulp('--tasks-json ../../output/tasks.json',
-          '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
-        .run(cb);
+    runner({ verbose: false })
+      .gulp('--tasks-json ../../output/tasks.json',
+        '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
+      .run(cb);
 
-      function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
-        expect(stderr).toEqual('');
-        stdout = skipLines(stdout, 1);
-        expect(stdout).toEqual('');
-        var file = fs.readFileSync(__dirname + '/output/tasks.json', 'utf8');
-        var parsedJson = JSON.parse(file);
-        expect(parsedJson).toEqual(expected);
-        fs.removeSync(__dirname + '/output/');
-        done(err);
-      }
-    });
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      stdout = skipLines(stdout, 1);
+      expect(stdout).toEqual('');
+      var file = fs.readFileSync(path.join(output, '/tasks.json'), 'utf8');
+      var parsedJson = JSON.parse(file);
+      expect(parsedJson).toEqual(expected);
+      rimraf.sync(output);
+      done(err);
+    }
   });
 
 });
