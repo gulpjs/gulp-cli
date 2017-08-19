@@ -2,8 +2,12 @@
 
 var expect = require('expect');
 var path = require('path');
+var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
+var eraseLapse = require('gulp-test-tools').eraseLapse;
 var runner = require('gulp-test-tools').gulpRunner;
+
+var isAppveyor = process.env['APPVEYOR'] === 'True';
 
 describe('config: flag.logLevel', function() {
 
@@ -20,6 +24,11 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
+      if (isAppveyor) {
+        this.skip(); // Because timout frequently
+        return;
+      }
+
       var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
         'invalid-package.json');
 
@@ -37,16 +46,17 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
+      var gulpfile = path.resolve(__dirname, 'fixtures/gulpfiles/gulpfile.js');
 
       runner({ verbose: false })
-        .gulp('--verify', packageJsonPath)
+        .gulp('--gulpfile', gulpfile, 'test1')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'There are no blacklisted plugins in this project\n');
+          expect(eraseLapse(eraseTime(skipLines(stdout, 2)))).toEqual(
+            'Starting \'test1\'...\n' +
+            'Starting \'noop\'...\n' +
+            'Finished \'noop\' after ?\n' +
+            'Finished \'test1\' after ?\n');
           expect(stderr).toEqual('');
           done(err);
         });
@@ -68,7 +78,12 @@ describe('config: flag.logLevel', function() {
         });
     });
 
-    it('Should output warn log', function(done) {
+    it('Should not output warn log', function(done) {
+      if (isAppveyor) {
+        this.skip(); // Because timout frequently
+        return;
+      }
+
       var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
         'invalid-package.json');
 
@@ -81,11 +96,8 @@ describe('config: flag.logLevel', function() {
         });
     });
 
-    it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+    it('Should not output info log', function(done) {
+      gulp('test')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
           expect(stdout).toEqual('');
@@ -111,6 +123,11 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
+      if (isAppveyor) {
+        this.skip(); // Because timout frequently
+        return;
+      }
+
       var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
         'invalid-package.json');
 
@@ -125,11 +142,8 @@ describe('config: flag.logLevel', function() {
         });
     });
 
-    it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+    it('Should not output info log', function(done) {
+      gulp('test')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
           expect(stdout).toEqual('');
@@ -155,6 +169,11 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
+      if (isAppveyor) {
+        this.skip(); // Because timout frequently
+        return;
+      }
+
       var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
         'invalid-package.json');
 
@@ -171,15 +190,12 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('test')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'There are no blacklisted plugins in this project\n');
+          expect(eraseLapse(eraseTime(skipLines(stdout, 1)))).toEqual(
+            'Starting \'test\'...\n' +
+            'Finished \'test\' after ?\n');
           expect(stderr).toEqual('');
           done(err);
         });
