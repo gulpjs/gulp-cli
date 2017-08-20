@@ -107,7 +107,7 @@ function handleArguments(env) {
   toConsole(log, opts);
 
   if (opts.help) {
-    console.log(parser.help());
+    parser.showHelp(console.log);
     exit(0);
   }
 
