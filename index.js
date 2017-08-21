@@ -10,11 +10,12 @@ var tildify = require('tildify');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
+var updateNotifier = require('update-notifier');
 var exit = require('./lib/shared/exit');
 var cliOptions = require('./lib/shared/cliOptions');
 var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verifyDependencies');
-var cliVersion = require('./package.json').version;
+var pkg = require('./package.json');
 var getBlacklist = require('./lib/shared/getBlacklist');
 var toConsole = require('./lib/shared/log/toConsole');
 
@@ -78,6 +79,7 @@ cli.on('respawn', function(flags, child) {
 });
 
 function run() {
+  updateNotifier({ pkg: pkg }).notify();
   cli.launch({
     cwd: opts.cwd,
     configPath: opts.gulpfile,
@@ -112,7 +114,7 @@ function handleArguments(env) {
   }
 
   if (opts.version) {
-    log.info('CLI version', cliVersion);
+    log.info('CLI version', pkg.version);
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
       log.info('Local version', env.modulePackage.version);
     }
