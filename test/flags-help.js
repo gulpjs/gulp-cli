@@ -7,6 +7,11 @@ var path = require('path');
 var fs = require('fs');
 var stripAnsi = require('./shared/stripAnsi');
 
+// Erases a first space inserted by `ansi-*`.
+function eraseFirstSpace(s) {
+  return s.replace(/^(\r\n|\n|\r)\s?/g, '\n');
+}
+
 var outputFile = path.join(__dirname, 'expected/flags-help.txt');
 var outputText = fs.readFileSync(outputFile, 'utf8');
 
@@ -20,7 +25,8 @@ describe('flag: --help', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(stripAnsi(stdout)).toEqual(outputText);
+      stdout = stripAnsi(eraseFirstSpace(stdout));
+      expect(stdout).toEqual(outputText);
       done(err);
     }
   });
@@ -33,7 +39,8 @@ describe('flag: --help', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(stripAnsi(stdout)).toEqual(outputText);
+      stdout = stripAnsi(eraseFirstSpace(stdout));
+      expect(stdout).toEqual(outputText);
       done(err);
     }
   });
