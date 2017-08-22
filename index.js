@@ -3,12 +3,12 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
-var chalk = require('chalk');
 var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
+var ansi = require('./lib/shared/ansi');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var cliOptions = require('./lib/shared/cliOptions');
@@ -53,8 +53,8 @@ var cli = new Liftoff({
 });
 
 var usage =
-  '\n' + chalk.bold('Usage:') +
-  ' gulp ' + chalk.blue('[options]') + ' tasks';
+  '\n' + ansi.bold('Usage:') +
+  ' gulp ' + ansi.blue('[options]') + ' tasks';
 
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
@@ -63,16 +63,16 @@ var opts = parser.argv;
 toConsole(log, opts);
 
 cli.on('require', function(name) {
-  log.info('Requiring external module', chalk.magenta(name));
+  log.info('Requiring external module', ansi.magenta(name));
 });
 
 cli.on('requireFail', function(name) {
-  log.error(chalk.red('Failed to load external module'), chalk.magenta(name));
+  log.error(ansi.red('Failed to load external module'), ansi.magenta(name));
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = chalk.magenta(flags.join(', '));
-  var pid = chalk.magenta(child.pid);
+  var nodeFlags = ansi.magenta(flags.join(', '));
+  var pid = ansi.magenta(child.pid);
   log.info('Node flags detected:', nodeFlags);
   log.info('Respawned to PID:', pid);
 });
@@ -138,15 +138,15 @@ function handleArguments(env) {
 
   if (!env.modulePath) {
     log.error(
-      chalk.red('Local gulp not found in'),
-      chalk.magenta(tildify(env.cwd))
+      ansi.red('Local gulp not found in'),
+      ansi.magenta(tildify(env.cwd))
     );
-    log.error(chalk.red('Try running: npm install gulp'));
+    log.error(ansi.red('Try running: npm install gulp'));
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(chalk.red('No gulpfile found'));
+    log.error(ansi.red('No gulpfile found'));
     exit(1);
   }
 
@@ -156,7 +156,7 @@ function handleArguments(env) {
     process.chdir(env.cwd);
     log.info(
       'Working directory changed to',
-      chalk.magenta(tildify(env.cwd))
+      ansi.magenta(tildify(env.cwd))
     );
   }
 
@@ -165,7 +165,7 @@ function handleArguments(env) {
 
   if (!range) {
     return log.error(
-      chalk.red('Unsupported gulp version', env.modulePackage.version)
+      ansi.red('Unsupported gulp version', env.modulePackage.version)
     );
   }
 
