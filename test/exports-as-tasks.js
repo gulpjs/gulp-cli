@@ -6,6 +6,7 @@ var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
+var stripAnsi = require('./shared/stripAnsi');
 
 var expectedDir = path.join(__dirname, 'expected');
 
@@ -24,7 +25,7 @@ describe('exports as tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 2));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 2)));
       expect(stdout).toEqual(expected);
       done(err);
     }

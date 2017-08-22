@@ -4,6 +4,7 @@ var expect = require('expect');
 var path = require('path');
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
+var stripAnsi = require('./shared/stripAnsi');
 
 describe('config: flag.logLevel', function() {
 
@@ -14,7 +15,7 @@ describe('config: flag.logLevel', function() {
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
           expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+          expect(eraseTime(stripAnsi(stderr))).toEqual('No gulpfile found\n');
           done();
         });
     });
@@ -27,7 +28,7 @@ describe('config: flag.logLevel', function() {
         .gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
+          expect(eraseTime(stripAnsi(stdout))).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'Blacklisted plugins found in this project:\n' +
             'gulp-blink: deprecated. use \`blink` instead.\n');
@@ -44,7 +45,7 @@ describe('config: flag.logLevel', function() {
         .gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
+          expect(eraseTime(stripAnsi(stdout))).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'There are no blacklisted plugins in this project\n');
           expect(stderr).toEqual('');
@@ -63,7 +64,7 @@ describe('config: flag.logLevel', function() {
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
           expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+          expect(eraseTime(stripAnsi(stderr))).toEqual('No gulpfile found\n');
           done();
         });
     });
@@ -105,7 +106,7 @@ describe('config: flag.logLevel', function() {
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
           expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+          expect(eraseTime(stripAnsi(stderr))).toEqual('No gulpfile found\n');
           done();
         });
     });
@@ -117,7 +118,7 @@ describe('config: flag.logLevel', function() {
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
+          expect(eraseTime(stripAnsi(stdout))).toEqual(
             'Blacklisted plugins found in this project:\n' +
             'gulp-blink: deprecated. use \`blink` instead.\n');
           expect(stderr).toEqual('');
@@ -149,7 +150,7 @@ describe('config: flag.logLevel', function() {
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
           expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+          expect(eraseTime(stripAnsi(stderr))).toEqual('No gulpfile found\n');
           done();
         });
     });
@@ -161,7 +162,7 @@ describe('config: flag.logLevel', function() {
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
+          expect(eraseTime(stripAnsi(stdout))).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'Blacklisted plugins found in this project:\n' +
             'gulp-blink: deprecated. use \`blink` instead.\n');
@@ -177,7 +178,7 @@ describe('config: flag.logLevel', function() {
       gulp('--verify', packageJsonPath)
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
+          expect(eraseTime(stripAnsi(stdout))).toEqual(
             'Verifying plugins in ' + packageJsonPath + '\n' +
             'There are no blacklisted plugins in this project\n');
           expect(stderr).toEqual('');

@@ -5,6 +5,7 @@ var path = require('path');
 var fs = require('fs');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
+var stripAnsi = require('./shared/stripAnsi');
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var expectedDir = path.join(__dirname, 'expected');
@@ -24,7 +25,7 @@ describe ('config: flags.sortTasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       expected = skipLines(expected, 1);
 
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
 
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
@@ -44,7 +45,7 @@ describe ('config: flags.sortTasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       expected = skipLines(expected, 1);
 
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
 
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');

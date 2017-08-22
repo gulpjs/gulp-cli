@@ -4,6 +4,7 @@ var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var path = require('path');
+var stripAnsi = require('./shared/stripAnsi');
 
 describe('flag: --verify', function() {
 
@@ -15,7 +16,7 @@ describe('flag: --verify', function() {
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseTime(stdout);
+      stdout = eraseTime(stripAnsi(stdout));
       expect(stdout).toEqual(
         'Verifying plugins in ' +
           path.resolve('./test/fixtures/packages/invalid-package.json') +
@@ -36,7 +37,7 @@ describe('flag: --verify', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseTime(stdout);
+      stdout = eraseTime(stripAnsi(stdout));
       expect(stdout).toEqual(
         'Verifying plugins in ' +
           path.resolve('./test/fixtures/packages/valid-package.json') +
@@ -56,7 +57,7 @@ describe('flag: --verify', function() {
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseTime(stdout);
+      stdout = eraseTime(stripAnsi(stdout));
       expect(stdout).toEqual(
         'Verifying plugins in ' +
           path.resolve('./test/fixtures/packages/package.json') + '\n' +

@@ -6,6 +6,7 @@ var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
+var stripAnsi = require('./shared/stripAnsi');
 
 var expectedDir = path.join(__dirname, 'expected');
 
@@ -21,7 +22,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -39,7 +40,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'with-desc-and-flags.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -58,7 +59,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'by-unwrap-and-not-by-unwrap.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -74,7 +75,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -91,7 +92,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -108,7 +109,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -125,7 +126,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -142,7 +143,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
+      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
       expect(stdout).toEqual(expected);
       done(err);
     }
