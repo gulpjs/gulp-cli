@@ -1,6 +1,8 @@
 # http://www.appveyor.com/docs/appveyor-yml
 # http://www.appveyor.com/docs/lang/nodejs-iojs
 
+skip_branch_with_pr: true
+
 environment:
   matrix:
     # node.js
@@ -10,7 +12,7 @@ environment:
     - nodejs_version: "6"
 
 install:
-  - npm -g install npm@2
+  - npm -g install npm@4.0.1
   - set PATH=%APPDATA%\npm;%PATH%
   - ps: Install-Product node $env:nodejs_version
   - npm install
