@@ -6,7 +6,7 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('flag: --continue', function() {
 

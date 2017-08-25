@@ -7,7 +7,7 @@ var headLines = require('gulp-test-tools').headLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('flag: --require', function() {
 

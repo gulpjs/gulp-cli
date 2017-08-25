@@ -4,7 +4,7 @@ var expect = require('expect');
 var path = require('path');
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('config: flag.logLevel', function() {
 

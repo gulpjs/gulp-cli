@@ -6,7 +6,7 @@ var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var runner = require('gulp-test-tools').gulpRunner({ verbose: false }).basedir(fixturesDir);

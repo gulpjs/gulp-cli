@@ -4,7 +4,7 @@ var expect = require('expect');
 var runner = require('gulp-test-tools').gulpRunner;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var path = require('path');
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('flag: --verify', function() {
 

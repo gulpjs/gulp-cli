@@ -5,7 +5,7 @@ var runner = require('gulp-test-tools').gulpRunner;
 
 var path = require('path');
 var fs = require('fs');
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 // Erases a first space inserted by `ansi-*`.
 function eraseFirstSpace(s) {

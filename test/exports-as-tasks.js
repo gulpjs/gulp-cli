@@ -6,7 +6,7 @@ var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
-var stripAnsi = require('./shared/stripAnsi');
+var stripAnsi = require('../lib/shared/ansi').strip;
 
 var expectedDir = path.join(__dirname, 'expected');
 
