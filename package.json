@@ -42,7 +42,7 @@
     "ansi-red": "^0.1.1",
     "ansi-white": "^0.1.1",
     "archy": "^1.0.0",
-    "copy-props": "^1.4.1",
+    "copy-props": "^2.0.1",
     "fancy-log": "^1.1.0",
     "gulplog": "^1.0.0",
     "interpret": "^1.0.0",
