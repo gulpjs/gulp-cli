@@ -11,6 +11,7 @@ var findRange = require('semver-greatest-satisfied-range');
 var ansi = require('./lib/shared/ansi');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
+var makeTitle = require('./lib/shared/make-title');
 var cliOptions = require('./lib/shared/cli-options');
 var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verify-dependencies');
@@ -35,6 +36,7 @@ process.env.INIT_CWD = process.cwd();
 
 var cli = new Liftoff({
   name: 'gulp',
+  processTitle: makeTitle('gulp', process.argv.slice(2)),
   completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
