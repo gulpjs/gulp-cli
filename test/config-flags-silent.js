@@ -5,13 +5,11 @@ var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
-var stripAnsi = require('../lib/shared/ansi').strip;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
 
 describe('config: flags.silent', function() {
-
   it('Should be silent if `flags.silent` is true in .gulp.*',
   function(done) {
     runner
@@ -37,7 +35,7 @@ describe('config: flags.silent', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseLapse(eraseTime(stripAnsi(skipLines(stdout, 1))));
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Finished \'default\' after ?\n' +
@@ -46,5 +44,4 @@ describe('config: flags.silent', function() {
       done(err);
     }
   });
-
 });

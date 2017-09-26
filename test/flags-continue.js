@@ -6,10 +6,8 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
-var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('flag: --continue', function() {
-
   it('continues execution when flag is set', function(done) {
     runner({ verbose: false })
       .gulp('test4', '--continue', '--cwd ./test/fixtures/gulpfiles')
@@ -17,7 +15,7 @@ describe('flag: --continue', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-      stdout = eraseLapse(eraseTime(stripAnsi(skipLines(stdout, 2))));
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(
         'Starting \'test4\'...\n' +
         'Starting \'errorFunction\'...\n' +
@@ -26,8 +24,8 @@ describe('flag: --continue', function() {
         ''
       );
 
-      stderr = eraseLapse(eraseTime(stripAnsi(headLines(stderr, 2))));
-      expect(stripAnsi(stderr)).toEqual(
+      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      expect(stderr).toEqual(
         '\'errorFunction\' errored after ?\n' +
         'Error: Error!'
       );
@@ -43,14 +41,14 @@ describe('flag: --continue', function() {
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
       expect(stdout).toNotMatch('Starting \'anon\'');
-      stdout = eraseLapse(eraseTime(stripAnsi(skipLines(stdout, 2))));
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(
         'Starting \'test4\'...\n' +
         'Starting \'errorFunction\'...\n' +
         ''
       );
 
-      stderr = eraseLapse(eraseTime(stripAnsi(headLines(stderr, 2))));
+      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
       expect(stderr).toEqual(
         '\'errorFunction\' errored after ?\n' +
         'Error: Error!'
@@ -58,5 +56,4 @@ describe('flag: --continue', function() {
       done();
     }
   });
-
 });

@@ -5,16 +5,15 @@ var path = require('path');
 var fs = require('fs');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
-var stripAnsi = require('../lib/shared/ansi').strip;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var expectedDir = path.join(__dirname, 'expected');
-var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
+var runner = require('gulp-test-tools')
+  .gulpRunner()
+  .basedir(fixturesDir);
 
-describe ('config: flags.compactTasks', function() {
-
-  it('Should compact task lists when `flags.compactTasks` is true in .gulp.*',
-  function(done) {
+describe('config: flags.compactTasks', function() {
+  it('Should compact task lists when `flags.compactTasks` is true in .gulp.*', function(done) {
     runner
       .chdir('flags/compactTasks/t')
       .gulp('--tasks')
@@ -25,7 +24,7 @@ describe ('config: flags.compactTasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       expected = skipLines(expected, 1);
 
-      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
+      stdout = eraseTime(skipLines(stdout, 1));
 
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
@@ -33,8 +32,7 @@ describe ('config: flags.compactTasks', function() {
     }
   });
 
-  it('Should not compact task lists when `flags.compactTasks` is false in ' +
-  '.gulp.*', function(done) {
+  it('Should not compact task lists when `flags.compactTasks` is false in ' + '.gulp.*', function(done) {
     runner
       .chdir('flags/compactTasks/f')
       .gulp('--tasks')
@@ -45,12 +43,11 @@ describe ('config: flags.compactTasks', function() {
       var expected = fs.readFileSync(filepath, 'utf-8');
       expected = skipLines(expected, 1);
 
-      stdout = eraseTime(stripAnsi(skipLines(stdout, 1)));
+      stdout = eraseTime(skipLines(stdout, 1));
 
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
       done(err);
     }
   });
-
 });

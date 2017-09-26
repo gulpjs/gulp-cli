@@ -7,10 +7,8 @@ var headLines = require('gulp-test-tools').headLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
-var stripAnsi = require('../lib/shared/ansi').strip;
 
 describe('flag: --require', function() {
-
   it('requires module before running gulpfile', function(done) {
     runner({ verbose: false })
       .gulp('--require ../test-module.js', '--cwd ./test/fixtures/gulpfiles')
@@ -22,7 +20,7 @@ describe('flag: --require', function() {
       var insideLog = headLines(stdout, 1);
       expect(insideLog).toEqual('inside test module');
 
-      var requireLog = eraseTime(stripAnsi(headLines(stdout, 1, 1)));
+      var requireLog = eraseTime(headLines(stdout, 1, 1));
       expect(requireLog).toEqual(
         'Requiring external module ../test-module.js');
 
@@ -31,7 +29,7 @@ describe('flag: --require', function() {
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      stdout = eraseLapse(eraseTime(stripAnsi(skipLines(stdout, 4))));
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 4)));
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
@@ -58,7 +56,7 @@ describe('flag: --require', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      stderr = eraseLapse(eraseTime(stripAnsi(stderr)));
+      stderr = eraseLapse(eraseTime(stderr));
       expect(stderr).toMatch('Failed to load external module ./null-module.js');
       expect(stdout).toNotMatch('inside test module');
       expect(stdout).toNotMatch(
@@ -69,7 +67,7 @@ describe('flag: --require', function() {
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      stdout = eraseLapse(eraseTime(stripAnsi(skipLines(stdout, 2))));
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
@@ -92,5 +90,4 @@ describe('flag: --require', function() {
       done(err);
     }
   });
-
 });
