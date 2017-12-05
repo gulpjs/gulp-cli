@@ -8,17 +8,17 @@ environment:
     - nodejs_version: "0.12"
     - nodejs_version: "4"
     - nodejs_version: "6"
+    - nodejs_version: "8"
 
 install:
-  - npm -g install npm@2
-  - set PATH=%APPDATA%\npm;%PATH%
+  - npm install -g npm@^3
   - ps: Install-Product node $env:nodejs_version
   - npm install
 
 test_script:
   - node --version
   - npm --version
-  - npm test
+  - cmd: npm test
 
 build: off
 
