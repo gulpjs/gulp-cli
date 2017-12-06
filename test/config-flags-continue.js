@@ -11,7 +11,6 @@ var fixturesDir = path.join(__dirname, 'fixtures/config');
 var runner = require('gulp-test-tools').gulpRunner({ verbose: false }).basedir(fixturesDir);
 
 describe('config: flags.continue', function() {
-
   it('Should continue if `flags.continue` is true in .gulp.*',
   function(done) {
     runner
@@ -63,5 +62,4 @@ describe('config: flags.continue', function() {
       done();
     }
   });
-
 });

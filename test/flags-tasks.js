@@ -10,7 +10,6 @@ var runner = require('gulp-test-tools').gulpRunner;
 var expectedDir = path.join(__dirname, 'expected');
 
 describe('flag: --tasks', function() {
-
   it('prints the task list', function(done) {
     runner({ verbose: false })
       .gulp('--tasks --sort-tasks --cwd ./test/fixtures/gulpfiles')
@@ -29,9 +28,12 @@ describe('flag: --tasks', function() {
 
   it('print the task list with description and flags', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks', '--sort-tasks',
+      .gulp(
+        '--tasks',
+        '--sort-tasks',
         '--gulpfile ./test/fixtures/gulpfiles/with-desc-and-flags.js',
-        '--cwd ./test/fixtures')
+        '--cwd ./test/fixtures'
+      )
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -45,12 +47,14 @@ describe('flag: --tasks', function() {
     }
   });
 
-  it('print the task list by gulp.task(s).unwrap and gulp.task(s)',
-  function(done) {
+  it('print the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks', '--sort-tasks',
+      .gulp(
+        '--tasks',
+        '--sort-tasks',
         '--gulpfile ./test/fixtures/gulpfiles/by-unwrap-and-not-by-unwrap.js',
-        '--cwd ./test/fixtures')
+        '--cwd ./test/fixtures'
+      )
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -82,8 +86,7 @@ describe('flag: --tasks', function() {
 
   it('prints the task list with --sort-tasks flag', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
-        '--sort-tasks')
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js', '--sort-tasks')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -99,8 +102,7 @@ describe('flag: --tasks', function() {
 
   it('prints the task list with --tasks-depth flag', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
-        '--tasks-depth 4')
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js', '--tasks-depth 4')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -116,8 +118,7 @@ describe('flag: --tasks', function() {
 
   it('prints the task list with --depth flag', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
-        '--depth 4')
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js', '--depth 4')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -133,8 +134,7 @@ describe('flag: --tasks', function() {
 
   it('prints the task list with --compact-tasks flag', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
-        '--compact-tasks')
+      .gulp('--tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js', '--compact-tasks')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -147,5 +147,4 @@ describe('flag: --tasks', function() {
       done(err);
     }
   });
-
 });

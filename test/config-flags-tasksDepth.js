@@ -8,12 +8,12 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var expectedDir = path.join(__dirname, 'expected');
-var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
+var runner = require('gulp-test-tools')
+  .gulpRunner()
+  .basedir(fixturesDir);
 
-describe ('config: flags.tasksDepth', function() {
-
-  it('Should limit depth of task list when `flags.tasksDepth` is ' +
-  'specified', function(done) {
+describe('config: flags.tasksDepth', function() {
+  it('Should limit depth of task list when `flags.tasksDepth` is ' + 'specified', function(done) {
     runner
       .chdir('flags/tasksDepth')
       .gulp('--tasks')
@@ -31,5 +31,4 @@ describe ('config: flags.tasksDepth', function() {
       done(err);
     }
   });
-
 });

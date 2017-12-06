@@ -15,8 +15,7 @@ describe('exports as tasks', function() {
 
   it('prints the task list', function(done) {
     runner({ verbose: false })
-      .gulp('--tasks', '--sort-tasks',
-        '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
+      .gulp('--tasks', '--sort-tasks', '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
       .run(cb);
 
     function cb(err, stdout) {
@@ -30,5 +29,4 @@ describe('exports as tasks', function() {
       done(err);
     }
   });
-
 });

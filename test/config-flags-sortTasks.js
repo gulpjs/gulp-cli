@@ -8,12 +8,12 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var expectedDir = path.join(__dirname, 'expected');
-var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
+var runner = require('gulp-test-tools')
+  .gulpRunner()
+  .basedir(fixturesDir);
 
-describe ('config: flags.sortTasks', function() {
-
-  it('Should sort top tasks in task list when `flags.sortTasks` is true in ' +
-  '.gulp.*', function(done) {
+describe('config: flags.sortTasks', function() {
+  it('Should sort top tasks in task list when `flags.sortTasks` is true in ' + '.gulp.*', function(done) {
     runner
       .chdir('flags/sortTasks/t')
       .gulp('--tasks')
@@ -32,8 +32,7 @@ describe ('config: flags.sortTasks', function() {
     }
   });
 
-  it('Should sort top tasks in task list when `flags.sortTasks` is false in ' +
-  '.gulp.*', function(done) {
+  it('Should sort top tasks in task list when `flags.sortTasks` is false in ' + '.gulp.*', function(done) {
     runner
       .chdir('flags/sortTasks/f')
       .gulp('--tasks')
@@ -51,5 +50,4 @@ describe ('config: flags.sortTasks', function() {
       done(err);
     }
   });
-
 });

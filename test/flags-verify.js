@@ -6,7 +6,6 @@ var eraseTime = require('gulp-test-tools').eraseTime;
 var path = require('path');
 
 describe('flag: --verify', function() {
-
   it('dependencies with invalid dependency', function(done) {
     runner({ verbose: false })
       .gulp('--verify invalid-package.json', '--cwd ./test/fixtures/packages/')
@@ -20,9 +19,9 @@ describe('flag: --verify', function() {
         'Verifying plugins in ' +
           path.resolve('./test/fixtures/packages/invalid-package.json') +
           '\n' +
-        'Blacklisted plugins found in this project:\n' +
-        'gulp-blink: deprecated. use `blink` instead.\n' +
-        ''
+          'Blacklisted plugins found in this project:\n' +
+          'gulp-blink: deprecated. use `blink` instead.\n' +
+          ''
       );
       done();
     }
@@ -41,8 +40,8 @@ describe('flag: --verify', function() {
         'Verifying plugins in ' +
           path.resolve('./test/fixtures/packages/valid-package.json') +
           '\n' +
-        'There are no blacklisted plugins in this project\n' +
-        ''
+          'There are no blacklisted plugins in this project\n' +
+          ''
       );
       done(err);
     }
@@ -59,13 +58,13 @@ describe('flag: --verify', function() {
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
-          path.resolve('./test/fixtures/packages/package.json') + '\n' +
-        'Blacklisted plugins found in this project:\n' +
-        'gulp-blink: deprecated. use `blink` instead.\n' +
-        ''
+          path.resolve('./test/fixtures/packages/package.json') +
+          '\n' +
+          'Blacklisted plugins found in this project:\n' +
+          'gulp-blink: deprecated. use `blink` instead.\n' +
+          ''
       );
       done();
     }
   });
-
 });

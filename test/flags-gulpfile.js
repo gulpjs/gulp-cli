@@ -9,7 +9,6 @@ var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
 
 describe('flag: --gulpfile', function() {
-
   it('Manually set path of gulpfile', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
@@ -25,7 +24,6 @@ describe('flag: --gulpfile', function() {
       var workdir = path.dirname(gulpfilePath).replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
-
       stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
@@ -38,5 +36,4 @@ describe('flag: --gulpfile', function() {
       done(err);
     }
   });
-
 });

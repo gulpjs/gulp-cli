@@ -10,7 +10,6 @@ var fixturesDir = path.join(__dirname, 'fixtures/config');
 var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
 
 describe('config: flags.silent', function() {
-
   it('Should be silent if `flags.silent` is true in .gulp.*',
   function(done) {
     runner
@@ -45,5 +44,4 @@ describe('config: flags.silent', function() {
       done(err);
     }
   });
-
 });

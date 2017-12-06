@@ -8,7 +8,6 @@ var skipLines = require('gulp-test-tools').skipLines;
 var headLines = require('gulp-test-tools').headLines;
 
 describe('flag: --continue', function() {
-
   it('continues execution when flag is set', function(done) {
     runner({ verbose: false })
       .gulp('test4', '--continue', '--cwd ./test/fixtures/gulpfiles')
@@ -57,5 +56,4 @@ describe('flag: --continue', function() {
       done();
     }
   });
-
 });

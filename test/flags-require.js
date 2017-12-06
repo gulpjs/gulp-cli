@@ -9,7 +9,6 @@ var eraseLapse = require('gulp-test-tools').eraseLapse;
 var path = require('path');
 
 describe('flag: --require', function() {
-
   it('requires module before running gulpfile', function(done) {
     runner({ verbose: false })
       .gulp('--require ../test-module.js', '--cwd ./test/fixtures/gulpfiles')
@@ -91,5 +90,4 @@ describe('flag: --require', function() {
       done(err);
     }
   });
-
 });
