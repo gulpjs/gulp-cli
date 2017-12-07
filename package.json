@@ -44,8 +44,8 @@
     "matchdep": "^2.0.0",
     "mute-stdout": "^1.0.0",
     "pretty-hrtime": "^1.0.0",
+    "replace-homedir": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.0.0",
-    "tildify": "^1.0.0",
     "v8flags": "^2.0.9",
     "wreck": "^6.3.0",
     "yargs": "^7.1.0"
