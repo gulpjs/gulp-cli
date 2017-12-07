@@ -35,6 +35,7 @@
     "archy": "^1.0.0",
     "array-sort": "^1.0.0",
     "chalk": "^1.1.0",
+    "concat-stream": "^1.6.0",
     "copy-props": "^2.0.1",
     "fancy-log": "^1.1.0",
     "gulplog": "^1.0.0",
@@ -47,7 +48,6 @@
     "replace-homedir": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.0.0",
     "v8flags": "^3.0.1",
-    "wreck": "^6.3.0",
     "yargs": "^7.1.0"
   },
   "devDependencies": {
