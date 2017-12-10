@@ -6,11 +6,6 @@ var runner = require('gulp-test-tools').gulpRunner;
 var path = require('path');
 var fs = require('fs');
 
-// Erases a first space inserted by `chalk`.
-function eraseFirstSpace(s) {
-  return s.replace(/^(\r\n|\n|\r)\s?/g, '\n');
-}
-
 var outputFile = path.join(__dirname, 'expected/flags-help.txt');
 var outputText = fs.readFileSync(outputFile, 'utf8');
 
@@ -24,7 +19,6 @@ describe('flag: --help', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
     }
@@ -38,7 +32,6 @@ describe('flag: --help', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
     }

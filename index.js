@@ -3,13 +3,13 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
-var chalk = require('chalk');
 var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
 var exit = require('./lib/shared/exit');
+var color = require('./lib/shared/colorize');
 var tildify = require('./lib/shared/tildify');
 var cliOptions = require('./lib/shared/cliOptions');
 var completion = require('./lib/shared/completion');
@@ -53,26 +53,31 @@ var cli = new Liftoff({
 });
 
 var usage =
-  '\n' + chalk.bold('Usage:') +
-  ' gulp ' + chalk.blue('[options]') + ' tasks';
+  '\n' + color.helpUsage('Usage:') +
+  ' gulp ' + color.helpOptions('[options]') + ' tasks';
 
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
+// TODO: Better configure method?
+color.configure(opts.color);
 
 // Set up event listeners for logging temporarily.
 toConsole(log, opts);
 
 cli.on('require', function(name) {
-  log.info('Requiring external module', chalk.magenta(name));
+  log.info('Requiring external module', color.highlight(name));
 });
 
 cli.on('requireFail', function(name) {
-  log.error(chalk.red('Failed to load external module'), chalk.magenta(name));
+  log.error(
+    color.error('Failed to load external module'),
+    color.highlight(name)
+  );
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = chalk.magenta(flags.join(', '));
-  var pid = chalk.magenta(child.pid);
+  var nodeFlags = color.highlight(flags.join(', '));
+  var pid = color.highlight(child.pid);
   log.info('Node flags detected:', nodeFlags);
   log.info('Respawned to PID:', pid);
 });
@@ -138,15 +143,15 @@ function handleArguments(env) {
 
   if (!env.modulePath) {
     log.error(
-      chalk.red('Local gulp not found in'),
-      chalk.magenta(tildify(env.cwd))
+      color.error('Local gulp not found in'),
+      color.highlight(tildify(env.cwd))
     );
-    log.error(chalk.red('Try running: npm install gulp'));
+    log.error(color.error('Try running: npm install gulp'));
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(chalk.red('No gulpfile found'));
+    log.error(color.error('No gulpfile found'));
     exit(1);
   }
 
@@ -156,7 +161,7 @@ function handleArguments(env) {
     process.chdir(env.cwd);
     log.info(
       'Working directory changed to',
-      chalk.magenta(tildify(env.cwd))
+      color.highlight(tildify(env.cwd))
     );
   }
 
@@ -165,7 +170,7 @@ function handleArguments(env) {
 
   if (!range) {
     return log.error(
-      chalk.red('Unsupported gulp version', env.modulePackage.version)
+      color.error('Unsupported gulp version', env.modulePackage.version)
     );
   }
 

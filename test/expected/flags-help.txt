@@ -26,7 +26,8 @@ Options:
                           only top tasks and their child tasks.        [boolean]
   --sort-tasks            Will sort top tasks of task dependency tree. [boolean]
   --color                 Will force gulp and gulp plugins to display colors,
-                          even when no color support is detected.      [boolean]
+                          even when no color support is detected.
+                                                       [boolean] [default: true]
   --no-color              Will force gulp and gulp plugins to not display
                           colors, even when color support is detected. [boolean]
   --silent, -S            Suppress all gulp logging.                   [boolean]
