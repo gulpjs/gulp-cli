@@ -11,12 +11,12 @@ var findRange = require('semver-greatest-satisfied-range');
 var ansi = require('./lib/shared/ansi');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
-var cliOptions = require('./lib/shared/cliOptions');
+var cliOptions = require('./lib/shared/cli-options');
 var completion = require('./lib/shared/completion');
-var verifyDeps = require('./lib/shared/verifyDependencies');
+var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
-var getBlacklist = require('./lib/shared/getBlacklist');
-var toConsole = require('./lib/shared/log/toConsole');
+var getBlacklist = require('./lib/shared/get-blacklist');
+var toConsole = require('./lib/shared/log/to-console');
 
 var loadConfigFiles = require('./lib/shared/config/load-files');
 var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
@@ -24,7 +24,7 @@ var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
-var logBlacklistError = require('./lib/shared/log/blacklistError');
+var logBlacklistError = require('./lib/shared/log/blacklist-error');
 
 // Get supported ranges
 var ranges = fs.readdirSync(__dirname + '/lib/versioned/');
