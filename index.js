@@ -33,8 +33,10 @@ var ranges = fs.readdirSync(__dirname + '/lib/versioned/');
 // before anything touches it
 process.env.INIT_CWD = process.cwd();
 
+var cmdArgs = process.argv.slice(2);
 var cli = new Liftoff({
   name: 'gulp',
+  processTitle: ['gulp'].concat(cmdArgs).join(' '),
   completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
