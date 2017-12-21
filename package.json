@@ -28,8 +28,7 @@
     "pretest": "npm run lint",
     "test": "mocha --async-only --timeout 5000 test/lib test",
     "cover": "nyc --reporter=lcov --reporter=text-summary npm test",
-    "coveralls": "nyc --reporter=text-lcov npm test | coveralls",
-    "changelog": "github-changes -o gulpjs -r gulp-cli -b master -f ./CHANGELOG.md --order-semver --use-commit-body"
+    "coveralls": "nyc --reporter=text-lcov npm test | coveralls"
   },
   "dependencies": {
     "ansi-colors": "^1.0.1",
@@ -58,7 +57,6 @@
     "eslint": "^1.7.3",
     "eslint-config-gulp": "^2.0.0",
     "expect": "^1.20.2",
-    "github-changes": "^1.0.1",
     "gulp": "gulpjs/gulp#4.0",
     "gulp-test-tools": "^0.6.1",
     "jscs": "^2.3.5",
