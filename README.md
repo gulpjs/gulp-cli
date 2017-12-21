@@ -57,11 +57,7 @@ If more than one task is listed, Gulp will execute all of them
 concurrently, that is, as if they had all been listed as dependencies of
 a single task.
 
-Gulp does not serialize tasks listed on the command line. From using
-other comparable tools users may expect to execute something like
-`gulp clean build`, with tasks named `clean` and `build`. This will not
-produce the intended result, as the two tasks will be executed
-concurrently.
+By default, Gulp does not serialize tasks listed on the command line. If you would like to execute tasks serially, you must specify the `--series` flag. e.g. `gulp clean build --series`
 
 Just running `gulp` will execute the task `default`. If there is no
 `default` task, gulp will error.
@@ -225,11 +221,8 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
 
 MIT
 
-[gittip-url]: https://www.gittip.com/WeAreFractal/
-[gittip-image]: http://img.shields.io/gittip/WeAreFractal.svg
-
 [downloads-image]: http://img.shields.io/npm/dm/gulp-cli.svg
-[npm-url]: https://npmjs.org/package/gulp-cli
+[npm-url]: https://www.npmjs.com/package/gulp-cli
 [npm-image]: http://img.shields.io/npm/v/gulp-cli.svg
 
 [travis-url]: https://travis-ci.org/gulpjs/gulp-cli
@@ -242,4 +235,4 @@ MIT
 [coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp-cli/master.svg
 
 [gitter-url]: https://gitter.im/gulpjs/gulp
-[gitter-image]: https://badges.gitter.im/gulpjs/gulp.png
+[gitter-image]: https://badges.gitter.im/gulpjs/gulp.svg

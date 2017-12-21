@@ -9,11 +9,7 @@ If more than one task is listed, Gulp will execute all of them
 concurrently, that is, as if they had all been listed as dependencies of
 a single task.
 
-Gulp does not serialize tasks listed on the command line. From using
-other comparable tools users may expect to execute something like
-`gulp clean build`, with tasks named `clean` and `build`. This will not
-produce the intended result, as the two tasks will be executed
-concurrently.
+By default, Gulp does not serialize tasks listed on the command line. If you would like to execute tasks serially, you must specify the `--series` flag. e.g. `gulp clean build --series`
 
 Just running `gulp` will execute the task `default`. If there is no
 `default` task, gulp will error.
@@ -41,7 +37,7 @@ gulp has very few flags to know about. All other flags are for tasks to use if n
 **--require** [path]
     Will require a module before running the gulpfile. This is useful for transpilers but also has other applications.
 
-**--gulpfile** [path]
+**--gulpfile** [path], **-f** [path]
     Manually set path of gulpfile. Useful if you have multiple gulpfiles. This will set the CWD to the gulpfile directory as well.
 
 **--cwd** [path]
@@ -79,6 +75,9 @@ gulp has very few flags to know about. All other flags are for tasks to use if n
 
 **--continue**
     Continue execution of tasks upon failure.
+
+**--series**
+    Run tasks given on the CLI in series (the default is parallel).
 
 **--log-level**, **-L**
     Set the loglevel. -L for least verbose and -LLLL for most verbose. -LLL is default.
