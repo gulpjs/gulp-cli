@@ -25,4 +25,6 @@ gulp-cli/test/fixtures/gulpfiles
 │   ├── errorFunction
 │   └── anon
 ├── test5
-└── test6
+├── test6
+├── test7
+└── test8
