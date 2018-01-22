@@ -1,28 +1,21 @@
 'use strict';
 
 var expect = require('expect');
-var Semver = require('sver-compat').Semver;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
 
 
-function nodeDoesNotNodeSupportExitCode() {
-  var currentVersion = new Semver(process.versions.node);
-  var minimalVersion = new Semver('0.11.0');
-  return currentVersion.lt(minimalVersion);
-}
-
 describe('sync-task', function() {
   it('should return error code 1 if any tasks did not complete', function(done) {
-    var this_ = this;
+    // The exit code is set to 1 by setting process.exitCode = 1 which is only supported from nodejs 0.11 on
+    if (process.version.slice(0, 5) === 'v0.10') {
+      this.skip();
+    }
+
     runner({ verbose: false })
       .chdir('test/fixtures/gulpfiles')
       .gulp('test6 test7 test8')
       .run(function(err) {
-        if (nodeDoesNotNodeSupportExitCode()) {
-          // The exit code is set to 1 by setting process.exitCode = 1 which is only supported from nodejs 0.11 on
-          this_.skip();
-        }
         expect(err).toNotEqual(null);
         expect(err.code).toEqual(1);
         done();
