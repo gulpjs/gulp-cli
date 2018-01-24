@@ -19,13 +19,13 @@ describe('exports as tasks', function() {
         '--gulpfile ./test/fixtures/gulpfiles/gulpfile-exports.babel.js')
       .run(cb);
 
-    function cb(err, stdout) {
+    function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      // Skipping stderr expectation because babel broke node 0.10
-      // expect(stderr).toEqual('');
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      stdout = eraseTime(skipLines(stdout, 2));
+      // Remove babel/register lines
+      stdout = eraseTime(skipLines(stdout, 3));
       expect(stdout).toEqual(expected);
       done(err);
     }
