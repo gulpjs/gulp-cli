@@ -139,11 +139,23 @@ function handleArguments(env) {
   }
 
   if (!env.modulePath) {
+    var missingNodeModules =
+      fs.existsSync(path.join(env.cwd, 'package.json'))
+      && !fs.existsSync(path.join(env.cwd, 'node_modules'));
+
+    var missingGulpMessage =
+      missingNodeModules
+        ? 'Local modules not found in'
+        : 'Local gulp not found in';
     log.error(
-      ansi.red('Local gulp not found in'),
+      ansi.red(missingGulpMessage),
       ansi.magenta(tildify(env.cwd))
     );
-    log.error(ansi.red('Try running: npm install gulp'));
+    var installCommand =
+      missingNodeModules
+        ? 'npm install'
+        : 'npm install gulp';
+    log.error(ansi.red('Try running: ' + installCommand));
     exit(1);
   }
 
