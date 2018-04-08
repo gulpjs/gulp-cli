@@ -19,7 +19,6 @@ describe('flag: --tasks-json', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = skipLines(stdout, 1);
       expect(JSON.parse(stdout)).toEqual(expected);
       done(err);
     }
