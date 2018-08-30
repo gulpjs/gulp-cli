@@ -1,0 +1,5 @@
+{
+  "flags": {
+    "proxy": "http://localhost:8881"
+  }
+}

@@ -135,7 +135,8 @@ function handleArguments(env) {
       pkgPath = path.join(env.cwd, pkgPath);
     }
     log.info('Verifying plugins in ' + pkgPath);
-    return getBlacklist(function(err, blacklist) {
+    var proxyConfig = env.configProps.flags ? env.configProps.flags.proxy : undefined;
+    return getBlacklist(proxyConfig, function(err, blacklist) {
       /* istanbul ignore if */
       if (err) {
         return logBlacklistError(err);
