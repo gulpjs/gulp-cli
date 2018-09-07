@@ -73,29 +73,60 @@ describe('flag: --verify', function() {
     }
   });
 
-  it('proxy: dependencies with valid dependency', function(done) {
-    var proxyServer = createProxyServer(proxyPort);
-    proxyServer.on('listening', function() {
-      testProxyImplementation(function(err, stdout, stderr) {
-        proxyServer.close();
+  describe('proxy with mock proxy server', function() {
+    var proxyServer;
 
-        expect(err).toEqual(null);
+    before(function(done) {
+      proxyServer = createProxyServerNew();
+      proxyServer.listen(proxyPort, function() {
+        done();
+      });
+    });
+
+    after(function(done) {
+      proxyServer.once('close', function() {
+        done();
+      });
+      proxyServer.close();
+    });
+
+    it('proxy config with url', function(done) {
+      testProxyImplementation('proxy-url', function(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
         expect(stderr).toEqual('');
         stdout = eraseTime(stdout);
         expect(stdout).toEqual(
           'Verifying plugins in ' +
-            path.resolve('./test/fixtures/packages/valid-package.json') +
+            path.resolve('./test/fixtures/verify/invalid-package.json') +
             '\n' +
-          'There are no blacklisted plugins in this project\n' +
-          ''
-        );
+            'Blacklisted plugins found in this project:\n' +
+            'gulp-blink: deprecated. use `blink` instead.\n' +
+            ''
+            );
+        done();
+      });
+    });
+
+    it('proxy config with object', function(done) {
+      testProxyImplementation('proxy-object', function(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
+        expect(stderr).toEqual('');
+        stdout = eraseTime(stdout);
+        expect(stdout).toEqual(
+          'Verifying plugins in ' +
+            path.resolve('./test/fixtures/verify/invalid-package.json') +
+            '\n' +
+            'Blacklisted plugins found in this project:\n' +
+            'gulp-blink: deprecated. use `blink` instead.\n' +
+            ''
+            );
         done();
       });
     });
   });
 
-  it('proxy: proxy server not reachable', function(done) {
-    testProxyImplementation(function(err, stdout, stderr) {
+  it('proxy server not reachable', function(done) {
+    testProxyImplementation('proxy-url', function(err, stdout, stderr) {
       expect(err).toNotEqual(null);
 
       // Stderr is expected to contain " 127.0.0.1:8881\n" if node >= 4
@@ -108,47 +139,61 @@ describe('flag: --verify', function() {
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
-          path.resolve('./test/fixtures/packages/valid-package.json') +
+          path.resolve('./test/fixtures/verify/invalid-package.json') +
           '\n'
       );
       done();
     });
   });
 
-  function testProxyImplementation(cb) {
+  function testProxyImplementation(proxyFixture, cb) {
+    if (proxyFixture !== 'proxy-object' && proxyFixture !== 'proxy-url') {
+      assert.fail('invalid value for parameter "proxyFixture" (expected "proxy-object" or "proxy-url", but got ' + proxyFixture + ')');
+    }
     runner({ verbose: false })
-      .gulp('--verify ../../../packages/valid-package.json', '--cwd ./test/fixtures/config/flags/proxy/')
+      .gulp('--verify ../../../verify/invalid-package.json', '--cwd ./test/fixtures/config/flags/' + proxyFixture + '/')
       .run(cb);
   }
 
-  function createProxyServer(proxyPort) {
-    var proxy = http.createServer(function() {
-      assert.fail('could not start proxy server');
+  function createProxyServerNew() {
+    var proxy = http.createServer(function(req, res) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end('okay');
+    });
+
+    proxy.on('connection', function(socket) {
+      socket.on('error', function() {
+        // ECONNRESET happens on node 10
+        // -> ignore it, because it only happens during the unittests
+        // it might be some implementation issue with the mock proxy implementation
+      });
     });
 
     proxy.on('connect', onConnect);
     proxy.on('error', onError);
 
-    function onConnect(req, clientSocket, head) {
+    function onConnect(req, cltSocket, head) {
 
       expect(req.method).toBe('CONNECT');
       expect(req.url).toEqual('gulpjs.com:443');
 
-      var serverSocket = net.connect(443, 'gulpjs.com', function() {
-        clientSocket.write('HTTP/1.1 200 Connection established\r\n\r\n');
-        clientSocket.pipe(serverSocket);
-        serverSocket.write(head);
-        serverSocket.pipe(clientSocket);
+      var srvSocket = net.connect(443, 'gulpjs.com', function() {
+        cltSocket.write('HTTP/1.1 200 Connection Established\r\n' +
+                        'Proxy-agent: Node.js-Proxy\r\n' +
+                        '\r\n');
+        srvSocket.write(head);
+        srvSocket.pipe(cltSocket);
+        cltSocket.pipe(srvSocket);
       });
 
-      serverSocket.on('error', onError);
+      srvSocket.on('error', function(error) {
+        assert.fail('error in srvSocket (' + JSON.stringify(error) + ')');
+      });
     }
 
     function onError(error) {
       assert.fail('could not start proxy server (' + JSON.stringify(error) + ')');
     }
-
-    proxy.listen(proxyPort);
 
     return proxy;
   }

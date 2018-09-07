@@ -1,0 +1,8 @@
+{
+  "flags": {
+    "proxy": {
+      "host": "localhost",
+      "port": "8881"
+    }
+  }
+}

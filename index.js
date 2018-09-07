@@ -1,5 +1,8 @@
 'use strict';
 
+// Patch https.get for https-proxy-agent:1.0.0 to work also on nodejs 10
+require('./patch-core');
+
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
