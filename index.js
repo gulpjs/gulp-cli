@@ -68,8 +68,9 @@ cli.on('require', function(name) {
   log.info('Requiring external module', ansi.magenta(name));
 });
 
-cli.on('requireFail', function(name) {
-  log.warn(ansi.yellow('Failed to load external module'), ansi.magenta(name));
+cli.on('requireFail', function(name, error) {
+  var message = name + (error ? ' [' + error + ']' : '');
+  log.warn(ansi.yellow('Failed to load external module'), ansi.magenta(message));
 });
 
 cli.on('respawn', function(flags, child) {
