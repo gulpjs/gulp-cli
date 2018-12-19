@@ -90,4 +90,42 @@ describe('flag: --require', function() {
     }
   });
 
+  it('warns if module throw some error', function(done) {
+    runner({ verbose: false })
+      .gulp('--require ../test-error-module.js', '--cwd ./test/fixtures/gulpfiles')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      stdout = eraseLapse(eraseTime(stdout));
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(stdout).toMatch('Failed to load external module ../test-error-module.js [Error: from error module]');
+      expect(stdout).toNotMatch('inside error module');
+
+      var chgWorkdirLog = headLines(stdout, 2);
+      var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
+      expect(chgWorkdirLog).toMatch('Working directory changed to ');
+      expect(chgWorkdirLog).toMatch(workdir);
+
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 3)));
+      expect(stdout).toEqual(
+        'Starting \'default\'...\n' +
+         'Starting \'test1\'...\n' +
+          'Starting \'noop\'...\n' +
+          'Finished \'noop\' after ?\n' +
+         'Finished \'test1\' after ?\n' +
+         'Starting \'test3\'...\n' +
+          'Starting \'described\'...\n' +
+          'Finished \'described\' after ?\n' +
+         'Finished \'test3\' after ?\n' +
+         'Starting \'noop\'...\n' +
+         'Finished \'noop\' after ?\n' +
+        'Finished \'default\' after ?\n' +
+        ''
+      );
+
+      done(err);
+    }
+  });
+
 });

@@ -70,7 +70,10 @@ cli.on('require', function(name) {
 
 cli.on('requireFail', function(name, error) {
   var message = name + (error ? ' [' + error + ']' : '');
-  log.warn(ansi.yellow('Failed to load external module'), ansi.magenta(message));
+  log.warn(
+    ansi.yellow('Failed to load external module'),
+    ansi.magenta(message)
+  );
 });
 
 cli.on('respawn', function(flags, child) {
