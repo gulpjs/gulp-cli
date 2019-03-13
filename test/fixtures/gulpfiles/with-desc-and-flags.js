@@ -7,7 +7,7 @@ clean.description = 'Delete dist folder';
 gulp.task(clean);
 
 gulp.task('scripts', scripts);
-function scripts() {};
+function scripts() {}
 scripts.description = 'Bundles JavaScript';
 
 var styles = function() {};
@@ -24,13 +24,13 @@ build.flags = {
 gulp.task('build', build);
 
 gulp.task('serve', serve);
-function serve() {};
+function serve() {}
 serve.description = 'Serves files reloading';
 serve.flags = {
   '--lr': 'with live reloading',
 };
 
-function watch() {};
+function watch() {}
 gulp.task('watch', watch);
 watch.description = 'Watch files and build on change';
 
