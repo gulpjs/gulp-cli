@@ -108,6 +108,7 @@ Supported configurations properties:
 | flags.gulpfile     | Set a default gulpfile |
 | flags.silent       | Silence logging by default |
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
+| flags.require      | An array of modules to require before running the gulpfile. |
 
 ## Flags
 
