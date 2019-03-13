@@ -28,15 +28,15 @@ describe('lib: taskTree', function() {
           label: 'test',
           type: 'task',
           nodes: [
-            { label: 'dep1', type: 'task', nodes: [], },
-            { label: 'dep2', type: 'task', nodes: [], },
+            { label: 'dep1', type: 'task', nodes: [] },
+            { label: 'dep2', type: 'task', nodes: [] },
           ],
         },
         {
           label: 'test2',
           type: 'task',
           nodes: [
-            { label: 'dep3', type: 'task', nodes: [], },
+            { label: 'dep3', type: 'task', nodes: [] },
           ],
         },
         {

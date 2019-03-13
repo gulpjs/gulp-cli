@@ -6,7 +6,6 @@ var path = require('path');
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var eraseLapse = require('gulp-test-tools').eraseLapse;
-var runner = require('gulp-test-tools').gulpRunner;
 
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 var runner = require('gulp-test-tools').gulpRunner({ verbose: false }).basedir(fixturesDir);
