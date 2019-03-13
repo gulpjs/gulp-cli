@@ -25,7 +25,7 @@ describe('exports as tasks', function() {
       var filepath = path.join(expectedDir, 'tasks-as-exports.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       // Remove babel/register lines
-      stdout = eraseTime(skipLines(stdout, 4));
+      stdout = eraseTime(skipLines(stdout, 2));
       expect(stdout).toEqual(expected);
       done(err);
     }
