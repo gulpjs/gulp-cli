@@ -100,11 +100,14 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(eraseTime(stdout)).toEqual(
-        'Requiring external module babel-register\n' +
-        'clean!\n' +
-        'build!\n' +
-      '');
+
+      var requiring = eraseTime(headLines(stdout, 1));
+      expect(requiring).toEqual('Requiring external module babel-register');
+      var clean = eraseTime(headLines(stdout, 1, 4));
+      expect(clean).toEqual('clean!');
+      var build = eraseTime(headLines(stdout, 1, 7));
+      expect(build).toEqual('build!');
+
       done(err);
     }
   });

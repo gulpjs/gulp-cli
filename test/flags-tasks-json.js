@@ -47,4 +47,16 @@ describe('flag: --tasks-json', function() {
     }
   });
 
+  it('avoids printing "Requiring external module *"', function(done) {
+    runner({ verbose: false })
+      .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(JSON.parse(stdout)).toEqual(expected);
+      done(err);
+    }
+  });
 });
