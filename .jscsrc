@@ -1,4 +1,0 @@
-{
-  "preset": "gulp",
-  "excludeFiles": ["**/*.babel.js"]
-}
