@@ -23,7 +23,7 @@
     "gulp.1"
   ],
   "scripts": {
-    "lint": "eslint . && jscs index.js bin/ lib/ test/",
+    "lint": "eslint .",
     "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
     "test": "mocha --async-only --timeout 5000 test/lib test",
@@ -59,8 +59,6 @@
     "expect": "^1.20.2",
     "gulp": "^4.0.0",
     "gulp-test-tools": "^0.6.1",
-    "jscs": "^3.0.7",
-    "jscs-preset-gulp": "^1.0.0",
     "marked-man": "^0.2.1",
     "mocha": "^3.2.0",
     "nyc": "^13.3.0",
