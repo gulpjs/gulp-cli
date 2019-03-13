@@ -6,6 +6,7 @@ var path = require('path');
 var fixturesDir = path.join(__dirname, 'fixtures/config');
 
 var headLines = require('gulp-test-tools').headLines;
+var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
 
 describe('config: flags.gulpfile', function() {
@@ -84,6 +85,26 @@ describe('config: flags.gulpfile', function() {
         'Another gulpfile : ' +
           path.join(fixturesDir, 'flags/gulpfile/cwd/gulpfile.js')
       );
+      done(err);
+    }
+  });
+
+  it('Should autoload a module for loading a specified gulpfile', function(done) {
+    this.timeout(0);
+
+    runner
+      .chdir('flags/gulpfile/autoload')
+      .gulp('dist')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(eraseTime(stdout)).toEqual(
+        'Requiring external module babel-register\n' +
+        'clean!\n' +
+        'build!\n' +
+      '');
       done(err);
     }
   });
