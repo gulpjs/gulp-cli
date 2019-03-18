@@ -61,9 +61,6 @@ var usage =
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
-// Set up event listeners for logging temporarily.
-toConsole(log, opts);
-
 cli.on('require', function(name) {
   log.info('Requiring external module', ansi.magenta(name));
 });
@@ -85,7 +82,6 @@ cli.on('respawn', function(flags, child) {
   log.info('Respawned to PID:', pid);
 });
 
-
 function run() {
   cli.prepare({
     cwd: opts.cwd,
@@ -93,12 +89,14 @@ function run() {
     require: opts.require,
     completion: opts.completion,
   }, function(env) {
-
     var cfgLoadOrder = ['home', 'cwd'];
     var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
     opts = mergeConfigToCliFlags(opts, cfg);
     env = mergeConfigToEnvFlags(env, cfg);
     env.configProps = cfg;
+
+    // Set up event listeners for logging again after configuring.
+    toConsole(log, opts);
 
     cli.execute(env, handleArguments);
   });
@@ -117,18 +115,16 @@ function handleArguments(env) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  // Set up event listeners for logging again after configuring.
-  toConsole(log, opts);
-
   if (opts.help) {
     parser.showHelp(console.log);
     exit(0);
   }
 
+  // Anything that needs to print outside of the logging mechanism should use console.log
   if (opts.version) {
-    log.info('CLI version', cliVersion);
+    console.log('CLI version', cliVersion);
     if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
-      log.info('Local version', env.modulePackage.version);
+      console.log('Local version', env.modulePackage.version);
     }
     exit(0);
   }

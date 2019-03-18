@@ -19,7 +19,6 @@ describe('flag: --tasks-json', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = skipLines(stdout, 1);
       expect(JSON.parse(stdout)).toEqual(expected);
       done(err);
     }
@@ -48,4 +47,19 @@ describe('flag: --tasks-json', function() {
     }
   });
 
+  it('avoids printing "Requiring external module *"', function(done) {
+    // Disable the timeout for old node versions
+    this.timeout(0);
+
+    runner({ verbose: false })
+      .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(JSON.parse(stdout)).toEqual(expected);
+      done(err);
+    }
+  });
 });

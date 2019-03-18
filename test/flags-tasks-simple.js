@@ -23,4 +23,20 @@ describe('flag: --tasks-simple', function() {
     }
   });
 
+  it('avoids printing "Requiring external module *"', function(done) {
+    // Disable the timeout for old node versions
+    this.timeout(0);
+
+    runner({ verbose: false })
+      .gulp('--tasks-simple --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(stdout).toEqual(outputText);
+      done(err);
+    }
+  });
+
 });
