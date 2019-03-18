@@ -48,6 +48,9 @@ describe('flag: --tasks-json', function() {
   });
 
   it('avoids printing "Requiring external module *"', function(done) {
+    // Double the timeout for old node versions
+    this.timeout(10000);
+
     runner({ verbose: false })
       .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
       .run(cb);
