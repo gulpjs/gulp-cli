@@ -72,20 +72,36 @@ describe('config: flags.require', function() {
     }
   });
 
-  it.skip('missing test for cwd', function(done) {
+  it('resolves relative requires against cwd', function(done) {
     runner
-      .gulp('--cwd flags --gulpfile flags/require/array/gulpfile.js')
+      .gulp('--cwd flags/require/with-cwd')
       .run(cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(eraseTime(stdout)).toEqual(
-        'Requiring external module ./preload_one\n' +
-        'Requiring external module ./preload_two\n' +
-        'preload one!\n' +
-        'preload two!\n' +
-      '');
+      var requiring = eraseTime(headLines(stdout, 1));
+      expect(requiring).toEqual('Requiring external module ../preload');
+      var preload1 = eraseTime(headLines(stdout, 1, 4));
+      expect(preload1).toEqual('hello preload!');
+      done(err);
+    }
+  });
+
+  it('works with absolute paths, ignoring cwd', function(done) {
+    runner
+      .gulp('--cwd flags/require/with-absolute')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      var absolute = path.join(__dirname, './fixtures/config/flags/require/preload');
+      var requiring = eraseTime(headLines(stdout, 1));
+      expect(requiring).toEqual('Requiring external module ' + absolute);
+      var preload1 = eraseTime(headLines(stdout, 1, 4));
+      expect(preload1).toEqual('hello preload!');
       done(err);
     }
   });

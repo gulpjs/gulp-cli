@@ -1,0 +1,1 @@
+global.preload = 'hello preload!';
