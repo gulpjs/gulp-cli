@@ -50,6 +50,32 @@ describe('flag: --require', function() {
     }
   });
 
+  it('can require multiple modules before running gulpfile', function(done) {
+    runner({ verbose: false })
+      .gulp('--require ../test-module.js', '--require ../test-module-2.js', '--cwd ./test/fixtures/gulpfiles')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      var insideLog = headLines(stdout, 1);
+      expect(insideLog).toEqual('inside test module');
+
+      var requireLog = eraseTime(headLines(stdout, 1, 1));
+      expect(requireLog).toEqual(
+        'Requiring external module ../test-module.js');
+
+      var insideLog2 = headLines(stdout, 1, 2);
+      expect(insideLog2).toEqual('inside test module 2');
+
+      var requireLog2 = eraseTime(headLines(stdout, 1, 3));
+      expect(requireLog2).toEqual(
+        'Requiring external module ../test-module-2.js');
+
+      done(err);
+    }
+  });
+
   it('warns if module doesn\'t exist', function(done) {
     runner({ verbose: false })
       .gulp('--require ./null-module.js', '--cwd ./test/fixtures/gulpfiles')
