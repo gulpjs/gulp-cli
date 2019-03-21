@@ -50,6 +50,10 @@ var cli = new Liftoff({
         path: '.',
         extensions: interpret.extensions,
       },
+      initCwd: {
+        path: process.env.INIT_CWD,
+        extensions: interpret.extensions,
+      },
     },
   },
 });
@@ -89,7 +93,8 @@ function run() {
     require: opts.require,
     completion: opts.completion,
   }, function(env) {
-    var cfgLoadOrder = ['home', 'cwd'];
+
+    var cfgLoadOrder = ['home', 'cwd', 'initCwd'];
     var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
     opts = mergeConfigToCliFlags(opts, cfg);
     env = mergeConfigToEnvFlags(env, cfg, opts);

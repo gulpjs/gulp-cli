@@ -31,10 +31,28 @@ describe('config: description', function() {
     }
   });
 
-  it('Should configure with a .gulp.* file in cwd found up', function(done) {
+  it('Should configure with a .gulp.* file in current cwd', function(done) {
     runner({ verbose: false })
       .basedir(fixturesDir)
       .chdir('foo/bar/baz')
+      .gulp('--tasks')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      var expected = fs.readFileSync(path.join(expectedDir, 'output2.txt'),
+        'utf-8');
+      stdout = eraseTime(skipLines(stdout, 1));
+      expect(stdout).toEqual(expected);
+      done(err);
+    }
+  });
+
+  it('Should configure with a .gulp.* file in cwd found up', function(done) {
+    runner({ verbose: false })
+      .basedir(fixturesDir)
+      .chdir('foo/bar/corge')
       .gulp('--tasks')
       .run(cb);
 
