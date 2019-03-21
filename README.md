@@ -108,6 +108,7 @@ Supported configurations properties:
 | flags.gulpfile     | Set a default gulpfile |
 | flags.silent       | Silence logging by default |
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
+| flags.require      | An array of modules to require before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
 
 ## Flags
 
@@ -147,7 +148,7 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
     <tr>
       <td>--cwd [path]</td>
       <td></td>
-      <td>Manually set the CWD. The search for the gulpfile, as well as the relativity of all requires will be from here.</td>
+      <td>Manually set the CWD. The search for the gulpfile, as well as the relativity of all requires (including the `--require` flag) will be from here.</td>
     </tr>
     <tr>
       <td>--verify [path (optional)]</td>

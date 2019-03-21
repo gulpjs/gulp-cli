@@ -1,0 +1,8 @@
+{
+  "flags": {
+    "require": [
+      "./preload_one",
+      "./preload_two"
+    ]
+  }
+}
