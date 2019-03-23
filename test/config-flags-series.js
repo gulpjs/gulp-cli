@@ -58,4 +58,47 @@ describe('config: flags.series', function() {
       }
     });
 
+  it('Should overridden by cli flag: --series', function(done) {
+    runner
+      .chdir('flags/series/f')
+      .gulp('--series', 'task1 task2')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      expect(stdout).toEqual(
+        'Starting \'task1\'...\n' +
+        'Finished \'task1\' after ?\n' +
+        'Starting \'task2\'...\n' +
+        'Finished \'task2\' after ?\n' +
+        ''
+      );
+      done();
+    }
+  });
+
+  it('Should overridden by cli flag: --no-series', function(done) {
+    runner
+      .chdir('flags/series/t')
+      .gulp('--no-series', 'task1 task2')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      expect(stdout).toEqual(
+        'Starting \'task1\'...\n' +
+        'Starting \'task2\'...\n' +
+        'Finished \'task2\' after ?\n' +
+        'Finished \'task1\' after ?\n' +
+        ''
+      );
+      done();
+    }
+  });
 });

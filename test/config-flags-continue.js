@@ -64,4 +64,54 @@ describe('config: flags.continue', function() {
     }
   });
 
+  it('Should overridden by cli flag: --continue', function(done) {
+    runner
+      .chdir('flags/continue/f')
+      .gulp('--continue')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toNotEqual(null);
+
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      expect(stdout).toEqual(
+        'Starting \'default\'...\n' +
+        'Starting \'err\'...\n' +
+        'Starting \'next\'...\n' +
+        'Finished \'next\' after ?\n' +
+        ''
+      );
+      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      expect(stderr).toEqual(
+        '\'err\' errored after ?\n' +
+        'Error: Error!'
+      );
+      done();
+    }
+  });
+
+  it('Should overridden by cli flag: --no-continue', function(done) {
+    runner
+      .chdir('flags/continue/t')
+      .gulp('--no-continue')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toNotEqual(null);
+
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      expect(stdout).toEqual(
+        'Starting \'default\'...\n' +
+        'Starting \'err\'...\n' +
+        ''
+      );
+      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      expect(stderr).toEqual(
+        '\'err\' errored after ?\n' +
+        'Error: Error!'
+      );
+      done();
+    }
+  });
+
 });

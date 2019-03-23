@@ -185,4 +185,42 @@ describe('config: flag.logLevel', function() {
         });
     });
   });
+
+  describe('Overridden by cli flag: -L/-LL/-LLL', function() {
+    it('Should not output info log by -L', function(done) {
+      var gulp = runner({ verbose: false })
+        .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/LLL'))
+        .gulp;
+
+      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
+        'valid-package.json');
+
+      gulp('-L', '--verify', packageJsonPath)
+        .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
+          expect(stdout).toEqual('');
+          expect(stderr).toEqual('');
+          done(err);
+        });
+    });
+
+    it('Should output info log by -LLL', function(done) {
+      var gulp = runner({ verbose: false })
+        .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/L'))
+        .gulp;
+
+      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
+        'valid-package.json');
+
+      gulp('-LLL', '--verify', packageJsonPath)
+        .run(function(err, stdout, stderr) {
+          expect(err).toEqual(null);
+          expect(eraseTime(stdout)).toEqual(
+            'Verifying plugins in ' + packageJsonPath + '\n' +
+            'There are no blacklisted plugins in this project\n');
+          expect(stderr).toEqual('');
+          done(err);
+        });
+    });
+  });
 });

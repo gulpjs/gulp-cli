@@ -25,7 +25,7 @@ describe('lib: config/cli-flags', function() {
     done();
   });
 
-  it('Should override cli flags with config props', function(done) {
+  it('Should not override cli flags with config props', function(done) {
     var opts = {
       help: false,
       depth: 4,
@@ -37,6 +37,7 @@ describe('lib: config/cli-flags', function() {
       description: 'DESCRIPTION.',
       flags: {
         silent: false,
+        depth: 3,
         gulpfile: '/path/to/gulpfile',
       },
     };
@@ -45,7 +46,7 @@ describe('lib: config/cli-flags', function() {
     expect(result).toEqual({
       help: false,
       depth: 4,
-      silent: false,
+      silent: true,
       tasks: false,
     });
     done();

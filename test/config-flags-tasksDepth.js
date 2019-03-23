@@ -32,4 +32,22 @@ describe ('config: flags.tasksDepth', function() {
     }
   });
 
+  it('Should overridden by cli flag: --tasks-depth', function(done) {
+    runner
+      .chdir('flags/tasksDepth')
+      .gulp('--tasks', '--tasks-depth 2')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      var filepath = path.join(expectedDir, 'flags-tasks-depth2.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expected = skipLines(expected, 1);
+
+      stdout = eraseTime(skipLines(stdout, 1));
+
+      expect(stdout).toEqual(expected);
+      expect(stderr).toEqual('');
+      done(err);
+    }
+  });
 });

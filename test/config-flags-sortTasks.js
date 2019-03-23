@@ -52,4 +52,42 @@ describe ('config: flags.sortTasks', function() {
     }
   });
 
+  it('Should overridden by cli flag: --sort-tasks', function(done) {
+    runner
+      .chdir('flags/sortTasks/f')
+      .gulp('--tasks --sort-tasks')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expected = skipLines(expected, 1);
+
+      stdout = eraseTime(skipLines(stdout, 1));
+
+      expect(stdout).toEqual(expected);
+      expect(stderr).toEqual('');
+      done(err);
+    }
+  });
+
+  it('Should overridden by cli flag: --no-sort-tasks', function(done) {
+    runner
+      .chdir('flags/sortTasks/t')
+      .gulp('--tasks --no-sort-tasks')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expected = skipLines(expected, 1);
+
+      stdout = eraseTime(skipLines(stdout, 1));
+
+      expect(stdout).toEqual(expected);
+      expect(stderr).toEqual('');
+      done(err);
+    }
+  });
+
 });

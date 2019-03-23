@@ -46,4 +46,37 @@ describe('config: flags.silent', function() {
     }
   });
 
+  it('Should overridden by cli flag: --silent', function(done) {
+    runner
+      .chdir('flags/silent/f')
+      .gulp('--silent')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(stdout).toEqual('');
+      done(err);
+    }
+  });
+
+  it('Should overridden by cli flag: --no-silent', function(done) {
+    runner
+      .chdir('flags/silent/t')
+      .gulp('--no-silent')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      expect(stdout).toEqual(
+        'Starting \'default\'...\n' +
+        'Finished \'default\' after ?\n' +
+        ''
+      );
+      done(err);
+    }
+  });
+
 });
