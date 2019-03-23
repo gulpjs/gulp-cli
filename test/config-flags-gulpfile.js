@@ -21,12 +21,12 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = headLines(stdout, 2, 2);
+      stdout = headLines(stdout, 2, 3);
       expect(stdout).toEqual(
         'This gulpfile : ' +
           path.join(fixturesDir, 'flags/gulpfile/is/here/mygulpfile.js') +
           '\n' +
-        'The current directory : ' + path.join(fixturesDir, 'flags/gulpfile')
+        'The current directory : ' + path.join(fixturesDir, 'flags/gulpfile/is/here')
       );
       done(err);
     }
@@ -75,9 +75,9 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
-  // This test case fails because of a bug that `flags.gullpfile` does not
+  // This test case fails because of a bug that `flags.gulpfile` does not
   // change process.cwd().
-  it.skip('Should use config file here and use gulpfile specified in config file', function(done) {
+  it('Should use config file here and use gulpfile specified in config file', function(done) {
     var topProj = path.resolve(fixturesDir, './flags/gulpfile/top-prj');
     var initCwd = path.resolve(topProj, 'sub-prj');
 
@@ -91,7 +91,6 @@ describe('config: flags.gulpfile', function() {
       expect(stderr).toEqual('');
       stdout = eraseTime(stdout, 1, 3);
       expect(stdout.split(/\r\n|\r|\n/)).toEqual([
-        'Working directory changed to ' + tildify(topProj, '~'),
         'Config with ' + path.resolve(initCwd, '.gulp.js'),
         '└── default  ' + path.resolve(initCwd, 'gulpfile-1.js'),
         '',
@@ -129,9 +128,9 @@ describe('config: flags.gulpfile', function() {
 
       var requiring = eraseTime(headLines(stdout, 1));
       expect(requiring).toEqual('Requiring external module babel-register');
-      var clean = eraseTime(headLines(stdout, 1, 4));
+      var clean = eraseTime(headLines(stdout, 1, 5));
       expect(clean).toEqual('clean!');
-      var build = eraseTime(headLines(stdout, 1, 7));
+      var build = eraseTime(headLines(stdout, 1, 8));
       expect(build).toEqual('build!');
 
       done(err);

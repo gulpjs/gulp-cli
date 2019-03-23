@@ -20,6 +20,7 @@ describe('lib: config/env-flags', function() {
     expect(result).toEqual({
       configPath: '/path/to/gulpfile',
       configBase: '/path/to',
+      cwd: '/path/to',
     });
     done();
   });

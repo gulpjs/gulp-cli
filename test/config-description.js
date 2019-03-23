@@ -4,7 +4,6 @@ var expect = require('expect');
 var path = require('path');
 var fs = require('fs');
 
-var headLines = require('gulp-test-tools').headLines;
 var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
@@ -93,7 +92,7 @@ describe('config: description', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output3.txt'), 'utf-8');
-      stdout = skipLines(eraseTime(stdout), 1);
+      stdout = eraseTime(stdout);
       expect(stdout).toEqual(expected);
       done(err);
     }
@@ -110,11 +109,8 @@ describe('config: description', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       var expected0 = fs.readFileSync(path.join(expectedDir, 'output0.txt'), 'utf-8');
-      var expected3 = fs.readFileSync(path.join(expectedDir, 'output3.txt'), 'utf-8');
       stdout = skipLines(eraseTime(stdout), 1);
-
-      expect(headLines(stdout, 1)).toEqual(headLines(expected0, 1));
-      expect(skipLines(stdout, 1)).toEqual(skipLines(expected3, 1));
+      expect(stdout).toEqual(expected0);
       done(err);
     }
   });
