@@ -98,7 +98,7 @@ function run() {
     // Set up event listeners for logging again after configuring.
     toConsole(log, opts);
 
-    cli.execute(env, handleArguments);
+    cli.execute(env, env.nodeFlags, handleArguments);
   });
 }
 

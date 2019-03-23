@@ -1,0 +1,5 @@
+{
+  "flags": {
+    "nodeFlags": ["--lazy", "--trace-deprecation"]
+  }
+}
