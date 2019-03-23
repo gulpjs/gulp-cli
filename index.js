@@ -94,7 +94,7 @@ function run() {
     completion: opts.completion,
   }, function(env) {
 
-    var cfgLoadOrder = ['home', 'cwd', 'initCwd'];
+    var cfgLoadOrder = ['home', 'initCwd', 'cwd'];
     var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
     opts = mergeConfigToCliFlags(opts, cfg);
     env = mergeConfigToEnvFlags(env, cfg, opts);
