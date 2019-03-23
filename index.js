@@ -92,7 +92,7 @@ function run() {
     var cfgLoadOrder = ['home', 'cwd'];
     var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
     opts = mergeConfigToCliFlags(opts, cfg);
-    env = mergeConfigToEnvFlags(env, cfg);
+    env = mergeConfigToEnvFlags(env, cfg, opts);
     env.configProps = cfg;
 
     // Set up event listeners for logging again after configuring.

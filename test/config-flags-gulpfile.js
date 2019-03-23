@@ -89,6 +89,21 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
+  it('Should overridden by cli flag: --gulpfile', function(done) {
+    runner
+      .chdir('./flags/gulpfile/override-by-cliflag')
+      .gulp('--gulpfile mygulpfile.js')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      stdout = headLines(stdout, 1, 2);
+      expect(stdout).toEqual('Gulpfile : ' + path.join(fixturesDir, 'flags/gulpfile/override-by-cliflag/mygulpfile.js'));
+      done(err);
+    }
+  });
+
   it('Should autoload a module for loading a specified gulpfile', function(done) {
     this.timeout(0);
 
