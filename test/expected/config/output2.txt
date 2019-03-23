@@ -1,2 +1,3 @@
-DESCRIPTION BY .gulp.json in directory foo/bar/baz
-└── default
+DESCRIPTION BY .gulp.json in directory description/initcwd/currentdir
+├── default
+└── task2

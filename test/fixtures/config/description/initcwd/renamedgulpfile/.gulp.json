@@ -1,0 +1,6 @@
+{
+  "description": "MY GULPFILE",
+  "flags": {
+    "gulpfile": "mygulpfile.js"
+  }
+}

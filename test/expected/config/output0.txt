@@ -1,2 +1,3 @@
-Description by .gulp.json in directory foo/bar
-└── default
+Description by .gulp.json in directory description/cwd
+├── default
+└── task0
