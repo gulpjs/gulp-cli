@@ -36,6 +36,7 @@ process.env.INIT_CWD = process.cwd();
 
 var cli = new Liftoff({
   name: 'gulp',
+  moduleName: process.env.GULP_MODULE_NAME || 'gulp',
   processTitle: makeTitle('gulp', process.argv.slice(2)),
   completions: completion,
   extensions: interpret.jsVariants,
