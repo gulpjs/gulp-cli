@@ -1,7 +1,20 @@
 gulp-cli/test/fixtures/gulpfiles
 ├── build
 ├── clean
-└─┬ dist
+├─┬ dist
+│ └─┬ <series>
+│   ├── clean
+│   └── build
+├── f-test
+├─┬ p
+│ └─┬ <parallel>
+│   ├── p1
+│   └── p2
+├─┬ p-test
+│ └─┬ <parallel>
+│   ├── p1
+│   └── p2
+└─┬ s-test
   └─┬ <series>
     ├── clean
     └── build
