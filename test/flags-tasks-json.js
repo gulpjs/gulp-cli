@@ -24,6 +24,25 @@ describe('flag: --tasks-json', function() {
     }
   });
 
+  it('prints the task list with the default description', function(done) {
+    var cwdPath = __dirname;
+    var gulpfilePath = path.join(__dirname, 'fixtures/gulpfiles/gulpfile.js');
+    runner({ verbose: false })
+      .gulp('--tasks-json',
+            '--cwd ', cwdPath,
+            '--gulpfile ', gulpfilePath)
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      var jsonObj = JSON.parse(stdout);
+      expect(jsonObj.label).toMatch('Tasks for ');
+      expect(jsonObj.nodes).toEqual(expected.nodes);
+      done(err);
+    }
+  });
+
   it('writes the task list to file with path', function(done) {
     var output = path.join(__dirname, '/output/');
     rimraf.sync(output);

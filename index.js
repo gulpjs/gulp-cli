@@ -70,6 +70,7 @@ cli.on('requireFail', function(name, error) {
     ansi.yellow('Failed to load external module'),
     ansi.magenta(name)
   );
+  /* istanbul ignore else */
   if (error) {
     log.warn(ansi.yellow(error.toString()));
   }
@@ -131,11 +132,13 @@ function handleArguments(env) {
 
   if (opts.verify) {
     var pkgPath = opts.verify !== true ? opts.verify : 'package.json';
+    /* istanbul ignore else */
     if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
       pkgPath = path.join(env.cwd, pkgPath);
     }
     log.info('Verifying plugins in ' + pkgPath);
     return getBlacklist(function(err, blacklist) {
+      /* istanbul ignore if */
       if (err) {
         return logBlacklistError(err);
       }
@@ -147,10 +150,12 @@ function handleArguments(env) {
   }
 
   if (!env.modulePath) {
+    /* istanbul ignore next */
     var missingNodeModules =
       fs.existsSync(path.join(env.cwd, 'package.json'))
       && !fs.existsSync(path.join(env.cwd, 'node_modules'));
 
+    /* istanbul ignore next */
     var missingGulpMessage =
       missingNodeModules
         ? 'Local modules not found in'
@@ -159,6 +164,7 @@ function handleArguments(env) {
       ansi.red(missingGulpMessage),
       ansi.magenta(tildify(env.cwd))
     );
+    /* istanbul ignore next */
     var installCommand =
       missingNodeModules
         ? 'npm install'
@@ -186,9 +192,10 @@ function handleArguments(env) {
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    return log.error(
+    log.error(
       ansi.red('Unsupported gulp version', env.modulePackage.version)
     );
+    exit(1);
   }
 
   // Load and execute the CLI version
