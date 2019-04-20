@@ -123,10 +123,8 @@ function handleArguments(env) {
 
   // Anything that needs to print outside of the logging mechanism should use console.log
   if (opts.version) {
-    console.log('CLI version', cliVersion);
-    if (env.modulePackage && typeof env.modulePackage.version !== 'undefined') {
-      console.log('Local version', env.modulePackage.version);
-    }
+    console.log('CLI version:', cliVersion);
+    console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
   }
 

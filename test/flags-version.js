@@ -18,8 +18,8 @@ describe('flag: --version', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
-        'CLI version ' + cliVersion + '\n' +
-        'Local version ' + gulpVersion + '\n' +
+        'CLI version: ' + cliVersion + '\n' +
+        'Local version: ' + gulpVersion + '\n' +
         ''
       );
       done(err);
@@ -35,8 +35,8 @@ describe('flag: --version', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
-        'CLI version ' + cliVersion + '\n' +
-        'Local version ' + gulpVersion + '\n' +
+        'CLI version: ' + cliVersion + '\n' +
+        'Local version: ' + gulpVersion + '\n' +
         ''
       );
       done(err);
@@ -52,8 +52,8 @@ describe('flag: --version', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
-        'CLI version ' + cliVersion + '\n' +
-        ''
+        'CLI version: ' + cliVersion + '\n' +
+        'Local version: Unknown\n'
       );
       done(err);
     }
