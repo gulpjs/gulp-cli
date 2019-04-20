@@ -7,7 +7,9 @@ var fixturesDir = path.join(__dirname, 'fixtures/config');
 
 var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
 var headLines = require('gulp-test-tools').headLines;
+var skipLines = require('gulp-test-tools').skipLines;
 var eraseTime = require('gulp-test-tools').eraseTime;
+var eraseLapse = require('gulp-test-tools').eraseLapse;
 
 describe('config: nodeFlags', function() {
 
@@ -67,4 +69,47 @@ describe('config: nodeFlags', function() {
       done(err);
     }
   });
+
+  it('Should not respawn when a node flag is specified to undefined', function(done) {
+    runner
+      .chdir('flags/nodeFlags/undefined')
+      .gulp()
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      stdout = eraseLapse(eraseTime(stdout));
+      expect(headLines(stdout, 1)).toMatch('Using gulpfile ');
+      expect(skipLines(stdout, 1)).toEqual(
+        'Starting \'default\'...\n' +
+        'Default\n' +
+        'Finished \'default\' after ?\n' +
+      '');
+      done(err);
+    }
+  });
+
+  it('Should not respawn when a node flag is specified to null', function(done) {
+    runner
+      .chdir('flags/nodeFlags/null')
+      .gulp()
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      stdout = eraseLapse(eraseTime(stdout));
+      expect(headLines(stdout, 1)).toMatch('Using gulpfile ');
+      expect(skipLines(stdout, 1)).toEqual(
+        'Starting \'default\'...\n' +
+        'Default\n' +
+        'Finished \'default\' after ?\n' +
+      '');
+      done(err);
+    }
+  });
+
 });

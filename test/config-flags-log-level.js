@@ -3,14 +3,18 @@
 var expect = require('expect');
 var path = require('path');
 var eraseTime = require('gulp-test-tools').eraseTime;
+var headLines = require('gulp-test-tools').headLines;
 var runner = require('gulp-test-tools').gulpRunner;
 
 describe('config: flag.logLevel', function() {
 
   describe('log level 3 by default', function() {
+    var gulp = runner({ verbose: false })
+      .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel'))
+      .gulp;
+
     it('Should output error log', function(done) {
-      runner({ verbose: false })
-        .gulp('--gulpfile x')
+      gulp('--gulpfile x')
         .run(function(err, stdout, stderr) {
           expect(err).toNotEqual(null);
           expect(stdout).toEqual('');
@@ -20,34 +24,25 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'invalid-package.json');
-
-      runner({ verbose: false })
-        .gulp('--verify', packageJsonPath)
+      gulp('--require', 'mymodule')
         .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'Blacklisted plugins found in this project:\n' +
-            'gulp-blink: deprecated. use \`blink` instead.\n');
+          expect(err).toEqual(null);
           expect(stderr).toEqual('');
+          expect(headLines(eraseTime(stdout), 2)).toMatch(
+            'Failed to load external module mymodule\n' +
+            'Error: Cannot find module \'mymodule\' from \'');
           done();
         });
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      runner({ verbose: false })
-        .gulp('--verify', packageJsonPath)
+      gulp('--harmony')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'There are no blacklisted plugins in this project\n');
           expect(stderr).toEqual('');
+          expect(headLines(eraseTime(stdout), 2)).toMatch(
+           'Node flags detected: --harmony\n' +
+           'Respawned to PID: ');
           done(err);
         });
     });
@@ -69,27 +64,21 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'invalid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--require', 'mymodule')
         .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(stdout).toEqual('');
+          expect(err).toEqual(null);
+          expect(stderr).toEqual('');
           expect(stderr).toEqual('');
           done();
         });
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--harmony')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(stdout).toEqual('');
           expect(stderr).toEqual('');
+          expect(stdout).toEqual('');
           done(err);
         });
     });
@@ -111,29 +100,23 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'invalid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--require', 'mymodule')
         .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Blacklisted plugins found in this project:\n' +
-            'gulp-blink: deprecated. use \`blink` instead.\n');
+          expect(err).toEqual(null);
           expect(stderr).toEqual('');
+          expect(eraseTime(stdout)).toMatch(
+            'Failed to load external module mymodule\n' +
+            'Error: Cannot find module \'mymodule\' from \'');
           done();
         });
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--harmony')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(stdout).toEqual('');
           expect(stderr).toEqual('');
+          expect(stdout).toEqual('');
           done(err);
         });
     });
@@ -155,32 +138,25 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'invalid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--require', 'mymodule')
         .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'Blacklisted plugins found in this project:\n' +
-            'gulp-blink: deprecated. use \`blink` instead.\n');
+          expect(err).toEqual(null);
           expect(stderr).toEqual('');
+          expect(headLines(eraseTime(stdout), 2)).toMatch(
+            'Failed to load external module mymodule\n' +
+            'Error: Cannot find module \'mymodule\' from \'');
           done();
         });
     });
 
     it('Should output info log', function(done) {
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('--verify', packageJsonPath)
+      gulp('--harmony')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'There are no blacklisted plugins in this project\n');
           expect(stderr).toEqual('');
+          expect(headLines(eraseTime(stdout), 2)).toMatch(
+           'Node flags detected: --harmony\n' +
+           'Respawned to PID: ');
           done(err);
         });
     });
@@ -192,10 +168,7 @@ describe('config: flag.logLevel', function() {
         .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/LLL'))
         .gulp;
 
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('-L', '--verify', packageJsonPath)
+      gulp('-L', '--require', 'mymodule')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
           expect(stdout).toEqual('');
@@ -209,16 +182,13 @@ describe('config: flag.logLevel', function() {
         .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/L'))
         .gulp;
 
-      var packageJsonPath = path.resolve(__dirname, 'fixtures/packages',
-        'valid-package.json');
-
-      gulp('-LLL', '--verify', packageJsonPath)
+      gulp('-LLL', '--harmony')
         .run(function(err, stdout, stderr) {
           expect(err).toEqual(null);
-          expect(eraseTime(stdout)).toEqual(
-            'Verifying plugins in ' + packageJsonPath + '\n' +
-            'There are no blacklisted plugins in this project\n');
           expect(stderr).toEqual('');
+          expect(headLines(eraseTime(stdout), 2)).toMatch(
+           'Node flags detected: --harmony\n' +
+           'Respawned to PID: ');
           done(err);
         });
     });

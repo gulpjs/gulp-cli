@@ -9,7 +9,7 @@ describe('flag: --verify', function() {
 
   it('dependencies with invalid dependency', function(done) {
     runner({ verbose: false })
-      .gulp('--verify invalid-package.json', '--cwd ./test/fixtures/packages/')
+      .gulp('--verify invalid-package.json', '--cwd ./test/fixtures/verify/')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -18,7 +18,7 @@ describe('flag: --verify', function() {
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
-          path.resolve('./test/fixtures/packages/invalid-package.json') +
+          path.resolve('./test/fixtures/verify/invalid-package.json') +
           '\n' +
         'Blacklisted plugins found in this project:\n' +
         'gulp-blink: deprecated. use `blink` instead.\n' +
@@ -30,7 +30,7 @@ describe('flag: --verify', function() {
 
   it('dependencies with valid dependency', function(done) {
     runner({ verbose: false })
-      .gulp('--verify valid-package.json', '--cwd ./test/fixtures/packages/')
+      .gulp('--verify valid-package.json', '--cwd ./test/fixtures/verify/')
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -39,7 +39,7 @@ describe('flag: --verify', function() {
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
-          path.resolve('./test/fixtures/packages/valid-package.json') +
+          path.resolve('./test/fixtures/verify/valid-package.json') +
           '\n' +
         'There are no blacklisted plugins in this project\n' +
         ''
@@ -50,7 +50,7 @@ describe('flag: --verify', function() {
 
   it('default args with invalid dependency', function(done) {
     runner({ verbose: false })
-      .gulp('--verify', '--cwd ./test/fixtures/packages/')
+      .gulp('--verify', '--cwd', path.resolve('./test/fixtures/verify/'))
       .run(cb);
 
     function cb(err, stdout, stderr) {
@@ -59,7 +59,7 @@ describe('flag: --verify', function() {
       stdout = eraseTime(stdout);
       expect(stdout).toEqual(
         'Verifying plugins in ' +
-          path.resolve('./test/fixtures/packages/package.json') + '\n' +
+          path.resolve('./test/fixtures/verify/package.json') + '\n' +
         'Blacklisted plugins found in this project:\n' +
         'gulp-blink: deprecated. use `blink` instead.\n' +
         ''
