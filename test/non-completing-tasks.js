@@ -33,4 +33,31 @@ describe('sync-task', function() {
         done();
       });
   });
+
+  it('should not log false positive in case of parallel failure', function(done) {
+    runner({ verbose: false })
+      .gulp('--gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js')
+      .run(function(err, stdout) {
+        expect(stdout).toExclude('The following tasks did not complete:');
+        done();
+      });
+  });
+
+  it('should not log false positive in case of parallel failure in continue mode', function(done) {
+    runner({ verbose: false })
+      .gulp('--continue --gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js')
+      .run(function(err, stdout) {
+        expect(stdout).toExclude('The following tasks did not complete:');
+        done();
+      });
+  });
+
+  it('should log non-completing task alongside a failure in continue mode', function(done) {
+    runner({ verbose: false })
+      .gulp('--continue --gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js broken')
+      .run(function(err, stdout) {
+        expect(stdout).toInclude('The following tasks did not complete: broken, notCompleting1\n');
+        done();
+      });
+  });
 });
