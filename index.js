@@ -28,7 +28,7 @@ var logVerify = require('./lib/shared/log/verify');
 var logBlacklistError = require('./lib/shared/log/blacklist-error');
 
 // Get supported ranges
-var ranges = fs.readdirSync(__dirname + '/lib/versioned/');
+var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
 
 // Set env var for ORIGINAL cwd
 // before anything touches it
