@@ -162,10 +162,15 @@ function handleArguments(env) {
       ansi.red(missingGulpMessage),
       ansi.magenta(tildify(env.cwd))
     );
+    var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     /* istanbul ignore next */
     var installCommand =
       missingNodeModules
-        ? 'npm install'
+        ? hasYarn
+          ? 'yarn install'
+          : 'npm install'
+        : hasYarn
+          ? 'yarn add gulp'
         : 'npm install gulp';
     log.error(ansi.red('Try running: ' + installCommand));
     exit(1);
