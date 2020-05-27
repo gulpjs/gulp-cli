@@ -47,7 +47,7 @@
     "pretty-hrtime": "^1.0.0",
     "replace-homedir": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.1.0",
-    "v8flags": "^3.0.1",
+    "v8flags": "^3.2.0",
     "yargs": "^7.1.0"
   },
   "devDependencies": {
