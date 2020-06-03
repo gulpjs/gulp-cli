@@ -62,7 +62,12 @@ var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
 cli.on('require', function(name) {
-  log.info('Requiring external module', ansi.magenta(name));
+  // This is needed because interpret needs to stub the .mjs extension
+  // Without the .mjs require hook, rechoir blows up
+  // However, we don't want to show the mjs-stub loader in the logs
+  if (path.basename(name, '.js') !== 'mjs-stub') {
+    log.info('Requiring external module', ansi.magenta(name));
+  }
 });
 
 cli.on('requireFail', function(name, error) {
