@@ -10,6 +10,12 @@
 
 Command Line Utility for Gulp
 
+## Install
+
+```bash
+npm install --global gulp-cli
+```
+
 ## Usage
 
 ```bash
