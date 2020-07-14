@@ -1,2 +1,3 @@
-description by .gulp.js in directory qux
-└── default
+description by .gulp.js in directory description/findup/currentdir
+├── default
+└── task1

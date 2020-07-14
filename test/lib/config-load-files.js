@@ -10,9 +10,9 @@ describe('lib: config/load-files', function() {
 
   it('Should load config from files', function(done) {
     var configFiles = {
-      a: path.join(fixturesDir, 'foo/bar/.gulp.json'),
+      a: path.join(fixturesDir, 'lib/dir1/.gulp.json'),
       b: null,
-      c: path.join(fixturesDir, 'qux/.gulp.js'),
+      c: path.join(fixturesDir, 'lib/dir2/.gulp.js'),
     };
 
     var config = loadConfigFiles(configFiles, ['a', 'b', 'c']);
@@ -25,9 +25,9 @@ describe('lib: config/load-files', function() {
 
   it('Should load config files in specified order', function(done) {
     var configFiles = {
-      a: path.join(fixturesDir, 'foo/bar/.gulp.json'),
+      a: path.join(fixturesDir, 'lib/dir1/.gulp.json'),
       b: null,
-      c: path.join(fixturesDir, 'qux/.gulp.js'),
+      c: path.join(fixturesDir, 'lib/dir2/.gulp.js'),
     };
 
     var config = loadConfigFiles(configFiles, ['b', 'c', 'a']);

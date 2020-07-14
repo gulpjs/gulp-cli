@@ -34,6 +34,13 @@ var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
 // before anything touches it
 process.env.INIT_CWD = process.cwd();
 
+var usage =
+  '\n' + ansi.bold('Usage:') +
+  ' gulp ' + ansi.blue('[options]') + ' tasks';
+
+var parser = yargs.usage(usage, cliOptions);
+var opts = parser.argv;
+
 var cli = new Liftoff({
   name: 'gulp',
   processTitle: makeTitle('gulp', process.argv.slice(2)),
@@ -50,16 +57,14 @@ var cli = new Liftoff({
         path: '.',
         extensions: interpret.extensions,
       },
+      initCwd: {
+        // By using `opts.cwd`, it is ensured that `--cwd` always has top priority
+        path: opts.cwd || process.env.INIT_CWD,
+        extensions: interpret.extensions,
+      },
     },
   },
 });
-
-var usage =
-  '\n' + ansi.bold('Usage:') +
-  ' gulp ' + ansi.blue('[options]') + ' tasks';
-
-var parser = yargs.usage(usage, cliOptions);
-var opts = parser.argv;
 
 cli.on('require', function(name) {
   // This is needed because interpret needs to stub the .mjs extension
@@ -95,7 +100,9 @@ function run() {
     require: opts.require,
     completion: opts.completion,
   }, function(env) {
-    var cfgLoadOrder = ['home', 'cwd'];
+
+    // This puts `initCwd` as the top priority because Liftoff screws things up when it can't find the exact filename
+    var cfgLoadOrder = ['home', 'cwd', 'initCwd'];
     var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
     opts = mergeConfigToCliFlags(opts, cfg);
     env = mergeConfigToEnvFlags(env, cfg, opts);
