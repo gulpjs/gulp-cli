@@ -34,8 +34,8 @@
     "ansi-colors": "^1.0.1",
     "archy": "^1.0.0",
     "array-sort": "^1.0.0",
-    "concat-stream": "^1.6.0",
     "color-support": "^1.1.3",
+    "concat-stream": "^1.6.0",
     "copy-props": "^2.0.1",
     "fancy-log": "^1.3.2",
     "gulplog": "^1.0.0",
@@ -48,7 +48,7 @@
     "replace-homedir": "^1.0.0",
     "semver-greatest-satisfied-range": "^1.1.0",
     "v8flags": "^3.2.0",
-    "yargs": "^7.1.0"
+    "yargs": "^16.0.3"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
