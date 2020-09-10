@@ -58,9 +58,10 @@ var usage =
   '\n' + ansi.bold('Usage:') +
   ' gulp ' + ansi.blue('[options]') + ' tasks';
 
+yargs.version(false);
 var parser = yargs.usage(usage);
 Object.keys(cliOptions).forEach(function(k) {
-  parser.option(k, cliOptions[k]);
+  parser = parser.option(k, cliOptions[k]);
 });
 
 var opts = parser.argv;

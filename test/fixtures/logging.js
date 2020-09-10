@@ -3,10 +3,12 @@ var yargs = require('yargs');
 var toConsole = require('../../lib/shared/log/to-console');
 var cliOptions = require('../../lib/shared/cli-options');
 
+yargs.version(false);
 var parser = yargs.usage('');
 Object.keys(cliOptions).forEach(function(k) {
-  parser.option(k, cliOptions[k]);
+  parser = parser.option(k, cliOptions[k]);
 });
+
 var opts = parser.argv;
 
 toConsole(log, opts);

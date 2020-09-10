@@ -25,7 +25,7 @@ describe('flag: --help', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       stdout = eraseFirstSpace(stdout);
-      expect(stdout).toEqual(outputText);
+      expect(stdout.trim()).toEqual(outputText.trim());
       done(err);
     }
   });
@@ -39,7 +39,7 @@ describe('flag: --help', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       stdout = eraseFirstSpace(stdout);
-      expect(stdout).toEqual(outputText);
+      expect(stdout.trim()).toEqual(outputText.trim());
       done(err);
     }
   });
@@ -53,7 +53,7 @@ describe('flag: --help', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       stdout = eraseFirstSpace(stdout);
-      expect(stdout).toEqual(outputText);
+      expect(stdout.trim()).toEqual(outputText.trim());
       done(err);
     }
   });
