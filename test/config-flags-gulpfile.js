@@ -127,5 +127,28 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
+  it('Should autoload ts-node/register for a specified TypeScript gulpfile', function(done) {
+    this.timeout(0);
+
+    runner
+      .chdir('flags/gulpfile/autoload-ts')
+      .gulp('dist')
+      .run(cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+
+      var requiring = eraseTime(headLines(stdout, 1));
+      expect(requiring).toEqual('Requiring external module ts-node/register');
+      var clean = eraseTime(headLines(stdout, 1, 4));
+      expect(clean).toEqual('clean!');
+      var build = eraseTime(headLines(stdout, 1, 7));
+      expect(build).toEqual('build!');
+
+      done(err);
+    }
+  });
+
 });
 
