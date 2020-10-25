@@ -28,7 +28,8 @@
     "pretest": "npm run lint",
     "test": "mocha --async-only --timeout 5000 test/lib test",
     "cover": "nyc --reporter=lcov --reporter=text-summary npm test",
-    "coveralls": "nyc --reporter=text-lcov npm test | coveralls"
+    "coveralls": "nyc --reporter=text-lcov npm test | coveralls",
+    "ts-test": "gulp --gulpfile test/fixtures/config/flags/gulpfile/autoload-ts/other_folder/gulpfile.exports.ts dist"
   },
   "dependencies": {
     "ansi-colors": "^1.0.1",
@@ -63,7 +64,9 @@
     "mocha": "^3.2.0",
     "nyc": "^13.3.0",
     "rimraf": "^2.6.1",
-    "semver": "^5.7.1"
+    "semver": "^5.7.1",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
   },
   "keywords": [
     "build",

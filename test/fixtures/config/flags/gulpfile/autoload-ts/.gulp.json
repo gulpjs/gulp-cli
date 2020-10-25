@@ -1,0 +1,5 @@
+{
+  "flags": {
+    "gulpfile": "other_folder/gulpfile-exports.ts"
+  }
+}
