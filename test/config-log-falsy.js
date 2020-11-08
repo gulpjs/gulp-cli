@@ -2,18 +2,11 @@
 
 var expect = require('expect');
 var path = require('path');
-var fs = require('fs');
-var tildify = require('../lib/shared/tildify');
 
-var headLines = require('gulp-test-tools').headLines;
 var skipLines = require('gulp-test-tools').skipLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
 var runner = require('gulp-test-tools').gulpRunner;
 
 var fixturesDir = path.join(__dirname, 'fixtures', 'config', 'falsy');
-
-var cliVersion = require('../package.json').version;
-var gulpVersion = require('gulp/package.json').version;
 
 describe('config: falsy logs', function() {
 
