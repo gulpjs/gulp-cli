@@ -1,0 +1,135 @@
+{
+  "help": {
+    "usage":
+      "{MSG: gulp usage}",
+
+    "flags": {
+      "help":
+        "{MSG: gulp help}",
+
+      "version":
+        "{MSG: gulp version}",
+
+      "require":
+        "{MSG: gulp require}",
+
+      "gulpfile":
+        "{MSG: gulp gulpfile}",
+
+      "cwd":
+        "{MSG: gulp cwd}",
+
+      "verify":
+        "{MSG: gulp verify}",
+
+      "tasks":
+        "{MSG: gulp tasks}",
+
+      "tasks-simple":
+        "{MSG: gulp tasks simple}",
+
+      "tasks-json":
+        "{MSG: gulp tasks json}",
+
+      "tasks-depth":
+        "{MSG: gulp tasks depth}",
+
+      "compact-tasks":
+        "{MSG: gulp compact tasks}",
+
+      "sort-tasks":
+        "{MSG: gulp sort tasks}",
+
+      "color":
+        "{MSG: gulp color}",
+
+      "no-color":
+        "{MSG: gulp no color}",
+
+      "silent":
+        "{MSG: gulp silent}",
+
+      "continue":
+        "{MSG: gulp continue}",
+
+      "series":
+        "{MSG: gulp series}",
+
+      "log-level":
+        "{MSG: gulp log-level}"
+    }
+  },
+
+  "tasks": {
+    "gulpfile":
+      "{MSG: gulpfile:} {1}",
+
+    "topTask":
+      "{MSG:{1}[{2}]{4}{5}}",
+
+    "option":
+      "{MSG:{1}<{2}>{4}{5}}",
+
+    "childTask":
+      "{MSG:{1}({2})}"
+  },
+
+  "tasksJson": {
+    "gulpfile":
+      "{MSG: gulpfile is} {1}"
+  },
+
+  "info": {
+    "require":
+      "{1} {MSG: has been required.}",
+
+    "respawn":
+      "{MSG: gulp has been respawned by} {1}",
+
+    "version":
+      "{MSG: gulp version: {2} (gulp-cli: {1}).}",
+
+    "verify":
+      "{MSG: verify dependencies in} {1} ...",
+
+    "verifyOk":
+      "{MSG: verify ok}",
+
+    "cwdChanged":
+      "{MSG: gulp cwd: {1}.}",
+
+    "usingGulpfile":
+      "{MSG: gulpfile: } {1}...",
+
+    "taskStart":
+      "{MSG: start} {1}",
+
+    "taskStop":
+      "{MSG: stop}  {1}"
+  },
+
+  "warn": {
+    "requireFail":
+      "{MSG: require fail:} {1}",
+
+    "verifyBad":
+      "{MSG: blacklisted} {1}",
+
+    "taskNotComplete":
+      "{MSG: not complete} {1}"
+  },
+
+  "error": {
+    "gulpfileNotFound":
+      "{MSG: no gulpfile}",
+
+    "taskError":
+      "{MSG: error} {1}\n{4}",
+
+    "taskNotFound":
+      "{MSG: task not found}: {1}",
+
+    "unknownCompletionType":
+      "{MSG: unknown completion type:} {1}"
+  }
+}

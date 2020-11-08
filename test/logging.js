@@ -3,18 +3,18 @@
 var expect = require('expect');
 var child = require('child_process');
 
-describe('logging', function() {
+describe('logging (log levels & theming)', function() {
 
   it('log-level flag for debug: -LLLL', function(done) {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LLLL', cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      expect(stderr).toMatch('test error');
+      expect(stderr).toEqual('**error** test error: E001\n');
       stdout = stdout.replace(/\\/g, '/').split('\n');
-      expect(stdout[0]).toMatch('test debug');
-      expect(stdout[1]).toMatch('test info');
-      expect(stdout[2]).toMatch('test warn');
+      expect(stdout[0]).toEqual('test debug');
+      expect(stdout[1]).toEqual('(!) test info - foo');
+      expect(stdout[2]).toEqual('(warning) test warn');
       done(err);
     }
   });
@@ -24,10 +24,10 @@ describe('logging', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      expect(stderr).toMatch('test error');
+      expect(stderr).toEqual('**error** test error: E001\n');
       stdout = stdout.replace(/\\/g, '/').split('\n');
-      expect(stdout[0]).toMatch('test info');
-      expect(stdout[1]).toMatch('test warn');
+      expect(stdout[0]).toEqual('(!) test info - foo');
+      expect(stdout[1]).toEqual('(warning) test warn');
       done(err);
     }
   });
@@ -37,10 +37,10 @@ describe('logging', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      expect(stderr).toMatch('test error');
+      expect(stderr).toEqual('**error** test error: E001\n');
       stdout = stdout.replace(/\\/g, '/').split('\n');
-      expect(stdout[0]).toMatch('test info');
-      expect(stdout[1]).toMatch('test warn');
+      expect(stdout[0]).toEqual('(!) test info - foo');
+      expect(stdout[1]).toEqual('(warning) test warn');
       done(err);
     }
   });
@@ -50,9 +50,9 @@ describe('logging', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      expect(stderr).toMatch('test error');
+      expect(stderr).toEqual('**error** test error: E001\n');
       stdout = stdout.replace(/\\/g, '/').split('\n');
-      expect(stdout[0]).toMatch('test warn');
+      expect(stdout[0]).toEqual('(warning) test warn');
       done(err);
     }
   });
@@ -62,7 +62,7 @@ describe('logging', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
-      expect(stderr).toMatch('test error');
+      expect(stderr).toEqual('**error** test error: E001\n');
       expect(stdout).toEqual('');
       done(err);
     }

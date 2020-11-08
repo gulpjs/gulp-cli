@@ -1,0 +1,17 @@
+{
+  "label": "GULPFILE IS ",
+  "nodes": [
+    { "label": "clean", "type": "task", "nodes": [] },
+    { "label": "build", "type": "task", "nodes": [] },
+    { "label": "default", "type": "task",
+      "nodes": [
+        { "label": "<series>", "type": "function", "branch": true,
+          "nodes": [
+            { "label": "clean", "type": "function", "nodes": [] },
+            { "label": "build", "type": "function", "nodes": [] }
+          ]
+        }
+      ]
+    }
+  ]
+}

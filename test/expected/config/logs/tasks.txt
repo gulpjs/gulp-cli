@@ -1,0 +1,9 @@
+GULPFILE: %f%
+├── [CLEAN]    CLEAN FILES.
+├── [BUILD]    BUILD SOURCE FILES.
+│   <AAA>      FLAG --AAA FOR BUILD.
+│   <BBB>      BBB
+└─┬ [DEFAULT]
+  └─┬ (<SERIES>)
+    ├── (CLEAN)
+    └── (BUILD)

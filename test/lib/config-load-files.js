@@ -19,6 +19,11 @@ describe('lib: config/load-files', function() {
 
     expect(config).toEqual({
       description: 'description by .gulp.js in directory qux',
+      flags: {},
+      log: {
+        messages: {},
+        theme: {},
+      },
     });
     done();
   });
@@ -34,6 +39,11 @@ describe('lib: config/load-files', function() {
 
     expect(config).toEqual({
       description: 'Description by .gulp.json in directory foo/bar',
+      flags: {},
+      log: {
+        messages: {},
+        theme: {},
+      },
     });
     done();
   });
@@ -50,6 +60,10 @@ describe('lib: config/load-files', function() {
       flags: {
         gulpfile: path.join(fixturesDir,
           'flags/gulpfile/is/here/mygulpfile.js'),
+      },
+      log: {
+        messages: {},
+        theme: {},
       },
     });
     done();

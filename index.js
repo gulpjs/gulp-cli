@@ -8,7 +8,8 @@ var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
-var ansi = require('./lib/shared/ansi');
+var format = require('theming-log').format;
+
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
@@ -17,15 +18,19 @@ var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/get-blacklist');
-var toConsole = require('./lib/shared/log/to-console');
 
 var loadConfigFiles = require('./lib/shared/config/load-files');
 var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
 var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
+var copyProps = require('copy-props');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
-var logBlacklistError = require('./lib/shared/log/blacklist-error');
+var setLogLevels = require('./lib/shared/log/log-levels');
+var setLogTheme = require('./lib/shared/log/theming');
+var theme = require('./lib/shared/log/theme');
+var msgs = require('./lib/shared/log/messages');
+var makeHelp = require('./lib/shared/log/make-help');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -54,11 +59,7 @@ var cli = new Liftoff({
   },
 });
 
-var usage =
-  '\n' + ansi.bold('Usage:') +
-  ' gulp ' + ansi.blue('[options]') + ' tasks';
-
-var parser = yargs.usage(usage, cliOptions);
+var parser = yargs.options(cliOptions);
 var opts = parser.argv;
 
 cli.on('require', function(name) {
@@ -66,26 +67,16 @@ cli.on('require', function(name) {
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info('Requiring external module', ansi.magenta(name));
+    log.info(msgs.info.require, name);
   }
 });
 
 cli.on('requireFail', function(name, error) {
-  log.warn(
-    ansi.yellow('Failed to load external module'),
-    ansi.magenta(name)
-  );
-  /* istanbul ignore else */
-  if (error) {
-    log.warn(ansi.yellow(error.toString()));
-  }
+  log.warn(msgs.warn.requireFail, name, Boolean(error), error);
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = ansi.magenta(flags.join(', '));
-  var pid = ansi.magenta(child.pid);
-  log.info('Node flags detected:', nodeFlags);
-  log.info('Respawned to PID:', pid);
+  log.info(msgs.info.respawn, flags.join(', '), child.pid);
 });
 
 function run() {
@@ -101,8 +92,11 @@ function run() {
     env = mergeConfigToEnvFlags(env, cfg, opts);
     env.configProps = cfg;
 
-    // Set up event listeners for logging again after configuring.
-    toConsole(log, opts);
+    theme = copyProps(cfg.log.theme, theme);
+    msgs = copyProps(cfg.log.messages, msgs);
+
+    setLogLevels(log, opts);
+    setLogTheme(log, theme);
 
     cli.execute(env, env.nodeFlags, handleArguments);
   });
@@ -122,14 +116,14 @@ function handleArguments(env) {
   }
 
   if (opts.help) {
-    parser.showHelp(console.log);
+    makeHelp(parser).showHelp(console.log);
     exit(0);
   }
 
   // Anything that needs to print outside of the logging mechanism should use console.log
   if (opts.version) {
-    console.log('CLI version:', cliVersion);
-    console.log('Local version:', env.modulePackage.version || 'Unknown');
+    var gulpVersion = env.modulePackage.version || 'Unknown';
+    console.log(format(theme, msgs.info.version, cliVersion, gulpVersion));
     exit(0);
   }
 
@@ -139,11 +133,12 @@ function handleArguments(env) {
     if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
       pkgPath = path.join(env.cwd, pkgPath);
     }
-    log.info('Verifying plugins in ' + pkgPath);
+    log.info(msgs.info.verify, pkgPath);
     return getBlacklist(function(err, blacklist) {
       /* istanbul ignore if */
       if (err) {
-        return logBlacklistError(err);
+        log.error(msgs.error.failToGetBlacklist, err.message);
+        exit(1);
       }
 
       var blacklisted = verifyDeps(require(pkgPath), blacklist);
@@ -158,31 +153,20 @@ function handleArguments(env) {
       fs.existsSync(path.join(env.cwd, 'package.json'))
       && !fs.existsSync(path.join(env.cwd, 'node_modules'));
 
-    /* istanbul ignore next */
-    var missingGulpMessage =
-      missingNodeModules
-        ? 'Local modules not found in'
-        : 'Local gulp not found in';
-    log.error(
-      ansi.red(missingGulpMessage),
-      ansi.magenta(tildify(env.cwd))
-    );
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
-    /* istanbul ignore next */
-    var installCommand =
-      missingNodeModules
-        ? hasYarn
-          ? 'yarn install'
-          : 'npm install'
-        : hasYarn
-          ? 'yarn add gulp'
-        : 'npm install gulp';
-    log.error(ansi.red('Try running: ' + installCommand));
+    var hasNpm = !hasYarn;
+
+    /* istanbul ignore if */
+    if (missingNodeModules) {
+      log.error(msgs.error.nodeModulesNotFound, tildify(env.cwd), hasYarn, hasNpm);
+    } else {
+      log.error(msgs.error.gulpNotFound, tildify(env.cwd), hasYarn, hasNpm);
+    }
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(ansi.red('No gulpfile found'));
+    log.error(msgs.error.gulpfileNotFound);
     exit(1);
   }
 
@@ -190,19 +174,14 @@ function handleArguments(env) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    log.info(
-      'Working directory changed to',
-      ansi.magenta(tildify(env.cwd))
-    );
+    log.info(msgs.info.cwdChanged, tildify(env.cwd));
   }
 
   // Find the correct CLI version to run
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    log.error(
-      ansi.red('Unsupported gulp version', env.modulePackage.version)
-    );
+    log.error(msgs.error.badGulpVersion, env.modulePackage.version);
     exit(1);
   }
 

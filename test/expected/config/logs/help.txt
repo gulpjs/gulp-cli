@@ -1,0 +1,22 @@
+GULP USAGE
+
+Options:
+  --help, -h              GULP HELP                                    [boolean]
+  --version, -v           GULP VERSION                                 [boolean]
+  --require               GULP REQUIRE                                  [string]
+  --gulpfile, -f          GULP GULPFILE                                 [string]
+  --cwd                   GULP CWD                                      [string]
+  --verify                GULP VERIFY
+  --tasks, -T             GULP TASKS                                   [boolean]
+  --tasks-simple          GULP TASKS SIMPLE                            [boolean]
+  --tasks-json            GULP TASKS JSON
+  --tasks-depth, --depth  GULP TASKS DEPTH                              [number]
+  --compact-tasks         GULP COMPACT TASKS                           [boolean]
+  --sort-tasks            GULP SORT TASKS                              [boolean]
+  --color                 GULP COLOR                                   [boolean]
+  --no-color              GULP NO COLOR                                [boolean]
+  --silent, -S            GULP SILENT                                  [boolean]
+  --continue              GULP CONTINUE                                [boolean]
+  --series                GULP SERIES                                  [boolean]
+  --log-level, -L         GULP LOG-LEVEL                                 [count]
+
