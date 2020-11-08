@@ -10,6 +10,12 @@
 
 Command Line Utility for Gulp
 
+## Install
+
+```bash
+npm install --global gulp-cli
+```
+
 ## Usage
 
 ```bash
@@ -110,8 +116,8 @@ Supported configurations properties:
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
 | flags.require      | An array of modules to require before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
 | flags.nodeFlags    | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
-| log.messages.*     | Configure log messages. (See [configurable-log-msgs.html](./docs/html/configurable-log-msgs.html)) |
-| log.theme.*        | Configure log theme. (See [configurable-log-theme.html](./docs/html/configurable-log-theme.html)) |
+| log.messages.*     | Configure log messages. |
+| log.theme.*        | Configure log theme.  |
 
 ## Flags
 

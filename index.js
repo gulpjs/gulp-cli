@@ -63,7 +63,12 @@ var parser = yargs.options(cliOptions);
 var opts = parser.argv;
 
 cli.on('require', function(name) {
-  log.info(msgs.info.require, name);
+  // This is needed because interpret needs to stub the .mjs extension
+  // Without the .mjs require hook, rechoir blows up
+  // However, we don't want to show the mjs-stub loader in the logs
+  if (path.basename(name, '.js') !== 'mjs-stub') {
+    log.info(msgs.info.require, name);
+  }
 });
 
 cli.on('requireFail', function(name, error) {
