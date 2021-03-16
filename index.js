@@ -58,7 +58,7 @@ var usage =
   '\n' + ansi.bold('Usage:') +
   ' gulp ' + ansi.blue('[options]') + ' tasks';
 
-var parser = yargs.usage(usage, cliOptions);
+var parser = yargs.usage(usage).options(cliOptions);
 var opts = parser.argv;
 
 cli.on('require', function(name) {

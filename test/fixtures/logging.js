@@ -3,7 +3,7 @@ var yargs = require('yargs');
 var toConsole = require('../../lib/shared/log/to-console');
 var cliOptions = require('../../lib/shared/cli-options');
 
-var parser = yargs.usage('', cliOptions);
+var parser = yargs.usage('').options(cliOptions);
 var opts = parser.argv;
 
 toConsole(log, opts);
