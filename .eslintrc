@@ -1,7 +1,7 @@
 {
   "extends": "gulp",
   "rules": {
-    "max-len": [1, 90],
+    "max-len": [1, 130],
     "max-statements": [1, 40],
     "no-console": "off"
   }

@@ -1,6 +1,0 @@
-{
-  "extends": "gulp/test",
-  "rules": {
-    "no-console": "off"
-  }
-}
