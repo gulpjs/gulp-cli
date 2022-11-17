@@ -1,32 +1,36 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
-var skipLines = require('gulp-test-tools').skipLines;
-var headLines = require('gulp-test-tools').headLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
+var exec = require('child_process').exec;
 var path = require('path');
+
+var sliceLines = require('./tool/slice-lines');
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
 
 describe('flag: --gulpfile', function() {
 
   it('Manually set path of gulpfile using --gulpfile', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
-    runner({ verbose: false })
-      .gulp('--gulpfile', gulpfilePath)
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--gulpfile', gulpfilePath,
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
 
-      var chgWorkdirLog = headLines(stdout, 1);
+      var chgWorkdirLog = sliceLines(stdout, 0, 1);
       var workdir = path.dirname(gulpfilePath).replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'logGulpfilePath\'...\n' +
@@ -42,20 +46,22 @@ describe('flag: --gulpfile', function() {
   it('Manually set path of gulpfile using -f', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
-    runner({ verbose: false })
-      .gulp('-f', gulpfilePath)
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '-f', gulpfilePath,
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
 
-      var chgWorkdirLog = headLines(stdout, 1);
+      var chgWorkdirLog = sliceLines(stdout, 0, 1);
       var workdir = path.dirname(gulpfilePath).replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'logGulpfilePath\'...\n' +

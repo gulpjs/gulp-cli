@@ -1,32 +1,36 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
-var skipLines = require('gulp-test-tools').skipLines;
-var headLines = require('gulp-test-tools').headLines;
+var exec = require('child_process').exec;
+var path = require('path');
+
+var sliceLines = require('./tool/slice-lines');
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
 
 describe('flag: --continue', function() {
 
   it('continues execution when flag is set', function(done) {
-    runner({ verbose: false })
-      .gulp('test4', '--continue', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      'test4',
+      '--continue',
+      '--cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test4\'...\n' +
         'Starting \'errorFunction\'...\n' +
         'Starting \'anon\'...\n' +
         'Finished \'anon\' after ?\n' +
         ''
       );
-
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
-      expect(stderr).toEqual(
+      expect(sliceLines(stderr, 0, 2)).toEqual(
         '\'errorFunction\' errored after ?\n' +
         'Error: Error!'
       );
@@ -35,22 +39,23 @@ describe('flag: --continue', function() {
   });
 
   it('stops execution when flag is not set', function(done) {
-    runner({ verbose: false })
-      .gulp('test4', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      'test4',
+      '--cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
       expect(stdout).toNotMatch('Starting \'anon\'');
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(
         'Starting \'test4\'...\n' +
         'Starting \'errorFunction\'...\n' +
         ''
       );
-
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
-      expect(stderr).toEqual(
+      expect(sliceLines(stderr, 0, 2)).toEqual(
         '\'errorFunction\' errored after ?\n' +
         'Error: Error!'
       );

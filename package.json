@@ -55,7 +55,6 @@
     "eslint-config-gulp": "^5.0.1",
     "expect": "^1.20.2",
     "gulp": "^4.0.2",
-    "gulp-test-tools": "^0.6.2",
     "marked-man": "^0.2.1",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",

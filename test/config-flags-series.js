@@ -1,75 +1,70 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
 
-var skipLines = require('gulp-test-tools').skipLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
+var sliceLines = require('./tool/slice-lines');
+var cmdSep = require('./tool/cmd-sep');
 
-var fixturesDir = path.join(__dirname, 'fixtures/config');
-var runner = require('gulp-test-tools').gulpRunner({ verbose: false }).basedir(fixturesDir);
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, 'fixtures/config/flags/series');
 
 describe('config: flags.series', function() {
 
-  it('Should run in series if `flags.series` is true in .gulp.*',
-    function(done) {
-      runner
-        .chdir('flags/series/t')
-        .gulp('task1 task2')
-        .run(cb);
-
-      function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
-        expect(stderr).toEqual('');
-
-        stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-        expect(stdout).toEqual(
-          'Starting \'task1\'...\n' +
-          'Finished \'task1\' after ?\n' +
-          'Starting \'task2\'...\n' +
-          'Finished \'task2\' after ?\n' +
-          ''
-        );
-        done();
-      }
-    });
-
-  it('Should run in parallel if `flags.series` is false in .gulp.*',
-    function(done) {
-      runner
-        .chdir('flags/series/f')
-        .gulp('task1 task2')
-        .run(cb);
-
-      function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
-        expect(stderr).toEqual('');
-
-        stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-        expect(stdout).toEqual(
-          'Starting \'task1\'...\n' +
-          'Starting \'task2\'...\n' +
-          'Finished \'task2\' after ?\n' +
-          'Finished \'task1\' after ?\n' +
-          ''
-        );
-        done();
-      }
-    });
-
-  it('Should overridden by cli flag: --series', function(done) {
-    runner
-      .chdir('flags/series/f')
-      .gulp('--series', 'task1 task2')
-      .run(cb);
+  it('Should run in series if `flags.series` is true in .gulp.*', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 't') + cmdSep,
+      gulpCmd,
+      'task1 task2',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 1)).toEqual(
+        'Starting \'task1\'...\n' +
+        'Finished \'task1\' after ?\n' +
+        'Starting \'task2\'...\n' +
+        'Finished \'task2\' after ?\n' +
+        ''
+      );
+      done();
+    }
+  });
 
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-      expect(stdout).toEqual(
+  it('Should run in parallel if `flags.series` is false in .gulp.*', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 'f') + cmdSep,
+      gulpCmd,
+      'task1 task2',
+    ].join(' '), cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 1)).toEqual(
+        'Starting \'task1\'...\n' +
+        'Starting \'task2\'...\n' +
+        'Finished \'task2\' after ?\n' +
+        'Finished \'task1\' after ?\n' +
+        ''
+      );
+      done();
+    }
+  });
+
+  it('Should overridden by cli flag: --series', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 'f') + cmdSep,
+      gulpCmd,
+      '--series task1 task2',
+    ].join(' '), cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +
         'Finished \'task1\' after ?\n' +
         'Starting \'task2\'...\n' +
@@ -81,17 +76,16 @@ describe('config: flags.series', function() {
   });
 
   it('Should overridden by cli flag: --no-series', function(done) {
-    runner
-      .chdir('flags/series/t')
-      .gulp('--no-series', 'task1 task2')
-      .run(cb);
+    exec([
+      'cd ' + path.join(baseDir, 't') + cmdSep,
+      gulpCmd,
+      '--no-series task1 task2',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +
         'Starting \'task2\'...\n' +
         'Finished \'task2\' after ?\n' +

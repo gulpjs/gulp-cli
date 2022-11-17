@@ -1,18 +1,26 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
+var exec = require('child_process').exec;
+var path = require('path');
 var os = require('os');
+
+var cmdSep = require('./tool/cmd-sep');
 
 var cliVersion = require('../package.json').version;
 var gulpVersion = require('gulp/package.json').version;
 
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
+
 describe('flag: --version', function() {
 
   it('prints the version of CLI and local gulp', function(done) {
-    runner({ verbose: false })
-      .gulp('--version --cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--version --cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
@@ -27,9 +35,11 @@ describe('flag: --version', function() {
   });
 
   it('avoids printing "Requiring external module *"', function(done) {
-    runner({ verbose: false })
-      .gulp('--version --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--version --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
@@ -44,9 +54,11 @@ describe('flag: --version', function() {
   });
 
   it('should print only CLI version when gulp is not found', function(done) {
-    runner({ verbose: false })
-      .gulp('--version', '--cwd', os.tmpdir())
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--version', '--cwd', os.tmpdir(),
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);

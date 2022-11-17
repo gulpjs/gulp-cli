@@ -1,20 +1,26 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var fs = require('fs');
 var path = require('path');
 var rimraf = require('rimraf');
-var skipLines = require('gulp-test-tools').skipLines;
-var runner = require('gulp-test-tools').gulpRunner;
 
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
 var expected = require(path.join(__dirname, 'expected/flags-tasks-json.json'));
 
 describe('flag: --tasks-json', function() {
 
   it('prints the task list with no args', function(done) {
-    runner({ verbose: false })
-      .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--tasks-json',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js'
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
@@ -27,11 +33,14 @@ describe('flag: --tasks-json', function() {
   it('prints the task list with the default description', function(done) {
     var cwdPath = __dirname;
     var gulpfilePath = path.join(__dirname, 'fixtures/gulpfiles/gulpfile.js');
-    runner({ verbose: false })
-      .gulp('--tasks-json',
-            '--cwd ', cwdPath,
-            '--gulpfile ', gulpfilePath)
-      .run(cb);
+
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--tasks-json',
+      '--cwd ', cwdPath,
+      '--gulpfile ', gulpfilePath,
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
@@ -48,15 +57,17 @@ describe('flag: --tasks-json', function() {
     rimraf.sync(output);
     fs.mkdirSync(output);
 
-    runner({ verbose: false })
-      .gulp('--tasks-json ../../output/tasks.json',
-        '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--tasks-json ../../output/tasks.json',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = skipLines(stdout, 1);
+      stdout = stdout.split('\n').slice(1).join('\n');
       expect(stdout).toEqual('');
       var file = fs.readFileSync(path.join(output, '/tasks.json'), 'utf8');
       var parsedJson = JSON.parse(file);
@@ -70,9 +81,12 @@ describe('flag: --tasks-json', function() {
     // Disable the timeout for old node versions
     this.timeout(0);
 
-    runner({ verbose: false })
-      .gulp('--tasks-json --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--tasks-json',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);

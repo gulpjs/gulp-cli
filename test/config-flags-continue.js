@@ -1,28 +1,26 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
-var skipLines = require('gulp-test-tools').skipLines;
-var headLines = require('gulp-test-tools').headLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
 
-var fixturesDir = path.join(__dirname, 'fixtures/config');
-var runner = require('gulp-test-tools').gulpRunner({ verbose: false }).basedir(fixturesDir);
+var sliceLines = require('./tool/slice-lines');
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, 'fixtures/config/flags/continue');
 
 describe('config: flags.continue', function() {
 
-  it('Should continue if `flags.continue` is true in .gulp.*',
-  function(done) {
-    runner
-      .chdir('flags/continue/t')
-      .gulp()
-      .run(cb);
+  it('Should continue if `flags.continue` is true in .gulp.*', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 't') + cmdSep,
+      gulpCmd,
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'err\'...\n' +
@@ -30,7 +28,7 @@ describe('config: flags.continue', function() {
         'Finished \'next\' after ?\n' +
         ''
       );
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      stderr = sliceLines(stderr, 0, 2);
       expect(stderr).toEqual(
         '\'err\' errored after ?\n' +
         'Error: Error!'
@@ -39,23 +37,21 @@ describe('config: flags.continue', function() {
     }
   });
 
-  it('Should not continue if `flags.continue` is false in .gulp.*',
-  function(done) {
-    runner
-      .chdir('flags/continue/f')
-      .gulp()
-      .run(cb);
+  it('Should not continue if `flags.continue` is false in .gulp.*', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 'f') + cmdSep,
+      gulpCmd,
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'err\'...\n' +
         ''
       );
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      stderr = sliceLines(stderr, 0, 2);
       expect(stderr).toEqual(
         '\'err\' errored after ?\n' +
         'Error: Error!'
@@ -65,15 +61,15 @@ describe('config: flags.continue', function() {
   });
 
   it('Should overridden by cli flag: --continue', function(done) {
-    runner
-      .chdir('flags/continue/f')
-      .gulp('--continue')
-      .run(cb);
+    exec([
+      'cd ' + path.join(baseDir, 'f') + cmdSep,
+      gulpCmd,
+      '--continue',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'err\'...\n' +
@@ -81,7 +77,7 @@ describe('config: flags.continue', function() {
         'Finished \'next\' after ?\n' +
         ''
       );
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      stderr = sliceLines(stderr, 0, 2);
       expect(stderr).toEqual(
         '\'err\' errored after ?\n' +
         'Error: Error!'
@@ -91,21 +87,21 @@ describe('config: flags.continue', function() {
   });
 
   it('Should overridden by cli flag: --no-continue', function(done) {
-    runner
-      .chdir('flags/continue/t')
-      .gulp('--no-continue')
-      .run(cb);
+    exec([
+      'cd ' + path.join(baseDir, 't') + cmdSep,
+      gulpCmd,
+      '--no-continue',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
-
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
+      stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
         'Starting \'err\'...\n' +
         ''
       );
-      stderr = eraseLapse(eraseTime(headLines(stderr, 2)));
+      stderr = sliceLines(stderr, 0, 2);
       expect(stderr).toEqual(
         '\'err\' errored after ?\n' +
         'Error: Error!'

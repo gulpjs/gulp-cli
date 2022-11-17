@@ -1,58 +1,62 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
-
+var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-// Erases a first space inserted by `chalk`.
-function eraseFirstSpace(s) {
-  return s.replace(/^(\r\n|\n|\r)\s?/g, '\n');
-}
+var cmdSep = require('./tool/cmd-sep');
 
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
 var outputFile = path.join(__dirname, 'expected/flags-help.txt');
 var outputText = fs.readFileSync(outputFile, 'utf8');
 
 describe('flag: --help', function() {
 
   it('shows help using --help', function(done) {
-    runner({ verbose: false })
-      .gulp('--help', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--help',
+      '--cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
     }
   });
 
   it('shows help using short --h', function(done) {
-    runner({ verbose: false })
-      .gulp('--h', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--h',
+      '--cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
     }
   });
 
   it('avoids printing "Requiring external module *"', function(done) {
-    runner({ verbose: false })
-      .gulp('--help --gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      '--help',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseFirstSpace(stdout);
       expect(stdout).toEqual(outputText);
       done(err);
     }

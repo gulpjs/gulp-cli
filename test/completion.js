@@ -1,9 +1,11 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
+var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 
 describe('flag: --completion', function() {
 
@@ -12,9 +14,10 @@ describe('flag: --completion', function() {
       var file = path.resolve(__dirname, '../completion', type);
       var expected = fs.readFileSync(file, 'utf8') + '\n';
 
-      runner({ verbose: false })
-        .gulp('--completion=' + type)
-        .run(cb);
+      exec([
+        gulpCmd,
+        '--completion=' + type,
+      ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toNotExist();
@@ -26,12 +29,12 @@ describe('flag: --completion', function() {
   });
 
   it('shows error message for unknown completion type', function(done) {
-    var expected =
-      'echo "gulp autocompletion rules for \'unknown\' not found"\n';
+    var expected = 'echo "gulp autocompletion rules for \'unknown\' not found"\n';
 
-    runner({ verbose: false })
-      .gulp('--completion=unknown')
-      .run(cb);
+    exec([
+      gulpCmd,
+      '--completion=unknown',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);
@@ -42,9 +45,10 @@ describe('flag: --completion', function() {
   });
 
   it('shows error message for missing completion type', function(done) {
-    runner({ verbose: false })
-      .gulp('--completion')
-      .run(cb);
+    exec([
+      gulpCmd,
+      '--completion',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toNotEqual(null);

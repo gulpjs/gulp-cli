@@ -1,196 +1,251 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
-var eraseTime = require('gulp-test-tools').eraseTime;
-var headLines = require('gulp-test-tools').headLines;
-var runner = require('gulp-test-tools').gulpRunner;
+
+var sliceLines = require('./tool/slice-lines');
+var eraseTime = require('./tool/erase-time');
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, 'fixtures/config/flags/logLevel');
 
 describe('config: flag.logLevel', function() {
 
   describe('log level 3 by default', function() {
-    var gulp = runner({ verbose: false })
-      .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel'))
-      .gulp;
 
     it('Should output error log', function(done) {
-      gulp('--gulpfile x')
-        .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
-          done();
-        });
+      exec([
+        'cd ' + baseDir + cmdSep,
+        gulpCmd,
+        '--gulpfile x',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
+        expect(stdout).toEqual('');
+        expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+        done();
+      }
     });
 
     it('Should output warn log', function(done) {
-      gulp('--require', 'mymodule')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(headLines(eraseTime(stdout), 2)).toMatch(
-            'Failed to load external module mymodule\n' +
-            'Error: Cannot find module \'mymodule\' from \'');
-          done();
-        });
+      exec([
+        'cd ' + baseDir + cmdSep,
+        gulpCmd,
+        '--require mymodule',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(sliceLines(stdout, 0, 2)).toMatch(
+          'Failed to load external module mymodule\n' +
+          'Error: Cannot find module \'mymodule\' from \'');
+        done();
+      }
     });
 
     it('Should output info log', function(done) {
-      gulp('--harmony')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(headLines(eraseTime(stdout), 2)).toMatch(
-           'Node flags detected: --harmony\n' +
-           'Respawned to PID: ');
-          done(err);
-        });
+      exec([
+        'cd ' + baseDir + cmdSep,
+        gulpCmd,
+        '--harmony',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(sliceLines(stdout, 0, 2)).toMatch(
+         'Node flags detected: --harmony\n' +
+         'Respawned to PID: ');
+        done(err);
+      }
     });
   });
 
   describe('log level 1 by config `flags.logLevel`', function() {
-    var gulp = runner({ verbose: false })
-      .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/L'))
-      .gulp;
 
     it('Should output error log', function(done) {
-      gulp('--gulpfile x')
-        .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
-          done();
-        });
+      exec([
+        'cd ' + baseDir + cmdSep,
+        gulpCmd,
+        '--gulpfile x',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
+        expect(stdout).toEqual('');
+        expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+        done();
+      }
     });
 
     it('Should output warn log', function(done) {
-      gulp('--require', 'mymodule')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(stderr).toEqual('');
-          done();
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'L') + cmdSep,
+        gulpCmd,
+        '--require mymodule',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(stderr).toEqual('');
+        done();
+      }
     });
 
     it('Should output info log', function(done) {
-      gulp('--harmony')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(stdout).toEqual('');
-          done(err);
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'L') + cmdSep,
+        gulpCmd,
+        '--harmony',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(stdout).toEqual('');
+        done(err);
+      }
     });
   });
 
   describe('log level 2 by config `flags.logLevel`', function() {
-    var gulp = runner({ verbose: false })
-      .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/LL'))
-      .gulp;
-
     it('Should output error log', function(done) {
-      gulp('--gulpfile x')
-        .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
-          done();
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LL') + cmdSep,
+        gulpCmd,
+        '--gulpfile x',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
+        expect(stdout).toEqual('');
+        expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+        done();
+      }
     });
 
     it('Should output warn log', function(done) {
-      gulp('--require', 'mymodule')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(eraseTime(stdout)).toMatch(
-            'Failed to load external module mymodule\n' +
-            'Error: Cannot find module \'mymodule\' from \'');
-          done();
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LL') + cmdSep,
+        gulpCmd,
+        '--require mymodule',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(eraseTime(stdout)).toMatch(
+          'Failed to load external module mymodule\n' +
+          'Error: Cannot find module \'mymodule\' from \'');
+        done();
+      }
     });
 
     it('Should output info log', function(done) {
-      gulp('--harmony')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(stdout).toEqual('');
-          done(err);
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LL') + cmdSep,
+        gulpCmd,
+        '--harmony',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(stdout).toEqual('');
+        done(err);
+      }
     });
   });
 
   describe('log level 3 by config `flags.logLevel`', function() {
-    var gulp = runner({ verbose: false })
-      .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/LLL'))
-      .gulp;
-
     it('Should output error log', function(done) {
-      gulp('--gulpfile x')
-        .run(function(err, stdout, stderr) {
-          expect(err).toNotEqual(null);
-          expect(stdout).toEqual('');
-          expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
-          done();
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
+        gulpCmd,
+        '--gulpfile x',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toNotEqual(null);
+        expect(stdout).toEqual('');
+        expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
+        done();
+      }
     });
 
     it('Should output warn log', function(done) {
-      gulp('--require', 'mymodule')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(headLines(eraseTime(stdout), 2)).toMatch(
-            'Failed to load external module mymodule\n' +
-            'Error: Cannot find module \'mymodule\' from \'');
-          done();
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
+        gulpCmd,
+        '--require mymodule',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(eraseTime(stdout)).toMatch(
+          'Failed to load external module mymodule\n' +
+          'Error: Cannot find module \'mymodule\' from \'');
+        done();
+      }
     });
 
     it('Should output info log', function(done) {
-      gulp('--harmony')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(headLines(eraseTime(stdout), 2)).toMatch(
-           'Node flags detected: --harmony\n' +
-           'Respawned to PID: ');
-          done(err);
-        });
+      exec([
+        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
+        gulpCmd,
+        '--harmony',
+      ].join(' '), cb);
+
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(sliceLines(stdout, 0, 2)).toMatch(
+          'Node flags detected: --harmony\n' +
+          'Respawned to PID: ');
+        done(err);
+      }
     });
   });
 
   describe('Overridden by cli flag: -L/-LL/-LLL', function() {
     it('Should not output info log by -L', function(done) {
-      var gulp = runner({ verbose: false })
-        .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/LLL'))
-        .gulp;
+      exec([
+        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
+        gulpCmd,
+        '-L',
+        '--require mymodule',
+      ].join(' '), cb);
 
-      gulp('-L', '--require', 'mymodule')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stdout).toEqual('');
-          expect(stderr).toEqual('');
-          done(err);
-        });
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stdout).toEqual('');
+        expect(stderr).toEqual('');
+        done(err);
+      }
     });
 
     it('Should output info log by -LLL', function(done) {
-      var gulp = runner({ verbose: false })
-        .basedir(path.join(__dirname, 'fixtures/config/flags/logLevel/L'))
-        .gulp;
+      exec([
+        'cd ' + path.join(baseDir, 'L') + cmdSep,
+        gulpCmd,
+        '-LLL',
+        '--harmony',
+      ].join(' '), cb);
 
-      gulp('-LLL', '--harmony')
-        .run(function(err, stdout, stderr) {
-          expect(err).toEqual(null);
-          expect(stderr).toEqual('');
-          expect(headLines(eraseTime(stdout), 2)).toMatch(
-           'Node flags detected: --harmony\n' +
-           'Respawned to PID: ');
-          done(err);
-        });
+      function cb(err, stdout, stderr) {
+        expect(err).toEqual(null);
+        expect(stderr).toEqual('');
+        expect(sliceLines(stdout, 0, 2)).toMatch(
+         'Node flags detected: --harmony\n' +
+         'Respawned to PID: ');
+        done(err);
+      }
     });
   });
 });

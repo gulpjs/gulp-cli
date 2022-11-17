@@ -1,23 +1,30 @@
 'use strict';
 
 var expect = require('expect');
-var runner = require('gulp-test-tools').gulpRunner;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
-var skipLines = require('gulp-test-tools').skipLines;
+var exec = require('child_process').exec;
+var path = require('path');
+
+var sliceLines = require('./tool/slice-lines');
+var cmdSep = require('./tool/cmd-sep');
+
+var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var baseDir = path.join(__dirname, '..');
 
 describe('flag: --series', function() {
 
   it('runs tasks in series when flag is set', function(done) {
-    runner({ verbose: false })
-      .gulp('test5 test6', '--series', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      'test5 test6',
+      '--series',
+      '--cwd ./test/fixtures/gulpfiles'
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test5\'...\n' +
         'Finished \'test5\' after ?\n' +
         'Starting \'test6\'...\n' +
@@ -29,16 +36,18 @@ describe('flag: --series', function() {
   });
 
   it('runs tasks in parallel when flag is not set', function(done) {
-    runner({ verbose: false })
-      .gulp('test5 test6', '--cwd ./test/fixtures/gulpfiles')
-      .run(cb);
+    exec([
+      'cd ' + baseDir + cmdSep,
+      gulpCmd,
+      'test5 test6',
+      '--cwd ./test/fixtures/gulpfiles',
+    ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       expect(stdout).toNotMatch('Starting \'anon\'');
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 2)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test5\'...\n' +
         'Starting \'test6\'...\n' +
         'Finished \'test6\' after ?\n' +
