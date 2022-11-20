@@ -36,7 +36,6 @@
     "fancy-log": "^2.0.0",
     "gulplog": "^2.0.1",
     "interpret": "^1.4.0",
-    "isobject": "^4.0.0",
     "liftoff": "^3.1.0",
     "matchdep": "^2.0.0",
     "mute-stdout": "^2.0.0",
