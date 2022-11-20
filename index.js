@@ -8,7 +8,7 @@ var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
-var ansi = require('./lib/shared/ansi');
+var chalk = require('chalk');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
@@ -55,8 +55,8 @@ var cli = new Liftoff({
 });
 
 var usage =
-  '\n' + ansi.bold('Usage:') +
-  ' gulp ' + ansi.blue('[options]') + ' tasks';
+  '\n' + chalk.bold('Usage:') +
+  ' gulp ' + chalk.blue('[options]') + ' tasks';
 
 var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
@@ -66,24 +66,24 @@ cli.on('require', function(name) {
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info('Requiring external module', ansi.magenta(name));
+    log.info('Requiring external module', chalk.magenta(name));
   }
 });
 
 cli.on('requireFail', function(name, error) {
   log.warn(
-    ansi.yellow('Failed to load external module'),
-    ansi.magenta(name)
+    chalk.yellow('Failed to load external module'),
+    chalk.magenta(name)
   );
   /* istanbul ignore else */
   if (error) {
-    log.warn(ansi.yellow(error.toString()));
+    log.warn(chalk.yellow(error.toString()));
   }
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = ansi.magenta(flags.join(', '));
-  var pid = ansi.magenta(child.pid);
+  var nodeFlags = chalk.magenta(flags.join(', '));
+  var pid = chalk.magenta(child.pid);
   log.info('Node flags detected:', nodeFlags);
   log.info('Respawned to PID:', pid);
 });
@@ -164,8 +164,8 @@ function handleArguments(env) {
         ? 'Local modules not found in'
         : 'Local gulp not found in';
     log.error(
-      ansi.red(missingGulpMessage),
-      ansi.magenta(tildify(env.cwd))
+      chalk.red(missingGulpMessage),
+      chalk.magenta(tildify(env.cwd))
     );
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     /* istanbul ignore next */
@@ -177,12 +177,12 @@ function handleArguments(env) {
         : hasYarn
           ? 'yarn add gulp'
         : 'npm install gulp';
-    log.error(ansi.red('Try running: ' + installCommand));
+    log.error(chalk.red('Try running: ' + installCommand));
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(ansi.red('No gulpfile found'));
+    log.error(chalk.red('No gulpfile found'));
     exit(1);
   }
 
@@ -192,7 +192,7 @@ function handleArguments(env) {
     process.chdir(env.cwd);
     log.info(
       'Working directory changed to',
-      ansi.magenta(tildify(env.cwd))
+      chalk.magenta(tildify(env.cwd))
     );
   }
 
@@ -201,7 +201,7 @@ function handleArguments(env) {
 
   if (!range) {
     log.error(
-      ansi.red('Unsupported gulp version', env.modulePackage.version)
+      chalk.red('Unsupported gulp version', env.modulePackage.version)
     );
     exit(1);
   }

@@ -44,7 +44,7 @@ describe('execution error', function() {
       expect(err).toNotEqual(null);
       expect(err.code).toEqual(1);
       expect(eraseTime(stdout)).toEqual('');
-      expect(eraseTime(stderr)).toEqual('Unsupported gulp version\n');
+      expect(eraseTime(stderr)).toEqual('Unsupported gulp version 1.2.3\n');
       done();
     }
   });

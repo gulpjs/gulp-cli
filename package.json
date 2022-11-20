@@ -29,11 +29,10 @@
     "test": "nyc mocha --async-only --timeout 5000 test/lib test"
   },
   "dependencies": {
-    "ansi-colors": "^4.1.3",
     "archy": "^1.0.0",
     "array-sort": "^1.0.0",
+    "chalk": "^4.1.2",
     "concat-stream": "^2.0.0",
-    "color-support": "^1.1.3",
     "copy-props": "^4.0.0",
     "fancy-log": "^2.0.0",
     "gulplog": "^2.0.1",
