@@ -1,10 +1,7 @@
 var log = require('gulplog');
-var yargs = require('yargs');
 var toConsole = require('../../lib/shared/log/to-console');
-var cliOptions = require('../../lib/shared/cli-options');
 
-var parser = yargs.usage('', cliOptions);
-var opts = parser.argv;
+var opts = require('../../lib/shared/options/parser').argv;
 
 toConsole(log, opts);
 

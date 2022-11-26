@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
-var yargs = require('yargs');
+
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
@@ -12,7 +12,7 @@ var chalk = require('chalk');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
-var cliOptions = require('./lib/shared/cli-options');
+var parser = require('./lib/shared/options/parser');
 var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
@@ -54,11 +54,6 @@ var cli = new Liftoff({
   },
 });
 
-var usage =
-  '\n' + chalk.bold('Usage:') +
-  ' gulp ' + chalk.blue('[options]') + ' tasks';
-
-var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
 cli.on('require', function(name) {

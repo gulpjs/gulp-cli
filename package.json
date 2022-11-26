@@ -43,7 +43,7 @@
     "replace-homedir": "^2.0.0",
     "semver-greatest-satisfied-range": "^2.0.0",
     "v8flags": "^3.2.0",
-    "yargs": "^7.1.0"
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.5.0",
