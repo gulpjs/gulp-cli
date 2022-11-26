@@ -12,28 +12,29 @@ var cmdSep = require('./tool/cmd-sep');
 var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, '..');
 
-describe('flag: --require', function() {
+describe('flag: --preload', function() {
 
-  it('requires module before running gulpfile', function(done) {
+  it('preloads module before running gulpfile', function(done) {
     exec([
       'cd ' + baseDir + cmdSep,
       gulpCmd,
-      '--require ../test-module.js',
+      '--preload ../test-module.js',
       '--cwd ./test/fixtures/gulpfiles'
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 0, 1)).toEqual('inside test module');
-      expect(sliceLines(stdout, 1, 2)).toEqual('Requiring external module ../test-module.js');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ../test-module.js');
+      expect(sliceLines(stdout, 1, 2)).toEqual('inside test module');
+      expect(sliceLines(stdout, 2, 3)).toEqual('Preloaded external module: ../test-module.js');
 
-      var chgWorkdirLog = sliceLines(stdout, 2, 3);
+      var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      stdout = sliceLines(stdout, 4);
+      stdout = sliceLines(stdout, 5);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
@@ -53,22 +54,24 @@ describe('flag: --require', function() {
     }
   });
 
-  it('can require multiple modules before running gulpfile', function(done) {
+  it('can preload multiple modules before running gulpfile', function(done) {
     exec([
       'cd ' + baseDir + cmdSep,
       gulpCmd,
-      '--require ../test-module.js',
-      '--require ../test-module-2.js',
+      '--preload ../test-module.js',
+      '--preload ../test-module-2.js',
       '--cwd ./test/fixtures/gulpfiles',
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 0, 1)).toEqual('inside test module');
-      expect(sliceLines(stdout, 1, 2)).toEqual('Requiring external module ../test-module.js');
-      expect(sliceLines(stdout, 2, 3)).toEqual('inside test module 2');
-      expect(sliceLines(stdout, 3, 4)).toEqual('Requiring external module ../test-module-2.js');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ../test-module.js');
+      expect(sliceLines(stdout, 1, 2)).toEqual('inside test module');
+      expect(sliceLines(stdout, 2, 3)).toEqual('Preloaded external module: ../test-module.js');
+      expect(sliceLines(stdout, 3, 4)).toEqual('Preloading external module: ../test-module-2.js');
+      expect(sliceLines(stdout, 4, 5)).toEqual('inside test module 2');
+      expect(sliceLines(stdout, 5, 6)).toEqual('Preloaded external module: ../test-module-2.js');
       done(err);
     }
   });
@@ -77,25 +80,27 @@ describe('flag: --require', function() {
     exec([
       'cd ' + baseDir + cmdSep,
       gulpCmd,
-      '--require ./null-module.js',
+      '--preload ./null-module.js',
       '--cwd ./test/fixtures/gulpfiles',
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      stdout = eraseLapse(eraseTime(stdout));
-      expect(stdout).toMatch('Failed to load external module ./null-module.js');
-      expect(stdout).toMatch('Error: Cannot find module \'./null-module.js\'');
+      expect(sliceLines(stdout, 0, 2)).toEqual(
+        'Preloading external module: ./null-module.js\n' +
+        'Failed to preload external module: ./null-module.js'
+      );
+      expect(sliceLines(stdout, 2, 3)).toMatch('Error: Cannot find module \'./null-module.js\'');
       expect(stdout).toNotMatch('inside test module');
-      expect(stdout).toNotMatch('Requiring external module ../test-module.js');
+      expect(stdout).toNotMatch('Preloaded external module: ../null-module.js');
 
-      var chgWorkdirLog = sliceLines(stdout, 0, 3);
+      var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      expect(sliceLines(stdout, 4)).toEqual(
+      expect(sliceLines(stdout, 5)).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
           'Starting \'noop\'...\n' +
@@ -119,7 +124,7 @@ describe('flag: --require', function() {
     exec([
       'cd ' + baseDir + cmdSep,
       gulpCmd,
-      '--require ../test-error-module.js',
+      '--preload ../test-error-module.js',
       '--cwd ./test/fixtures/gulpfiles',
     ].join(' '), cb);
 
@@ -127,16 +132,16 @@ describe('flag: --require', function() {
       stdout = eraseLapse(eraseTime(stdout));
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(stdout).toMatch('Failed to load external module ../test-error-module.js');
-      expect(stdout).toMatch('Error: from error module');
+      expect(sliceLines(stdout, 1, 2)).toEqual('Failed to preload external module: ../test-error-module.js');
+      expect(sliceLines(stdout, 2, 3)).toMatch('Error: from error module');
       expect(stdout).toNotMatch('inside error module');
 
-      var chgWorkdirLog = sliceLines(stdout, 0, 3);
+      var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
       expect(chgWorkdirLog).toMatch('Working directory changed to ');
       expect(chgWorkdirLog).toMatch(workdir);
 
-      expect(sliceLines(stdout, 4)).toEqual(
+      expect(sliceLines(stdout, 5)).toEqual(
         'Starting \'default\'...\n' +
          'Starting \'test1\'...\n' +
           'Starting \'noop\'...\n' +

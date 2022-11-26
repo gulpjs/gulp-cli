@@ -1,0 +1,2 @@
+DESCRIPTION BY .gulp.babel.js in directory foo/bar/baz
+└── default

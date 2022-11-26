@@ -47,7 +47,7 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
-  it('Should ignore a ./gulp.* file if another directory is specified by --cwd', function(done) {
+  it('Should load a ./gulp.* file in a directory specified by --cwd', function(done) {
     exec([
       'cd ' + baseDir + cmdSep,
       gulpCmd,
@@ -58,7 +58,7 @@ describe('config: flags.gulpfile', function() {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 3, 4)).toEqual(
-        'Another gulpfile : ' + path.join(baseDir, 'cwd/gulpfile.js')
+        'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js')
       );
       done(err);
     }
@@ -110,7 +110,7 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toEqual(null);
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 0, 1)).toEqual('Requiring external module babel-register');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Loaded external module: @babel/register');
       expect(sliceLines(stdout, 4, 5)).toEqual('clean!');
       expect(sliceLines(stdout, 7, 8)).toEqual('build!');
       done(err);

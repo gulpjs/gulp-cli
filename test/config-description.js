@@ -47,6 +47,22 @@ describe('config: description', function() {
     }
   });
 
+  it('Should configure with a .gulp.* file in cwd even if it is not a project root', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 'foo/bar/quux') + cmdSep,
+      gulpCmd,
+      '--tasks',
+    ].join(' '), cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toEqual(null);
+      expect(stderr).toEqual('');
+      var expected = fs.readFileSync(path.join(expectedDir, 'output2.txt'), 'utf-8');
+      expect(sliceLines(stdout, 1)).toEqual(expected);
+      done(err);
+    }
+  });
+
   it('Should configure with a .gulp.* file in cwd by --cwd', function(done) {
     exec([
       'cd ' + path.join(baseDir, 'qux') + cmdSep,

@@ -19,7 +19,7 @@ var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/get-blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
-var loadConfigFiles = require('./lib/shared/config/load-files');
+var normalizeConfig = require('./lib/shared/config/normalize-config');
 var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
 var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
 
@@ -41,33 +41,64 @@ var cli = new Liftoff({
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: {
-    '.gulp': {
-      home: {
+    '.gulp': [
+      {
+        path: '.',
+        extensions: interpret.extensions,
+        findUp: true,
+      },
+      {
         path: '~',
         extensions: interpret.extensions,
       },
-      cwd: {
-        path: '.',
-        extensions: interpret.extensions,
-      },
-    },
+    ],
   },
 });
 
 var opts = parser.argv;
 
-cli.on('require', function(name) {
+cli.on('preload:before', function(name) {
   // This is needed because interpret needs to stub the .mjs extension
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info('Requiring external module', chalk.magenta(name));
+    log.info('Preloading external module:', chalk.magenta(name));
   }
 });
 
-cli.on('requireFail', function(name, error) {
+cli.on('preload:success', function(name) {
+  // This is needed because interpret needs to stub the .mjs extension
+  // Without the .mjs require hook, rechoir blows up
+  // However, we don't want to show the mjs-stub loader in the logs
+  if (path.basename(name, '.js') !== 'mjs-stub') {
+    log.info('Preloaded external module:', chalk.magenta(name));
+  }
+});
+
+cli.on('preload:failure', function(name, error) {
   log.warn(
-    chalk.yellow('Failed to load external module'),
+    chalk.yellow('Failed to preload external module:'),
+    chalk.magenta(name)
+  );
+  /* istanbul ignore else */
+  if (error) {
+    log.warn(chalk.yellow(error.toString()));
+  }
+});
+
+cli.on('loader:success', function(name) {
+  // This is needed because interpret needs to stub the .mjs extension
+  // Without the .mjs require hook, rechoir blows up
+  // However, we don't want to show the mjs-stub loader in the logs
+  /* istanbul ignore else */
+  if (path.basename(name, '.js') !== 'mjs-stub') {
+    log.info('Loaded external module:', chalk.magenta(name));
+  }
+});
+
+cli.on('loader:failure', function(name, error) {
+  log.warn(
+    chalk.yellow('Failed to load external module:'),
     chalk.magenta(name)
   );
   /* istanbul ignore else */
@@ -87,14 +118,16 @@ function run() {
   cli.prepare({
     cwd: opts.cwd,
     configPath: opts.gulpfile,
-    require: opts.require,
+    preload: opts.preload,
     completion: opts.completion,
   }, function(env) {
-    var cfgLoadOrder = ['home', 'cwd'];
-    var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
+    var key = '.gulp';
+    var cfgPath = env.configFiles[key];
+    var cfg = normalizeConfig(env.config[key], cfgPath);
+    env.config[key] = cfg;
+
     opts = mergeConfigToCliFlags(opts, cfg);
     env = mergeConfigToEnvFlags(env, cfg, opts);
-    env.configProps = cfg;
 
     // Set up event listeners for logging again after configuring.
     toConsole(log, opts);
@@ -203,5 +236,5 @@ function handleArguments(env) {
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(opts, env, env.configProps);
+  require(versionedDir)(opts, env, env.config['.gulp']);
 }

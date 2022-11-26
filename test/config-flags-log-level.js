@@ -34,14 +34,14 @@ describe('config: flag.logLevel', function() {
       exec([
         'cd ' + baseDir + cmdSep,
         gulpCmd,
-        '--require mymodule',
+        '--preload mymodule',
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toEqual(null);
         expect(stderr).toEqual('');
-        expect(sliceLines(stdout, 0, 2)).toMatch(
-          'Failed to load external module mymodule\n' +
+        expect(sliceLines(stdout, 1, 3)).toMatch(
+          'Failed to preload external module: mymodule\n' +
           'Error: Cannot find module \'mymodule\' from \'');
         done();
       }
@@ -86,7 +86,7 @@ describe('config: flag.logLevel', function() {
       exec([
         'cd ' + path.join(baseDir, 'L') + cmdSep,
         gulpCmd,
-        '--require mymodule',
+        '--preload mymodule',
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
@@ -133,14 +133,14 @@ describe('config: flag.logLevel', function() {
       exec([
         'cd ' + path.join(baseDir, 'LL') + cmdSep,
         gulpCmd,
-        '--require mymodule',
+        '--preload mymodule',
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toEqual(null);
         expect(stderr).toEqual('');
         expect(eraseTime(stdout)).toMatch(
-          'Failed to load external module mymodule\n' +
+          'Failed to preload external module: mymodule\n' +
           'Error: Cannot find module \'mymodule\' from \'');
         done();
       }
@@ -182,14 +182,14 @@ describe('config: flag.logLevel', function() {
       exec([
         'cd ' + path.join(baseDir, 'LLL') + cmdSep,
         gulpCmd,
-        '--require mymodule',
+        '--preload mymodule',
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toEqual(null);
         expect(stderr).toEqual('');
         expect(eraseTime(stdout)).toMatch(
-          'Failed to load external module mymodule\n' +
+          'Failed to preload external module: mymodule\n' +
           'Error: Cannot find module \'mymodule\' from \'');
         done();
       }
@@ -219,7 +219,7 @@ describe('config: flag.logLevel', function() {
         'cd ' + path.join(baseDir, 'LLL') + cmdSep,
         gulpCmd,
         '-L',
-        '--require mymodule',
+        '--preload mymodule',
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {

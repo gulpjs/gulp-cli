@@ -27,7 +27,7 @@ describe('lib: config/env-flags', function() {
   it('Should take into account forced gulpfile opts from flags', function(done) {
     var env = {
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
@@ -41,7 +41,7 @@ describe('lib: config/env-flags', function() {
       flags: {
         silent: false,
         gulpfile: '/path/to/gulpfile',
-        require: ['a', 'b'],
+        preload: ['a', 'b'],
       },
     };
 
@@ -52,7 +52,7 @@ describe('lib: config/env-flags', function() {
     var result =  mergeConfig(env, config, opts);
     expect(result).toEqual({
       cwd: '/path/to/cwd',
-      require: ['preload', 'a', 'b'],
+      preload: ['preload', 'a', 'b'],
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
@@ -66,7 +66,7 @@ describe('lib: config/env-flags', function() {
   it('Should not cause error if config is empty', function(done) {
     var env = {
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
@@ -80,7 +80,7 @@ describe('lib: config/env-flags', function() {
     var result =  mergeConfig(env, config, {});
     expect(result).toEqual({
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',

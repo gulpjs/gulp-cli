@@ -4,7 +4,7 @@ Usage: gulp [options] tasks
 Options:
   -h, --help                  Show this help.                          [boolean]
   -v, --version               Print the global and local gulp versions.[boolean]
-      --require               Will require a module before running the gulpfile.
+      --preload               Will preload a module before running the gulpfile.
                               This is useful for transpilers but also has other
                               applications.                             [string]
   -f, --gulpfile              Manually set path of gulpfile. Useful if you have
