@@ -23,7 +23,7 @@ describe('config: description', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'), 'utf-8');
       expect(eraseTime(stdout)).toEqual(expected);
@@ -39,7 +39,7 @@ describe('config: description', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'), 'utf-8');
       expect(sliceLines(stdout, 1)).toEqual(expected);
@@ -55,7 +55,7 @@ describe('config: description', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output2.txt'), 'utf-8');
       expect(sliceLines(stdout, 1)).toEqual(expected);
@@ -73,7 +73,7 @@ describe('config: description', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output1.txt'), 'utf-8');
       expect(eraseTime(stdout)).toEqual(expected);

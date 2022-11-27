@@ -22,7 +22,7 @@ describe('flag: --series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test5\'...\n' +
@@ -44,9 +44,9 @@ describe('flag: --series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(stdout).toNotMatch('Starting \'anon\'');
+      expect(stdout).not.toMatch('Starting \'anon\'');
       expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test5\'...\n' +
         'Starting \'test6\'...\n' +

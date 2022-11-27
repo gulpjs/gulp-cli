@@ -22,7 +22,7 @@ describe('flag: --continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(sliceLines(stdout, 2)).toEqual(
         'Starting \'test4\'...\n' +
         'Starting \'errorFunction\'...\n' +
@@ -47,8 +47,8 @@ describe('flag: --continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
-      expect(stdout).toNotMatch('Starting \'anon\'');
+      expect(err).not.toBeNull();
+      expect(stdout).not.toMatch('Starting \'anon\'');
       stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(
         'Starting \'test4\'...\n' +

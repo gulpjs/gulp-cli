@@ -23,7 +23,7 @@ describe('flag: --preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ../test-module.js');
       expect(sliceLines(stdout, 1, 2)).toEqual('inside test module');
@@ -64,7 +64,7 @@ describe('flag: --preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ../test-module.js');
       expect(sliceLines(stdout, 1, 2)).toEqual('inside test module');
@@ -85,15 +85,15 @@ describe('flag: --preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 2)).toEqual(
         'Preloading external module: ./null-module.js\n' +
         'Failed to preload external module: ./null-module.js'
       );
       expect(sliceLines(stdout, 2, 3)).toMatch('Error: Cannot find module \'./null-module.js\'');
-      expect(stdout).toNotMatch('inside test module');
-      expect(stdout).toNotMatch('Preloaded external module: ../null-module.js');
+      expect(stdout).not.toMatch('inside test module');
+      expect(stdout).not.toMatch('Preloaded external module: ../null-module.js');
 
       var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
@@ -130,11 +130,11 @@ describe('flag: --preload', function() {
 
     function cb(err, stdout, stderr) {
       stdout = eraseLapse(eraseTime(stdout));
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1, 2)).toEqual('Failed to preload external module: ../test-error-module.js');
       expect(sliceLines(stdout, 2, 3)).toMatch('Error: from error module');
-      expect(stdout).toNotMatch('inside error module');
+      expect(stdout).not.toMatch('inside error module');
 
       var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);

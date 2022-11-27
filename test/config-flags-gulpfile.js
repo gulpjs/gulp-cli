@@ -19,7 +19,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 2, 4)).toEqual(
         'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js') + '\n' +
@@ -37,7 +37,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 3, 5)).toEqual(
         'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js') + '\n' +
@@ -55,7 +55,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 3, 4)).toEqual(
         'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js')
@@ -72,7 +72,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 3, 4)).toEqual(
         'Another gulpfile : ' + path.join(baseDir, 'cwd/gulpfile.js')
@@ -89,7 +89,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 2, 3)).toEqual(
         'Gulpfile : ' + path.join(baseDir, 'override-by-cliflag/mygulpfile.js')
@@ -108,7 +108,7 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Loaded external module: @babel/register');
       expect(sliceLines(stdout, 4, 5)).toEqual('clean!');
@@ -125,8 +125,8 @@ describe('config: flags.gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
-      expect(stderr).toNotEqual('');
+      expect(err).not.toBeNull();
+      expect(stderr).not.toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Failed to load external module: coffeescript/register');
       expect(sliceLines(stdout, 1, 2)).toMatch('Error: Cannot find module \'coffeescript/register\'');
       done();

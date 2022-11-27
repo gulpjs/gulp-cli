@@ -19,7 +19,7 @@ describe('config: flags.continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
@@ -44,7 +44,7 @@ describe('config: flags.continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
@@ -68,7 +68,7 @@ describe('config: flags.continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +
@@ -94,7 +94,7 @@ describe('config: flags.continue', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       stdout = sliceLines(stdout, 1);
       expect(stdout).toEqual(
         'Starting \'default\'...\n' +

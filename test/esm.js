@@ -35,7 +35,7 @@ describe('ESM', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch(/^(.*ExperimentalWarning: The ESM module loader is experimental\.\n)?$/);
       var filepath = path.join(expectedDir, 'esm.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');

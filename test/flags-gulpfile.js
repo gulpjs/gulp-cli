@@ -22,7 +22,7 @@ describe('flag: --gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
 
       var chgWorkdirLog = sliceLines(stdout, 0, 1);
@@ -53,7 +53,7 @@ describe('flag: --gulpfile', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
 
       var chgWorkdirLog = sliceLines(stdout, 0, 1);

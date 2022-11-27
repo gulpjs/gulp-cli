@@ -23,7 +23,7 @@ describe('flag: --tasks-simple', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(outputText);
       done(err);
@@ -42,7 +42,7 @@ describe('flag: --tasks-simple', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(outputText);
       done(err);

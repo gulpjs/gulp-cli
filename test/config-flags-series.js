@@ -20,7 +20,7 @@ describe('config: flags.series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +
@@ -41,7 +41,7 @@ describe('config: flags.series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +
@@ -62,7 +62,7 @@ describe('config: flags.series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +
@@ -83,7 +83,7 @@ describe('config: flags.series', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'task1\'...\n' +

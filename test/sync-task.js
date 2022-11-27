@@ -18,7 +18,7 @@ describe('sync-task', function() {
     ].join(' '), cb);
 
     function cb(err) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(err.code).toEqual(1);
       done();
     }
@@ -48,7 +48,9 @@ describe('sync-task', function() {
     ].join(' '), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toExclude('The following tasks did not complete:');
+      expect(stdout).toEqual(expect.not.stringContaining(
+        'The following tasks did not complete:'
+      ));
       done();
     }
   });
@@ -61,7 +63,9 @@ describe('sync-task', function() {
     ].join(' '), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toExclude('The following tasks did not complete:');
+      expect(stdout).toEqual(expect.not.stringContaining(
+        'The following tasks did not complete:'
+      ));
       done();
     }
   });
@@ -74,7 +78,9 @@ describe('sync-task', function() {
     ].join(' '), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toInclude('The following tasks did not complete: broken, notCompleting1\n');
+      expect(stdout).toEqual(expect.stringContaining(
+        'The following tasks did not complete: broken, notCompleting1\n'
+      ));
       done();
     }
   });

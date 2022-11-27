@@ -21,7 +21,7 @@ describe('flag: --verify', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(stderr).toEqual('');
       expect(eraseTime(stdout)).toEqual(
         'Verifying plugins in ' + path.resolve('./test/fixtures/verify/invalid-package.json') + '\n' +
@@ -41,7 +41,7 @@ describe('flag: --verify', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(eraseTime(stdout)).toEqual(
         'Verifying plugins in ' + path.resolve('./test/fixtures/verify/valid-package.json') + '\n' +
@@ -60,7 +60,7 @@ describe('flag: --verify', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(stderr).toEqual('');
       expect(eraseTime(stdout)).toEqual(
         'Verifying plugins in ' + path.resolve('./test/fixtures/verify/package.json') + '\n' +

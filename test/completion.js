@@ -20,7 +20,7 @@ describe('flag: --completion', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toNotExist();
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(stdout).toEqual(expected);
         done(err);
@@ -37,7 +37,7 @@ describe('flag: --completion', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(expected);
       done();
@@ -51,7 +51,7 @@ describe('flag: --completion', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(stderr).toMatch('Missing completion type');
       expect(stdout).toEqual('');
       done();

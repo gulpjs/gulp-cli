@@ -23,7 +23,7 @@ describe('flag: --tasks-json', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(JSON.parse(stdout)).toEqual(expected);
       done(err);
@@ -43,7 +43,7 @@ describe('flag: --tasks-json', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var jsonObj = JSON.parse(stdout);
       expect(jsonObj.label).toMatch('Tasks for ');
@@ -65,7 +65,7 @@ describe('flag: --tasks-json', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       stdout = stdout.split('\n').slice(1).join('\n');
       expect(stdout).toEqual('');
@@ -89,7 +89,7 @@ describe('flag: --tasks-json', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(JSON.parse(stdout)).toEqual(expected);
       done(err);

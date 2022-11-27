@@ -24,7 +24,7 @@ describe('execution error', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(err.code).toEqual(1);
       expect(eraseTime(stdout)).toMatch('Using gulpfile ');
       expect(eraseTime(stderr)).toEqual(
@@ -41,7 +41,7 @@ describe('execution error', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(err.code).toEqual(1);
       expect(eraseTime(stdout)).toEqual('');
       expect(eraseTime(stderr)).toEqual('Unsupported gulp version 1.2.3\n');
@@ -58,7 +58,7 @@ describe('execution error', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(err.code).toEqual(1);
       expect(sliceLines(stderr, 0, 1)).toMatch('Local gulp not found in ');
       expect(sliceLines(stderr, 1, 2)).toEqual('Try running: npm install gulp');
@@ -77,7 +77,7 @@ describe('execution error', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toNotEqual(null);
+      expect(err).not.toBeNull();
       expect(err.code).toEqual(1);
       expect(sliceLines(stdout)).toEqual(
         'Using gulpfile ' + tildify(path.join(dir, gulpfileName)) + '\n' +

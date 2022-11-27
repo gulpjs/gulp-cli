@@ -23,7 +23,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toNotEqual(null);
+        expect(err).not.toBeNull();
         expect(stdout).toEqual('');
         expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
         done();
@@ -38,7 +38,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(sliceLines(stdout, 1, 3)).toMatch(
           'Failed to preload external module: mymodule\n' +
@@ -55,7 +55,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(sliceLines(stdout, 0, 2)).toMatch(
          'Node flags detected: --harmony\n' +
@@ -75,7 +75,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toNotEqual(null);
+        expect(err).not.toBeNull();
         expect(stdout).toEqual('');
         expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
         done();
@@ -90,7 +90,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(stderr).toEqual('');
         done();
@@ -105,7 +105,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(stdout).toEqual('');
         done(err);
@@ -122,7 +122,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toNotEqual(null);
+        expect(err).not.toBeNull();
         expect(stdout).toEqual('');
         expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
         done();
@@ -137,7 +137,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(eraseTime(stdout)).toMatch(
           'Failed to preload external module: mymodule\n' +
@@ -154,7 +154,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(stdout).toEqual('');
         done(err);
@@ -171,7 +171,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toNotEqual(null);
+        expect(err).not.toBeNull();
         expect(stdout).toEqual('');
         expect(eraseTime(stderr)).toEqual('No gulpfile found\n');
         done();
@@ -186,7 +186,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(eraseTime(stdout)).toMatch(
           'Failed to preload external module: mymodule\n' +
@@ -203,7 +203,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(sliceLines(stdout, 0, 2)).toMatch(
           'Node flags detected: --harmony\n' +
@@ -223,7 +223,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stdout).toEqual('');
         expect(stderr).toEqual('');
         done(err);
@@ -239,7 +239,7 @@ describe('config: flag.logLevel', function() {
       ].join(' '), cb);
 
       function cb(err, stdout, stderr) {
-        expect(err).toEqual(null);
+        expect(err).toBeNull();
         expect(stderr).toEqual('');
         expect(sliceLines(stdout, 0, 2)).toMatch(
          'Node flags detected: --harmony\n' +

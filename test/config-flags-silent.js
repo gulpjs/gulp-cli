@@ -19,7 +19,7 @@ describe('config: flags.silent', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);
@@ -33,7 +33,7 @@ describe('config: flags.silent', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +
@@ -52,7 +52,7 @@ describe('config: flags.silent', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);
@@ -67,7 +67,7 @@ describe('config: flags.silent', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +

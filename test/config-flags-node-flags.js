@@ -19,7 +19,7 @@ describe('config: nodeFlags', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy');
       expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
@@ -34,7 +34,7 @@ describe('config: nodeFlags', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy, --trace-deprecation');
       expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
@@ -50,7 +50,7 @@ describe('config: nodeFlags', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy, --harmony');
       expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
@@ -65,7 +65,7 @@ describe('config: nodeFlags', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toMatch('Using gulpfile ');
       expect(sliceLines(stdout, 1)).toEqual(
@@ -84,7 +84,7 @@ describe('config: nodeFlags', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toMatch('Using gulpfile ');
       expect(sliceLines(stdout, 1)).toEqual(

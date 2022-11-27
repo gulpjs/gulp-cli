@@ -23,7 +23,7 @@ describe('flag: --version', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
         'CLI version: ' + cliVersion + '\n' +
@@ -42,7 +42,7 @@ describe('flag: --version', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
         'CLI version: ' + cliVersion + '\n' +
@@ -61,7 +61,7 @@ describe('flag: --version', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual(
         'CLI version: ' + cliVersion + '\n' +

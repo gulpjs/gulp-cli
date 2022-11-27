@@ -20,7 +20,7 @@ describe('flag: --silent', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);

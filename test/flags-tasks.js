@@ -22,7 +22,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -41,7 +41,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'with-desc-and-flags.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -60,7 +60,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'by-unwrap-and-not-by-unwrap.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -77,7 +77,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -95,7 +95,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -113,7 +113,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -131,7 +131,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
@@ -149,7 +149,7 @@ describe('flag: --tasks', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');

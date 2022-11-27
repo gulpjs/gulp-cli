@@ -19,7 +19,7 @@ describe('config: flags.preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ./preload_one');
       expect(sliceLines(stdout, 1, 2)).toEqual('Preloaded external module: ./preload_one');
@@ -38,7 +38,7 @@ describe('config: flags.preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ./preload');
       expect(sliceLines(stdout, 1, 2)).toEqual('Preloaded external module: ./preload');
@@ -55,7 +55,7 @@ describe('config: flags.preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ./preload_one');
       expect(sliceLines(stdout, 1, 2)).toEqual('Preloaded external module: ./preload_one');
@@ -75,7 +75,7 @@ describe('config: flags.preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ../preload');
       expect(sliceLines(stdout, 1, 2)).toEqual('Preloaded external module: ../preload');
@@ -92,7 +92,7 @@ describe('config: flags.preload', function() {
     ].join(' '), cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       var absolute = path.join(__dirname, './fixtures/config/flags/preload/preload');
       expect(sliceLines(stdout, 0, 1)).toEqual('Preloading external module: ' + absolute);

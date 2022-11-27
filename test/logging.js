@@ -9,7 +9,7 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LLLL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test debug');
@@ -23,7 +23,7 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
@@ -36,7 +36,7 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LLL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
@@ -49,7 +49,7 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -LL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test warn');
@@ -61,7 +61,7 @@ describe('logging', function() {
     child.exec('node ' + __dirname + '/fixtures/logging.js -L', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       expect(stdout).toEqual('');
       done(err);
