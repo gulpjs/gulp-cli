@@ -16,7 +16,7 @@ Just running `gulp` will execute the task `default`. If there is no
 
 ### Compilers
 
-You can find a list of supported languages at https://github.com/js-cli/js-interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
+You can find a list of supported languages at [https://github.com/js-cli/js-interpret](https://github.com/gulpjs/interpret). If you would like to add support for a new language, send pull requests/open issues on that project.
 
 ### Environment
 
