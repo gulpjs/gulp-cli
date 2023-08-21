@@ -65,6 +65,17 @@
     "rimraf": "^2.6.1",
     "semver": "^5.7.1"
   },
+  "overrides": {
+    "cache-base": {
+      "unset-value": "2.0.1"
+    },
+    "os-locale": {
+      "mem": "4.0.0"
+    },
+    "strip-ansi": {
+      "ansi-regex": "3.0.1"
+    }
+  },
   "keywords": [
     "build",
     "stream",
