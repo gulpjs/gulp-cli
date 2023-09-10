@@ -16,7 +16,8 @@ var expectedDir = path.join(__dirname, 'expected');
 describe('ESM', function() {
 
   it('prints the task list', function(done) {
-    if (semver.lt(process.version, '10.15.3')) {
+    // Segmentation fault is caused only v10.15.3.
+    if (semver.eq(process.version, '10.15.3')) {
       this.skip();
     }
 
