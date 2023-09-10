@@ -13,7 +13,7 @@ Command Line Utility for Gulp
 ## Install
 
 ```bash
-npm install gulp-cli
+npm install --global gulp-cli
 ```
 
 ## Usage
