@@ -19,7 +19,7 @@ var cliVersion = require('./package.json').version;
 var getBlacklist = require('./lib/shared/get-blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
-var normalizeConfig = require('./lib/shared/config/normalize-config');
+var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
 var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
 var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
 
@@ -41,13 +41,17 @@ var cli = new Liftoff({
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: {
-    '.gulp': [
+    project: [
       {
+        name: '.gulp',
         path: '.',
         extensions: interpret.extensions,
         findUp: true,
       },
+    ],
+    userHome: [
       {
+        name: '.gulp',
         path: '~',
         extensions: interpret.extensions,
       },
@@ -122,26 +126,25 @@ function run() {
     configPath: opts.gulpfile,
     preload: opts.preload,
     completion: opts.completion,
-  }, function(env) {
-    var key = '.gulp';
-    var cfgPath = env.configFiles[key];
-    var cfg = normalizeConfig(env.config[key], cfgPath);
-    env.config[key] = cfg;
-
-    opts = mergeConfigToCliFlags(opts, cfg);
-    env = mergeConfigToEnvFlags(env, cfg, opts);
-
-    // Set up event listeners for logging again after configuring.
-    toConsole(log, opts);
-
-    cli.execute(env, env.nodeFlags, handleArguments);
-  });
+  }, onPrepare);
 }
 
 module.exports = run;
 
+function onPrepare(env) {
+  var cfg = mergeProjectAndUserHomeConfigs(env);
+  opts = mergeConfigToCliFlags(opts, cfg);
+  env = mergeConfigToEnvFlags(env, cfg, opts);
+  env.config['.gulp'] = cfg;
+
+  // Set up event listeners for logging again after configuring.
+  toConsole(log, opts);
+
+  cli.execute(env, env.nodeFlags, onExecute);
+}
+
 // The actual logic
-function handleArguments(env) {
+function onExecute(env) {
 
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
