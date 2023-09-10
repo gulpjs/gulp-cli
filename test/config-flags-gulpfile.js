@@ -117,5 +117,21 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
+  it('Should output error logs of autoload if fail to load module for a specified gulpfile', function(done) {
+    exec([
+      'cd ' + path.join(baseDir, 'autoload-fail') + cmdSep,
+      gulpCmd,
+      'dist',
+    ].join(' '), cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toNotEqual(null);
+      expect(stderr).toNotEqual('');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Failed to load external module: coffeescript/register');
+      expect(sliceLines(stdout, 1, 2)).toMatch('Error: Cannot find module \'coffeescript/register\'');
+      done();
+    }
+  });
+
 });
 

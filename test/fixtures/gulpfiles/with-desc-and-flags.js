@@ -17,7 +17,7 @@ gulp.task('styles').description = 'Compiles and bundles CSS';
 var build = gulp.series('clean', 'scripts', 'styles');
 build.description = 'Build all the things!';
 build.flags = {
-  '--dev': 'un-minified',
+  '--dev': '',
   '--production': 'compressed into single bundle',
   '': 'dummy-empty-string',
 };

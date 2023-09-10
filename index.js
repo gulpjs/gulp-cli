@@ -61,6 +61,7 @@ cli.on('preload:before', function(name) {
   // This is needed because interpret needs to stub the .mjs extension
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
+  /* istanbul ignore else */
   if (path.basename(name, '.js') !== 'mjs-stub') {
     log.info('Preloading external module:', chalk.magenta(name));
   }
@@ -70,6 +71,7 @@ cli.on('preload:success', function(name) {
   // This is needed because interpret needs to stub the .mjs extension
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
+  /* istanbul ignore else */
   if (path.basename(name, '.js') !== 'mjs-stub') {
     log.info('Preloaded external module:', chalk.magenta(name));
   }
