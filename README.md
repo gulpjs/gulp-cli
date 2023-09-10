@@ -236,7 +236,7 @@ MIT
 [npm-image]: https://img.shields.io/npm/v/gulp-cli.svg?style=flat-square
 
 [ci-url]: https://github.com/gulpjs/gulp-cli/actions?query=workflow:dev
-[ci-image]: https://img.shields.io/github/workflow/status/gulpjs/gulp-cli/dev?style=flat-square
+[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/gulp-cli/dev.yml?branch=master&style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
 [coveralls-image]: https://img.shields.io/coveralls/gulpjs/gulp-cli.svg?style=flat-square
