@@ -47,7 +47,7 @@ describe('config: flags.preload', function() {
     }
   });
 
-  it('Combines --preload flag with .gulp.* file flags.require', function(done) {
+  it('Combines --preload flag with .gulp.* file flags.preload', function(done) {
     exec([
       'cd ' + path.join(baseDir, 'join-flags') + cmdSep,
       gulpCmd,
