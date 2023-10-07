@@ -83,7 +83,7 @@ describe('lib: config/merge-configs', function() {
     var cfg = mergeConfigs(env);
 
     expect(cfg).toEqual({
-      description: 'description by .gulp.js in directory user home',
+      description: 'description by .gulp.js in directory project',
       flags: {
         series: true,
         silent: true,
