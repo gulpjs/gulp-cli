@@ -1,1 +1,1 @@
-exports.description = 'DESCRIPTION BY .gulp.babel.js in directory foo/bar/baz'
+exports.description = 'DESCRIPTION BY .gulp.babel.js in directory foo/bar/quux'
