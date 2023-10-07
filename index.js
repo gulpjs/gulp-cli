@@ -16,7 +16,7 @@ var parser = require('./lib/shared/options/parser');
 var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
-var getBlacklist = require('./lib/shared/get-blacklist');
+var getBlacklist = require('./lib/shared/blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');

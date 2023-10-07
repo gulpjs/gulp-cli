@@ -32,7 +32,6 @@
   "dependencies": {
     "archy": "^1.0.0",
     "chalk": "^4.1.2",
-    "concat-stream": "^2.0.0",
     "copy-props": "^4.0.0",
     "fancy-log": "^2.0.0",
     "gulplog": "^2.0.1",
