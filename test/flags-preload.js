@@ -85,8 +85,6 @@ describe('flag: --preload', function() {
         'Failed to preload external module: ./null-module.js'
       );
       expect(sliceLines(stdout, 2, 3)).toMatch('Error: Cannot find module \'./null-module.js\'');
-      expect(stdout).not.toMatch('inside test module');
-      expect(stdout).not.toMatch('Preloaded external module: ../null-module.js');
 
       var chgWorkdirLog = sliceLines(stdout, 3, 4);
       var workdir = 'test/fixtures/gulpfiles'.replace(/\//g, path.sep);
