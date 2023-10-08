@@ -5,20 +5,17 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var eraseTime = require('./tool/erase-time');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
 var baseDir = path.join(__dirname, '..');
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 
 describe('flag: --verify', function() {
 
   it('dependencies with invalid dependency', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--verify invalid-package.json',
-      '--cwd ./test/fixtures/verify/',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/verify/'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -34,11 +31,10 @@ describe('flag: --verify', function() {
   });
 
   it('dependencies with valid dependency', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
-      '--verify valid-package.json', '--cwd ./test/fixtures/verify/',
-    ].join(' '), cb);
+    exec(cd(baseDir).gulp(
+      '--verify valid-package.json',
+      '--cwd ./test/fixtures/verify/'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -53,11 +49,10 @@ describe('flag: --verify', function() {
   });
 
   it('default args with invalid dependency', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
-      '--verify', '--cwd', path.resolve('./test/fixtures/verify/'),
-    ].join(' '), cb);
+    exec(cd(baseDir).gulp(
+      '--verify',
+      '--cwd', path.resolve('./test/fixtures/verify/')
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

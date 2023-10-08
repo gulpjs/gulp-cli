@@ -2,20 +2,13 @@
 
 var expect = require('expect');
 var exec = require('child_process').exec;
-var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
-
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var cd = require('./tool/gulp-cmd').cd;
 
 describe('sync-task', function() {
   it('should return error code 1 if any tasks did not complete', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, 'fixtures/gulpfiles') + cmdSep,
-      gulpCmd,
-      'test6 test7 test8',
-    ].join(' '), cb);
+    exec(cd(__dirname, 'fixtures/gulpfiles').gulp('test6 test7 test8'), cb);
 
     function cb(err) {
       expect(err).not.toBeNull();
@@ -25,11 +18,7 @@ describe('sync-task', function() {
   });
 
   it('should log tasks which did not complete', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, 'fixtures/gulpfiles') + cmdSep,
-      gulpCmd,
-      'test6 test7 test8',
-    ].join(' '), cb);
+    exec(cd(__dirname, 'fixtures/gulpfiles').gulp('test6 test7 test8'), cb);
 
     function cb(err, stdout) {
       expect(sliceLines(stdout, 5, 7)).toEqual(
@@ -41,11 +30,9 @@ describe('sync-task', function() {
   });
 
   it('should not log false positive in case of parallel failure', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, '..') + cmdSep,
-      gulpCmd,
+    exec(cd(__dirname, '..').gulp(
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js'
-    ].join(' '), cb);
+    ), cb);
 
     function cb(err, stdout) {
       expect(stdout).toEqual(expect.not.stringContaining(
@@ -56,11 +43,9 @@ describe('sync-task', function() {
   });
 
   it('should not log false positive in case of parallel failure in continue mode', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, '..') + cmdSep,
-      gulpCmd,
-      '--continue --gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js',
-    ].join(' '), cb);
+    exec(cd(__dirname, '..').gulp(
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js'
+    ), cb);
 
     function cb(err, stdout) {
       expect(stdout).toEqual(expect.not.stringContaining(
@@ -71,11 +56,11 @@ describe('sync-task', function() {
   });
 
   it('should log non-completing task alongside a failure in continue mode', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, '..') + cmdSep,
-      gulpCmd,
-      '--continue --gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js broken',
-    ].join(' '), cb);
+    exec(cd(__dirname, '..').gulp(
+      '--continue',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-parallel-failure.js',
+      'broken'
+    ), cb);
 
     function cb(err, stdout) {
       expect(stdout).toEqual(expect.stringContaining(

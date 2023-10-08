@@ -5,18 +5,14 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/continue');
 
 describe('config: flags.continue', function() {
 
   it('Should continue if `flags.continue` is true in .gulp.*', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 't') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 't').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -38,10 +34,7 @@ describe('config: flags.continue', function() {
   });
 
   it('Should not continue if `flags.continue` is false in .gulp.*', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'f') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'f').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -61,11 +54,7 @@ describe('config: flags.continue', function() {
   });
 
   it('Should overridden by cli flag: --continue', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'f') + cmdSep,
-      gulpCmd,
-      '--continue',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'f').gulp('--continue'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -87,11 +76,7 @@ describe('config: flags.continue', function() {
   });
 
   it('Should overridden by cli flag: --no-continue', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 't') + cmdSep,
-      gulpCmd,
-      '--no-continue',
-    ].join(' '), cb);
+    exec(cd(baseDir, 't').gulp('--no-continue'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

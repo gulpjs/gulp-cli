@@ -5,9 +5,8 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, '..');
 var outputFile = path.join(__dirname, 'expected/flags-help.txt');
 var outputText = fs.readFileSync(outputFile, 'utf8');
@@ -15,12 +14,10 @@ var outputText = fs.readFileSync(outputFile, 'utf8');
 describe('flag: --help', function() {
 
   it('shows help using --help', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--help',
-      '--cwd ./test/fixtures/gulpfiles',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/gulpfiles'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -31,12 +28,10 @@ describe('flag: --help', function() {
   });
 
   it('shows help using short --h', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--h',
-      '--cwd ./test/fixtures/gulpfiles',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/gulpfiles'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -47,12 +42,10 @@ describe('flag: --help', function() {
   });
 
   it('avoids printing "Requiring external module *"', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--help',
-      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js',
-    ].join(' '), cb);
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

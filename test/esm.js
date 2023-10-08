@@ -8,9 +8,8 @@ var semver = require('semver');
 
 var baseDir = path.join(__dirname, '..');
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var expectedDir = path.join(__dirname, 'expected');
 
 describe('ESM', function() {
@@ -28,11 +27,7 @@ describe('ESM', function() {
       trailingLines += 2;
     }
 
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
-      options,
-    ].join(' '), cb);
+    exec(cd(baseDir).gulp(options), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

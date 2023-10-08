@@ -6,20 +6,15 @@ var path = require('path');
 var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/compactTasks');
 var expectedDir = path.join(__dirname, 'expected');
 
 describe('config: flags.compactTasks', function() {
 
   it('Should compact task lists when `flags.compactTasks` is true in .gulp.*', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 't') + cmdSep,
-      gulpCmd,
-      '--tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 't').gulp('--tasks'), cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
@@ -33,11 +28,7 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should not compact task lists when `flags.compactTasks` is false in .gulp.*', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'f') + cmdSep,
-      gulpCmd,
-      '--tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'f').gulp('--tasks'), cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
@@ -51,12 +42,7 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should overridden by cli flag: --compact-tasks', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'f') + cmdSep,
-      gulpCmd,
-      '--tasks',
-      '--compact-tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'f').gulp('--tasks', '--compact-tasks'), cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
@@ -70,12 +56,7 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should overridden by cli flag: --no-compact-tasks', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 't') + cmdSep,
-      gulpCmd,
-      '--tasks',
-      '--no-compact-tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 't').gulp('--tasks', '--no-compact-tasks'), cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');

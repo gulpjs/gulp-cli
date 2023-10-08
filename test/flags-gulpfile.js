@@ -5,9 +5,8 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, '..');
 
 describe('flag: --gulpfile', function() {
@@ -15,11 +14,7 @@ describe('flag: --gulpfile', function() {
   it('Manually set path of gulpfile using --gulpfile', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
-      '--gulpfile', gulpfilePath,
-    ].join(' '), cb);
+    exec(cd(baseDir).gulp('--gulpfile', gulpfilePath), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -46,11 +41,7 @@ describe('flag: --gulpfile', function() {
   it('Manually set path of gulpfile using -f', function(done) {
     var gulpfilePath = 'test/fixtures/gulpfiles/gulpfile-2.js';
 
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
-      '-f', gulpfilePath,
-    ].join(' '), cb);
+    exec(cd(baseDir).gulp('-f', gulpfilePath), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

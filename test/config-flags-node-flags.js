@@ -5,18 +5,14 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/nodeFlags');
 
 describe('config: nodeFlags', function() {
 
   it('Should respawn by a node flag: --lazy', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'string') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'string').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -28,10 +24,7 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should respawn by a node flag: --lazy --trace-deprecation', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'array') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'array').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -43,11 +36,7 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should respawn with flags in config file and command line', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'string') + cmdSep,
-      gulpCmd,
-      '--harmony',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'string').gulp('--harmony'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -59,10 +48,7 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should not respawn when a node flag is specified to undefined', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'undefined') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'undefined').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -78,10 +64,7 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should not respawn when a node flag is specified to null', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'null') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'null').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

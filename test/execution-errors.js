@@ -10,18 +10,12 @@ var tildify = require('../lib/shared/tildify');
 var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
-
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var cd = require('./tool/gulp-cmd').cd;
 
 describe('execution error', function() {
 
   it('should output an error if a task is not defined', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, './fixtures/gulpfiles') + cmdSep,
-      gulpCmd,
-      'a',
-    ].join(' '), cb);
+    exec(cd(__dirname, './fixtures/gulpfiles').gulp('a'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -35,10 +29,7 @@ describe('execution error', function() {
   });
 
   it('should output an error if gulp version is unsupported', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, './fixtures/errors/bad-gulp-version') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(__dirname, './fixtures/errors/bad-gulp-version').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -51,11 +42,12 @@ describe('execution error', function() {
 
   it('should output an error if gulp is not found', function(done) {
     var tmpdir = os.tmpdir();
-    exec([
-      os.platform() === 'win32' ? tmpdir.slice(0, 2) + cmdSep : '',
-      'cd ' + tmpdir + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    if (os.platform() === 'win32') {
+      var moveDrive = tmpdir.slice(0, 2) + '&';
+      exec(moveDrive + cd(tmpdir).gulp(), cb);
+    } else {
+      exec(cd(tmpdir).gulp(), cb);
+    }
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -70,11 +62,9 @@ describe('execution error', function() {
     var dir = path.join(__dirname, 'fixtures/gulpfiles');
     var gulpfileName = 'gulpfile-dedup-errorlog.js';
 
-    exec([
-      'cd ' + dir + cmdSep,
-      'node ' + path.join(__dirname, '../bin/gulp.js'),
-      '--gulpfile', gulpfileName,
-    ].join(' '), cb);
+    exec(cd(dir).gulp(
+      '--gulpfile', gulpfileName
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -96,4 +86,3 @@ describe('execution error', function() {
     }
   });
 });
-

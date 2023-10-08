@@ -6,9 +6,8 @@ var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
 var eraseTime = require('./tool/erase-time');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/logLevel');
 
 describe('config: flag.logLevel', function() {
@@ -16,11 +15,7 @@ describe('config: flag.logLevel', function() {
   describe('log level 3 by default', function() {
 
     it('Should output error log', function(done) {
-      exec([
-        'cd ' + baseDir + cmdSep,
-        gulpCmd,
-        '--gulpfile x',
-      ].join(' '), cb);
+      exec(cd(baseDir).gulp('--gulpfile x'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).not.toBeNull();
@@ -31,11 +26,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      exec([
-        'cd ' + baseDir + cmdSep,
-        gulpCmd,
-        '--preload mymodule',
-      ].join(' '), cb);
+      exec(cd(baseDir).gulp('--preload mymodule'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -48,11 +39,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      exec([
-        'cd ' + baseDir + cmdSep,
-        gulpCmd,
-        '--harmony',
-      ].join(' '), cb);
+      exec(cd(baseDir).gulp('--harmony'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -68,11 +55,7 @@ describe('config: flag.logLevel', function() {
   describe('log level 1 by config `flags.logLevel`', function() {
 
     it('Should output error log', function(done) {
-      exec([
-        'cd ' + baseDir + cmdSep,
-        gulpCmd,
-        '--gulpfile x',
-      ].join(' '), cb);
+      exec(cd(baseDir).gulp('--gulpfile x'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).not.toBeNull();
@@ -83,11 +66,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'L') + cmdSep,
-        gulpCmd,
-        '--preload mymodule',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'L').gulp('--preload mymodule'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -98,11 +77,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'L') + cmdSep,
-        gulpCmd,
-        '--harmony',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'L').gulp('--harmony'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -115,11 +90,7 @@ describe('config: flag.logLevel', function() {
 
   describe('log level 2 by config `flags.logLevel`', function() {
     it('Should output error log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LL') + cmdSep,
-        gulpCmd,
-        '--gulpfile x',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LL').gulp('--gulpfile x'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).not.toBeNull();
@@ -130,11 +101,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LL') + cmdSep,
-        gulpCmd,
-        '--preload mymodule',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LL').gulp('--preload mymodule'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -147,11 +114,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LL') + cmdSep,
-        gulpCmd,
-        '--harmony',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LL').gulp('--harmony'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -164,11 +127,7 @@ describe('config: flag.logLevel', function() {
 
   describe('log level 3 by config `flags.logLevel`', function() {
     it('Should output error log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
-        gulpCmd,
-        '--gulpfile x',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LLL').gulp('--gulpfile x'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).not.toBeNull();
@@ -179,11 +138,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output warn log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
-        gulpCmd,
-        '--preload mymodule',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LLL').gulp('--preload mymodule'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -196,11 +151,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
-        gulpCmd,
-        '--harmony',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LLL').gulp('--harmony'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -215,12 +166,7 @@ describe('config: flag.logLevel', function() {
 
   describe('Overridden by cli flag: -L/-LL/-LLL', function() {
     it('Should not output info log by -L', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'LLL') + cmdSep,
-        gulpCmd,
-        '-L',
-        '--preload mymodule',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'LLL').gulp('-L', '--preload mymodule'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -231,12 +177,7 @@ describe('config: flag.logLevel', function() {
     });
 
     it('Should output info log by -LLL', function(done) {
-      exec([
-        'cd ' + path.join(baseDir, 'L') + cmdSep,
-        gulpCmd,
-        '-LLL',
-        '--harmony',
-      ].join(' '), cb);
+      exec(cd(baseDir, 'L').gulp('-LLL', '--harmony'), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();

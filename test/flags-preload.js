@@ -7,20 +7,17 @@ var path = require('path');
 var sliceLines = require('./tool/slice-lines');
 var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, '..');
 
 describe('flag: --preload', function() {
 
   it('preloads module before running gulpfile', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--preload ../test-module.js',
       '--cwd ./test/fixtures/gulpfiles'
-    ].join(' '), cb);
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -55,13 +52,11 @@ describe('flag: --preload', function() {
   });
 
   it('can preload multiple modules before running gulpfile', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--preload ../test-module.js',
       '--preload ../test-module-2.js',
-      '--cwd ./test/fixtures/gulpfiles',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/gulpfiles'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -77,12 +72,10 @@ describe('flag: --preload', function() {
   });
 
   it('warns if module doesn\'t exist', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--preload ./null-module.js',
-      '--cwd ./test/fixtures/gulpfiles',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/gulpfiles'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -121,12 +114,10 @@ describe('flag: --preload', function() {
   });
 
   it('warns if module throw some error', function(done) {
-    exec([
-      'cd ' + baseDir + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir).gulp(
       '--preload ../test-error-module.js',
-      '--cwd ./test/fixtures/gulpfiles',
-    ].join(' '), cb);
+      '--cwd ./test/fixtures/gulpfiles'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       stdout = eraseLapse(eraseTime(stdout));

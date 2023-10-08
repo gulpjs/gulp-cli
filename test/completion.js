@@ -5,7 +5,7 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
+var gulp = require('./tool/gulp-cmd').gulp;
 
 describe('flag: --completion', function() {
 
@@ -14,10 +14,7 @@ describe('flag: --completion', function() {
       var file = path.resolve(__dirname, '../completion', type);
       var expected = fs.readFileSync(file, 'utf8') + '\n';
 
-      exec([
-        gulpCmd,
-        '--completion=' + type,
-      ].join(' '), cb);
+      exec(gulp('--completion=' + type), cb);
 
       function cb(err, stdout, stderr) {
         expect(err).toBeNull();
@@ -31,10 +28,7 @@ describe('flag: --completion', function() {
   it('shows error message for unknown completion type', function(done) {
     var expected = 'echo "gulp autocompletion rules for \'unknown\' not found"\n';
 
-    exec([
-      gulpCmd,
-      '--completion=unknown',
-    ].join(' '), cb);
+    exec(gulp('--completion=unknown'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -45,10 +39,7 @@ describe('flag: --completion', function() {
   });
 
   it('shows error message for missing completion type', function(done) {
-    exec([
-      gulpCmd,
-      '--completion',
-    ].join(' '), cb);
+    exec(gulp('--completion'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

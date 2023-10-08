@@ -7,20 +7,15 @@ var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
 var eraseTime = require('./tool/erase-time');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');
 
 describe('config: description', function() {
 
   it('Should configure with a .gulp.* file in cwd', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'foo/bar') + cmdSep,
-      gulpCmd,
-      '--tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'foo/bar').gulp('--tasks'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -32,11 +27,7 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd found up', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'foo/bar/baz') + cmdSep,
-      gulpCmd,
-      '--tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'foo/bar/baz').gulp('--tasks'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -48,11 +39,7 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd even if it is not a project root', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'foo/bar/quux') + cmdSep,
-      gulpCmd,
-      '--tasks',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'foo/bar/quux').gulp('--tasks'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -64,13 +51,11 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd by --cwd', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'qux') + cmdSep,
-      gulpCmd,
+    exec(cd(baseDir, 'qux').gulp(
       '--tasks',
       '--gulpfile ../foo/bar/gulpfile.js',
-      '--cwd .',
-    ].join(' '), cb);
+      '--cwd .'
+    ), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

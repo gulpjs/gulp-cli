@@ -5,18 +5,14 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cmdSep = require('./tool/cmd-sep');
+var cd = require('./tool/gulp-cmd').cd;
 
-var gulpCmd = 'node ' + path.join(__dirname, '../bin/gulp.js');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/preload');
 
 describe('config: flags.preload', function() {
 
   it('Should configure with an array in a .gulp.* file', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'array') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'array').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -32,10 +28,7 @@ describe('config: flags.preload', function() {
   });
 
   it('Should configure with a string in a .gulp.* file', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'string') + cmdSep,
-      gulpCmd,
-    ].join(' '), cb);
+    exec(cd(baseDir, 'string').gulp(), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -48,11 +41,7 @@ describe('config: flags.preload', function() {
   });
 
   it('Combines --preload flag with .gulp.* file flags.preload', function(done) {
-    exec([
-      'cd ' + path.join(baseDir, 'join-flags') + cmdSep,
-      gulpCmd,
-      '--preload ./preload_one',
-    ].join(' '), cb);
+    exec(cd(baseDir, 'join-flags').gulp('--preload ./preload_one'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -68,11 +57,7 @@ describe('config: flags.preload', function() {
   });
 
   it('resolves relative requires against cwd', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, 'fixtures/config') + cmdSep,
-      gulpCmd,
-      '--cwd flags/preload/with-cwd',
-    ].join(' '), cb);
+    exec(cd(__dirname, 'fixtures/config').gulp('--cwd flags/preload/with-cwd'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -85,11 +70,7 @@ describe('config: flags.preload', function() {
   });
 
   it('works with absolute paths, ignoring cwd', function(done) {
-    exec([
-      'cd ' + path.join(__dirname, 'fixtures/config') + cmdSep,
-      gulpCmd,
-      '--cwd flags/preload/with-absolute',
-    ].join(' '), cb);
+    exec(cd(__dirname, 'fixtures/config').gulp('--cwd flags/preload/with-absolute'), cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -102,4 +83,3 @@ describe('config: flags.preload', function() {
     }
   });
 });
-
