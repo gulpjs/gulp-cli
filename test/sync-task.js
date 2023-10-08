@@ -35,9 +35,7 @@ describe('sync-task', function() {
     ), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toEqual(expect.not.stringContaining(
-        'The following tasks did not complete:'
-      ));
+      expect(stdout).not.toMatch('The following tasks did not complete:');
       done();
     }
   });
@@ -48,9 +46,7 @@ describe('sync-task', function() {
     ), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toEqual(expect.not.stringContaining(
-        'The following tasks did not complete:'
-      ));
+      expect(stdout).not.toMatch('The following tasks did not complete:');
       done();
     }
   });
@@ -63,9 +59,7 @@ describe('sync-task', function() {
     ), cb);
 
     function cb(err, stdout) {
-      expect(stdout).toEqual(expect.stringContaining(
-        'The following tasks did not complete: broken, notCompleting1\n'
-      ));
+      expect(stdout).toMatch('The following tasks did not complete: broken, notCompleting1\n');
       done();
     }
   });
