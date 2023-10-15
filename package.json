@@ -30,7 +30,6 @@
     "cover": "nyc mocha --async-only --timeout 5000 test/lib test"
   },
   "dependencies": {
-    "archy": "^1.0.0",
     "chalk": "^4.1.2",
     "copy-props": "^4.0.0",
     "fancy-log": "^2.0.0",
