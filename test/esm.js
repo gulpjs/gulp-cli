@@ -5,6 +5,7 @@ var exec = require('child_process').exec;
 var fs = require('fs');
 var path = require('path');
 var semver = require('semver');
+var os = require('os');
 
 var baseDir = path.join(__dirname, '..');
 var sliceLines = require('./tool/slice-lines');
@@ -12,11 +13,26 @@ var cd = require('./tool/gulp-cmd').cd;
 
 var expectedDir = path.join(__dirname, 'expected');
 
+function shouldSkip() {
+  switch (os.platform()) {
+    case 'win32': {
+      return semver.satisfies(process.version, '^11.2.0') ||
+        (process.env.CI && semver.satisfies(process.version, '10.x.x'));
+    }
+    case 'darwin': {
+      return semver.satisfies(process.version, '>=11.0.0 <11.11.0');
+    }
+    case 'linux': {
+      return semver.satisfies(process.version, '>=11.2.0 <11.4.0');
+    }
+  }
+  return semver.satisfies(process.version, '12.8.x || >=12.11.0 <12.18.0 || >=13.0.0 <13.8.0');
+}
+
 describe('ESM', function() {
 
   it('prints the task list', function(done) {
-    // Segmentation fault is caused only v10.15.3.
-    if (semver.eq(process.version, '10.15.3')) {
+    if (shouldSkip()) {
       this.skip();
     }
 
@@ -31,7 +47,11 @@ describe('ESM', function() {
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
-      expect(stderr).toMatch(/^(.*ExperimentalWarning: The ESM module loader is experimental\.\n)?$/);
+      if (!semver.satisfies(process.version, '^12.20.0 || >=13.14.0')) {
+        expect(stderr).toMatch('ExperimentalWarning: The ESM module loader is experimental.\n');
+      } else {
+        expect(stderr).toEqual('');
+      }
       var filepath = path.join(expectedDir, 'esm.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       expect(sliceLines(stdout, trailingLines)).toEqual(expected);
