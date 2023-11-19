@@ -20,8 +20,7 @@ var getBlacklist = require('./lib/shared/blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
-var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
-var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
+var overrideEnvFlagsByConfigAndCliOpts = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -121,41 +120,38 @@ module.exports = run;
 
 function onPrepare(env) {
   var cfg = mergeProjectAndUserHomeConfigs(env);
-  opts = mergeConfigToCliFlags(opts, cfg);
-  env = mergeConfigToEnvFlags(env, cfg, opts);
-  env.config['.gulp'] = cfg;
+  env = overrideEnvFlagsByConfigAndCliOpts(env, cfg, opts);
 
   // Set up event listeners for logging again after configuring.
-  toConsole(log, opts);
+  toConsole(log, env.config.flags);
 
   cli.execute(env, env.nodeFlags, onExecute);
 }
 
 // The actual logic
 function onExecute(env) {
-
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
   // Can know about the flag
-  if (opts.continue) {
+  if (env.config.flags.continue) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  if (opts.help) {
+  if (env.config.flags.help) {
     parser.showHelp(console.log);
     exit(0);
   }
 
   // Anything that needs to print outside of the logging mechanism should use console.log
-  if (opts.version) {
+  if (env.config.flags.version) {
     console.log('CLI version:', cliVersion);
     console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
   }
 
-  if (opts.verify) {
-    var pkgPath = opts.verify !== true ? opts.verify : 'package.json';
+  if (env.config.flags.verify) {
+    var pkgPath = env.config.flags.verify !== true ? env.config.flags.verify : 'package.json';
     /* istanbul ignore else */
     if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
       pkgPath = path.join(env.cwd, pkgPath);
@@ -229,5 +225,5 @@ function onExecute(env) {
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(opts, env, env.config['.gulp']);
+  require(versionedDir)(env);
 }

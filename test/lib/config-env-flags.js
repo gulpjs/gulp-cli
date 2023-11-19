@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('expect');
-var mergeConfig = require('../../lib/shared/config/env-flags');
+var overrideEnvFlags = require('../../lib/shared/config/env-flags');
 
 describe('lib: config/env-flags', function() {
 
@@ -16,11 +16,18 @@ describe('lib: config/env-flags', function() {
       },
     };
 
-    var result =  mergeConfig(env, config, {});
+    var result =  overrideEnvFlags(env, config, {});
     expect(result).toEqual({
       configPath: '/path/to/gulpfile',
       configBase: '/path/to',
+      config: {
+        description: 'DESCRIPTION.',
+        flags: {
+          silent: true,
+        },
+      },
     });
+    expect(result).toBe(env);
     done();
   });
 
@@ -49,7 +56,7 @@ describe('lib: config/env-flags', function() {
       gulpfile: env.configPath,
     };
 
-    var result =  mergeConfig(env, config, opts);
+    var result =  overrideEnvFlags(env, config, opts);
     expect(result).toEqual({
       cwd: '/path/to/cwd',
       preload: ['preload', 'a', 'b'],
@@ -59,7 +66,15 @@ describe('lib: config/env-flags', function() {
       modulePath: '/path/of/module/path',
       modulePackage: { name: 'modulePackage' },
       configFiles: { aaa: {} },
+      config: {
+        description: "DESCRIPTION.",
+        flags: {
+          gulpfile: "/path/of/config/path",
+          silent: false,
+        },
+      },
     });
+    expect(result).toBe(env);
     done();
   });
 
@@ -77,7 +92,7 @@ describe('lib: config/env-flags', function() {
 
     var config = {};
 
-    var result =  mergeConfig(env, config, {});
+    var result =  overrideEnvFlags(env, config, {});
     expect(result).toEqual({
       cwd: '/path/to/cwd',
       preload: 'preload',
@@ -87,8 +102,11 @@ describe('lib: config/env-flags', function() {
       modulePath: '/path/of/module/path',
       modulePackage: { name: 'modulePackage' },
       configFiles: { aaa: {} },
+      config: {
+        flags: {},
+      },
     });
+    expect(result).toBe(env);
     done();
   });
-
 });
