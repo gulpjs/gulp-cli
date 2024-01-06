@@ -36,7 +36,6 @@
     "gulplog": "^2.0.1",
     "interpret": "^3.1.1",
     "liftoff": "^4.0.0",
-    "micromatch": "^4.0.5",
     "mute-stdout": "^2.0.0",
     "replace-homedir": "^2.0.0",
     "semver-greatest-satisfied-range": "^2.0.0",
