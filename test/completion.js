@@ -5,7 +5,7 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-var gulp = require('./tool/gulp-cmd').gulp;
+var gulp = require('./tool/gulp-cmd');
 
 describe('flag: --completion', function() {
 

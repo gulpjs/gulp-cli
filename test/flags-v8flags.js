@@ -5,14 +5,15 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/gulpfiles');
 
 describe('flags: v8flags', function() {
 
   it('Should respawn by a v8flag: --lazy', function(done) {
-    exec(cd(baseDir).gulp('--lazy'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--lazy'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -24,7 +25,8 @@ describe('flags: v8flags', function() {
   });
 
   it('Should respawn by v8flags: --lazy --harmony', function(done) {
-    exec(cd(baseDir).gulp('--lazy --harmony'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--lazy --harmony'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

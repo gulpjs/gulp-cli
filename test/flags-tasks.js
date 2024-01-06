@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 var expectedDir = path.join(__dirname, 'expected');
@@ -14,11 +14,12 @@ var expectedDir = path.join(__dirname, 'expected');
 describe('flag: --tasks', function() {
 
   it('prints the task list', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--sort-tasks',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -31,12 +32,13 @@ describe('flag: --tasks', function() {
   });
 
   it('print the task list with description and flags', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--sort-tasks',
       '--gulpfile ./test/fixtures/gulpfiles/with-desc-and-flags.js',
       '--cwd ./test/fixtures'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -49,12 +51,13 @@ describe('flag: --tasks', function() {
   });
 
   it('print the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--sort-tasks',
       '--gulpfile ./test/fixtures/gulpfiles/by-unwrap-and-not-by-unwrap.js',
       '--cwd ./test/fixtures'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -67,10 +70,11 @@ describe('flag: --tasks', function() {
   });
 
   it('prints the task list without --sort-tasks flag', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -83,11 +87,12 @@ describe('flag: --tasks', function() {
   });
 
   it('prints the task list with --sort-tasks flag', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
       '--sort-tasks'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -100,11 +105,12 @@ describe('flag: --tasks', function() {
   });
 
   it('prints the task list with --tasks-depth flag', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
       '--tasks-depth 4'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -117,11 +123,12 @@ describe('flag: --tasks', function() {
   });
 
   it('prints the task list with --depth flag', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
       '--depth 4'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -134,11 +141,12 @@ describe('flag: --tasks', function() {
   });
 
   it('prints the task list with --compact-tasks flag', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
       '--compact-tasks'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

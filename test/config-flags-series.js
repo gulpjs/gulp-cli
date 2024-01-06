@@ -5,14 +5,15 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/series');
 
 describe('config: flags.series', function() {
 
   it('Should run in series if `flags.series` is true in .gulp.*', function(done) {
-    exec(cd(baseDir, 't').gulp('task1', 'task2'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('task1', 'task2'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -29,7 +30,8 @@ describe('config: flags.series', function() {
   });
 
   it('Should run in parallel if `flags.series` is false in .gulp.*', function(done) {
-    exec(cd(baseDir, 'f').gulp('task1', 'task2'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('task1', 'task2'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -46,7 +48,8 @@ describe('config: flags.series', function() {
   });
 
   it('Should overridden by cli flag: --series', function(done) {
-    exec(cd(baseDir, 'f').gulp('--series', 'task1', 'task2'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--series', 'task1', 'task2'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -63,7 +66,8 @@ describe('config: flags.series', function() {
   });
 
   it('Should overridden by cli flag: --no-series', function(done) {
-    exec(cd(baseDir, 't').gulp('--no-series', 'task1', 'task2'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--no-series', 'task1', 'task2'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

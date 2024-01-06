@@ -5,14 +5,15 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/silent');
 
 describe('config: flags.silent', function() {
 
   it('Should be silent if `flags.silent` is true in .gulp.*', function(done) {
-    exec(cd(baseDir, 't').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -23,7 +24,8 @@ describe('config: flags.silent', function() {
   });
 
   it('Should not be silent if `flags.silent` is false in .gulp.*', function(done) {
-    exec(cd(baseDir, 'f').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -38,7 +40,8 @@ describe('config: flags.silent', function() {
   });
 
   it('Should overridden by cli flag: --silent', function(done) {
-    exec(cd(baseDir, 'f').gulp('--silent'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--silent'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -49,7 +52,8 @@ describe('config: flags.silent', function() {
   });
 
   it('Should overridden by cli flag: --no-silent', function(done) {
-    exec(cd(baseDir, 't').gulp('--no-silent'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--no-silent'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

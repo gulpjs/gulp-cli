@@ -10,12 +10,13 @@ var tildify = require('../lib/shared/tildify');
 var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 describe('execution error', function() {
 
   it('should output an error if a task is not defined', function(done) {
-    exec(cd(__dirname, './fixtures/gulpfiles').gulp('a'), cb);
+    var opts = { cwd: path.join(__dirname, './fixtures/gulpfiles') };
+    exec(gulp('a'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -29,7 +30,8 @@ describe('execution error', function() {
   });
 
   it('should output an error if gulp version is unsupported', function(done) {
-    exec(cd(__dirname, './fixtures/errors/bad-gulp-version').gulp(), cb);
+    var opts = { cwd: path.join(__dirname, './fixtures/errors/bad-gulp-version') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -43,10 +45,10 @@ describe('execution error', function() {
   it('should output an error if gulp is not found', function(done) {
     var tmpdir = os.tmpdir();
     if (os.platform() === 'win32') {
-      var moveDrive = tmpdir.slice(0, 2) + '&';
-      exec(moveDrive + cd(tmpdir).gulp(), cb);
+      var moveDrive = tmpdir.slice(0, 2);
+      exec(moveDrive + '& cd ' + tmpdir + ' & ' + gulp(), cb);
     } else {
-      exec(cd(tmpdir).gulp(), cb);
+      exec(gulp(), { cwd: tmpdir }, cb);
     }
 
     function cb(err, stdout, stderr) {
@@ -62,9 +64,9 @@ describe('execution error', function() {
     var dir = path.join(__dirname, 'fixtures/gulpfiles');
     var gulpfileName = 'gulpfile-dedup-errorlog.js';
 
-    exec(cd(dir).gulp(
+    exec(gulp(
       '--gulpfile', gulpfileName
-    ), cb);
+    ), { cwd: dir }, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

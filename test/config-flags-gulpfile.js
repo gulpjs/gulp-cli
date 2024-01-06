@@ -5,14 +5,15 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/gulpfile');
 
 describe('config: flags.gulpfile', function() {
 
   it('Should configure with a .gulp.* file', function(done) {
-    exec(cd(baseDir).gulp(), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -26,7 +27,8 @@ describe('config: flags.gulpfile', function() {
   });
 
   it('Should configure with a .gulp.* file in the directory specified by --cwd', function(done) {
-    exec(cd(__dirname, 'fixtures/config').gulp('--cwd ./flags/gulpfile'), cb);
+    var opts = { cwd: path.join(__dirname, 'fixtures/config') };
+    exec(gulp('--cwd ./flags/gulpfile'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -40,7 +42,8 @@ describe('config: flags.gulpfile', function() {
   });
 
   it('Should load a ./gulp.* file in a directory specified by --cwd', function(done) {
-    exec(cd(baseDir).gulp('--cwd ./cwd'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--cwd ./cwd'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -53,7 +56,8 @@ describe('config: flags.gulpfile', function() {
   });
 
   it('Should ignore a ./.gulp.* file if another gulpfile is specified by --gulpfile', function(done) {
-    exec(cd(baseDir).gulp('--gulpfile ./cwd/gulpfile.js'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--gulpfile ./cwd/gulpfile.js'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -66,7 +70,8 @@ describe('config: flags.gulpfile', function() {
   });
 
   it('Should overridden by cli flag: --gulpfile', function(done) {
-    exec(cd(baseDir, 'override-by-cliflag').gulp('--gulpfile mygulpfile.js'), cb);
+    var opts = { cwd: path.join(baseDir, 'override-by-cliflag') };
+    exec(gulp('--gulpfile mygulpfile.js'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -81,7 +86,8 @@ describe('config: flags.gulpfile', function() {
   it('Should autoload a module for loading a specified gulpfile', function(done) {
     this.timeout(0);
 
-    exec(cd(baseDir, 'autoload').gulp('dist'), cb);
+    var opts = { cwd: path.join(baseDir, 'autoload') };
+    exec(gulp('dist'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -94,7 +100,8 @@ describe('config: flags.gulpfile', function() {
   });
 
   it('Should output error logs of autoload if fail to load module for a specified gulpfile', function(done) {
-    exec(cd(baseDir, 'autoload-fail').gulp('dist'), cb);
+    var opts = { cwd: path.join(baseDir, 'autoload-fail') };
+    exec(gulp('dist'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

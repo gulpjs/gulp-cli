@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 var rimraf = require('rimraf');
 
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 var expected = require(path.join(__dirname, 'expected/flags-tasks-json.json'));
@@ -14,10 +14,11 @@ var expected = require(path.join(__dirname, 'expected/flags-tasks-json.json'));
 describe('flag: --tasks-json', function() {
 
   it('prints the task list with no args', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-json',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -31,11 +32,12 @@ describe('flag: --tasks-json', function() {
     var cwdPath = __dirname;
     var gulpfilePath = path.join(__dirname, 'fixtures/gulpfiles/gulpfile.js');
 
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-json',
       '--cwd ', cwdPath,
       '--gulpfile ', gulpfilePath
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -52,10 +54,11 @@ describe('flag: --tasks-json', function() {
     rimraf.sync(output);
     fs.mkdirSync(output);
 
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-json ../../output/tasks.json',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -74,10 +77,11 @@ describe('flag: --tasks-json', function() {
     // Disable the timeout for old node versions
     this.timeout(0);
 
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-json',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

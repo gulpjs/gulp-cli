@@ -6,7 +6,7 @@ var fs = require('fs');
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 var expectedDir = path.join(__dirname, 'expected');
@@ -16,11 +16,12 @@ describe('exports as tasks', function() {
   this.timeout(0);
 
   it('prints the task list', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks',
       '--sort-tasks',
       '--gulpfile', './test/fixtures/gulpfiles/gulpfile-exports.babel.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

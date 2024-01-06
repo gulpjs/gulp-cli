@@ -9,7 +9,7 @@ var os = require('os');
 
 var baseDir = path.join(__dirname, '..');
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var expectedDir = path.join(__dirname, 'expected');
 
@@ -43,7 +43,8 @@ describe('ESM', function() {
       trailingLines += 2;
     }
 
-    exec(cd(baseDir).gulp(options), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp(options), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

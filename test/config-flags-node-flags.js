@@ -5,14 +5,15 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/nodeFlags');
 
 describe('config: nodeFlags', function() {
 
   it('Should respawn by a node flag: --lazy', function(done) {
-    exec(cd(baseDir, 'string').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 'string') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -24,7 +25,8 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should respawn by a node flag: --lazy --trace-deprecation', function(done) {
-    exec(cd(baseDir, 'array').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 'array') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -36,7 +38,8 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should respawn with flags in config file and command line', function(done) {
-    exec(cd(baseDir, 'string').gulp('--harmony'), cb);
+    var opts = { cwd: path.join(baseDir, 'string') };
+    exec(gulp('--harmony'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -48,7 +51,8 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should not respawn when a node flag is specified to undefined', function(done) {
-    exec(cd(baseDir, 'undefined').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 'undefined') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -64,7 +68,8 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should not respawn when a node flag is specified to null', function(done) {
-    exec(cd(baseDir, 'null').gulp(), cb);
+    var opts = { cwd: path.join(baseDir, 'null') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

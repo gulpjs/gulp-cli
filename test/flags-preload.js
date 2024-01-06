@@ -7,17 +7,18 @@ var path = require('path');
 var sliceLines = require('./tool/slice-lines');
 var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 
 describe('flag: --preload', function() {
 
   it('preloads module before running gulpfile', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--preload ../test-module.js',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -52,11 +53,12 @@ describe('flag: --preload', function() {
   });
 
   it('can preload multiple modules before running gulpfile', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--preload ../test-module.js',
       '--preload ../test-module-2.js',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -72,10 +74,11 @@ describe('flag: --preload', function() {
   });
 
   it('warns if module doesn\'t exist', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--preload ./null-module.js',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -112,10 +115,11 @@ describe('flag: --preload', function() {
   });
 
   it('warns if module throw some error', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--preload ../test-error-module.js',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       stdout = eraseLapse(eraseTime(stdout));

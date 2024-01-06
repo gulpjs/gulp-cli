@@ -7,7 +7,7 @@ var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
 var eraseTime = require('./tool/erase-time');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');
@@ -15,7 +15,8 @@ var expectedDir = path.join(__dirname, 'expected', 'config');
 describe('config: description', function() {
 
   it('Should configure with a .gulp.* file in cwd', function(done) {
-    exec(cd(baseDir, 'foo/bar').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'foo/bar') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -27,7 +28,8 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd found up', function(done) {
-    exec(cd(baseDir, 'foo/bar/baz').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'foo/bar/baz') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -39,7 +41,8 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd even if it is not a project root', function(done) {
-    exec(cd(baseDir, 'foo/bar/quux').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'foo/bar/quux') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -51,11 +54,12 @@ describe('config: description', function() {
   });
 
   it('Should configure with a .gulp.* file in cwd by --cwd', function(done) {
-    exec(cd(baseDir, 'qux').gulp(
+    var opts = { cwd: path.join(baseDir, 'qux') };
+    exec(gulp(
       '--tasks',
       '--gulpfile ../foo/bar/gulpfile.js',
       '--cwd .'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

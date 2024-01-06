@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/compactTasks');
 var expectedDir = path.join(__dirname, 'expected');
@@ -14,7 +14,8 @@ var expectedDir = path.join(__dirname, 'expected');
 describe('config: flags.compactTasks', function() {
 
   it('Should compact task lists when `flags.compactTasks` is true in .gulp.*', function(done) {
-    exec(cd(baseDir, 't').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
@@ -28,7 +29,8 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should not compact task lists when `flags.compactTasks` is false in .gulp.*', function(done) {
-    exec(cd(baseDir, 'f').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
@@ -42,7 +44,8 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should overridden by cli flag: --compact-tasks', function(done) {
-    exec(cd(baseDir, 'f').gulp('--tasks', '--compact-tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--tasks', '--compact-tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
@@ -56,7 +59,8 @@ describe('config: flags.compactTasks', function() {
   });
 
   it('Should overridden by cli flag: --no-compact-tasks', function(done) {
-    exec(cd(baseDir, 't').gulp('--tasks', '--no-compact-tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--tasks', '--no-compact-tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');

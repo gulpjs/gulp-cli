@@ -5,18 +5,19 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 
 describe('flag: --series', function() {
 
   it('runs tasks in series when flag is set', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       'test5 test6',
       '--series',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -33,10 +34,11 @@ describe('flag: --series', function() {
   });
 
   it('runs tasks in parallel when flag is not set', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       'test5 test6',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

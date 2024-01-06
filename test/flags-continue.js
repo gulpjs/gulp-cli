@@ -5,18 +5,19 @@ var exec = require('child_process').exec;
 var path = require('path');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 
 describe('flag: --continue', function() {
 
   it('continues execution when flag is set', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       'test4',
       '--continue',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
@@ -36,7 +37,8 @@ describe('flag: --continue', function() {
   });
 
   it('stops execution when flag is not set', function(done) {
-    exec(cd(baseDir).gulp('test4', '--cwd ./test/fixtures/gulpfiles'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('test4', '--cwd ./test/fixtures/gulpfiles'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();

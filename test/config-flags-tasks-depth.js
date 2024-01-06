@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/tasksDepth');
 var expectedDir = path.join(__dirname, 'expected');
@@ -14,7 +14,8 @@ var expectedDir = path.join(__dirname, 'expected');
 describe('config: flags.tasksDepth', function() {
 
   it('Should limit depth of task list when `flags.tasksDepth` is specified', function(done) {
-    exec(cd(baseDir).gulp('--tasks'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
@@ -26,7 +27,8 @@ describe('config: flags.tasksDepth', function() {
   });
 
   it('Should overridden by cli flag: --tasks-depth', function(done) {
-    exec(cd(baseDir).gulp('--tasks', '--tasks-depth', '2'), cb);
+    var opts = { cwd: baseDir };
+    exec(gulp('--tasks', '--tasks-depth', '2'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-depth2.txt');

@@ -5,7 +5,7 @@ var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, '..');
 var outputFile = path.join(__dirname, 'expected/flags-tasks-simple.txt');
@@ -14,10 +14,11 @@ var outputText = fs.readFileSync(outputFile, 'utf8');
 describe('flag: --tasks-simple', function() {
 
   it('prints the task list in simple format', function(done) {
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-simple',
       '--cwd ./test/fixtures/gulpfiles'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
@@ -31,10 +32,11 @@ describe('flag: --tasks-simple', function() {
     // Disable the timeout for old node versions
     this.timeout(0);
 
-    exec(cd(baseDir).gulp(
+    var opts = { cwd: baseDir };
+    exec(gulp(
       '--tasks-simple',
       '--gulpfile ./test/fixtures/gulpfiles/gulpfile-babel.babel.js'
-    ), cb);
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();

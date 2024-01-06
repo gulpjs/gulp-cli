@@ -6,7 +6,7 @@ var path = require('path');
 var fs = require('fs');
 
 var sliceLines = require('./tool/slice-lines');
-var cd = require('./tool/gulp-cmd').cd;
+var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/sortTasks');
 var expectedDir = path.join(__dirname, 'expected');
@@ -14,7 +14,8 @@ var expectedDir = path.join(__dirname, 'expected');
 describe('config: flags.sortTasks', function() {
 
   it('Should sort top tasks in task list when `flags.sortTasks` is true in .gulp.*', function(done) {
-    exec(cd(baseDir, 't').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
@@ -26,7 +27,8 @@ describe('config: flags.sortTasks', function() {
   });
 
   it('Should sort top tasks in task list when `flags.sortTasks` is false in .gulp.*', function(done) {
-    exec(cd(baseDir, 'f').gulp('--tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
@@ -38,7 +40,8 @@ describe('config: flags.sortTasks', function() {
   });
 
   it('Should overridden by cli flag: --sort-tasks', function(done) {
-    exec(cd(baseDir, 'f').gulp('--tasks', '--sort-tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--tasks', '--sort-tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
@@ -50,7 +53,8 @@ describe('config: flags.sortTasks', function() {
   });
 
   it('Should overridden by cli flag: --no-sort-tasks', function(done) {
-    exec(cd(baseDir, 't').gulp('--tasks', '--no-sort-tasks'), cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--tasks', '--no-sort-tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
