@@ -8,62 +8,95 @@ var sliceLines = require('./tool/slice-lines');
 var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/gulpfile');
+var prjDir = path.join(baseDir, 'prj');
 
 describe('config: flags.gulpfile', function() {
 
   it('Should configure with a .gulp.* file', function(done) {
-    var opts = { cwd: baseDir };
+    var opts = { cwd: prjDir };
     exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 2, 4)).toEqual(
-        'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js') + '\n' +
-        'The current directory : ' + baseDir
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-prj-cfg.js') + '\n' +
+        'The current directory : ' + prjDir
       );
       done(err);
     }
   });
 
   it('Should configure with a .gulp.* file in the directory specified by --cwd', function(done) {
-    var opts = { cwd: path.join(__dirname, 'fixtures/config') };
-    exec(gulp('--cwd ./flags/gulpfile'), opts, cb);
+    var opts = { cwd: prjDir };
+    exec(gulp('--cwd ../cwd'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 3, 5)).toEqual(
-        'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js') + '\n' +
-        'The current directory : ' + baseDir
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-cwd-cfg.js') + '\n' +
+        'The current directory : ' + path.join(baseDir, 'cwd')
       );
       done(err);
     }
   });
 
-  it('Should load a ./gulp.* file in a directory specified by --cwd', function(done) {
-    var opts = { cwd: baseDir };
-    exec(gulp('--cwd ./cwd'), opts, cb);
+  it('Should configure with a .gulp.* file found up', function(done) {
+    var opts = { cwd: path.join(prjDir, 'findup') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 3, 4)).toEqual(
-        'This gulpfile : ' + path.join(baseDir, 'is/here/mygulpfile.js')
+      expect(sliceLines(stdout, 2, 4)).toEqual(
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-prj-cfg.js') + '\n' +
+        'The current directory : ' + path.join(prjDir, 'findup')
+      );
+      done(err);
+    }
+  });
+
+  it('Should configure with a .gulp.* file found up the directory specified by --cwd', function(done) {
+    var opts = { cwd: prjDir };
+    exec(gulp('--cwd ../cwd/findup'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 3, 5)).toEqual(
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-cwd-cfg.js') + '\n' +
+        'The current directory : ' + path.join(baseDir, 'cwd/findup')
+      );
+      done(err);
+    }
+  });
+
+  it('Should ignore a ./gulp.* file if another directory is specified by --cwd', function(done) {
+    var opts = { cwd: prjDir };
+    exec(gulp('--cwd ../is/here'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 3, 5)).toEqual(
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile.js') + '\n' +
+        'The current directory : ' + path.join(baseDir, 'is/here')
       );
       done(err);
     }
   });
 
   it('Should ignore a ./.gulp.* file if another gulpfile is specified by --gulpfile', function(done) {
-    var opts = { cwd: baseDir };
-    exec(gulp('--gulpfile ./cwd/gulpfile.js'), opts, cb);
+    var opts = { cwd: prjDir };
+    exec(gulp('--gulpfile ../is/here/gulpfile.js'), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 3, 4)).toEqual(
-        'Another gulpfile : ' + path.join(baseDir, 'cwd/gulpfile.js')
+      expect(sliceLines(stdout, 3, 5)).toEqual(
+        'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile.js') + '\n' +
+        'The current directory : ' + path.join(baseDir, 'is/here')
       );
       done(err);
     }
