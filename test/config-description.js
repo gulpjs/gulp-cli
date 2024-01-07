@@ -1,68 +1,71 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
 var fs = require('fs');
 
-var skipLines = require('gulp-test-tools').skipLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var runner = require('gulp-test-tools').gulpRunner;
+var sliceLines = require('./tool/slice-lines');
+var eraseTime = require('./tool/erase-time');
+var gulp = require('./tool/gulp-cmd');
 
-var fixturesDir = path.join(__dirname, 'fixtures', 'config');
+var baseDir = path.join(__dirname, 'fixtures', 'config');
 var expectedDir = path.join(__dirname, 'expected', 'config');
 
 describe('config: description', function() {
 
   it('Should configure with a .gulp.* file in cwd', function(done) {
-    runner({ verbose: false })
-      .basedir(fixturesDir)
-      .chdir('foo/bar')
-      .gulp('--tasks')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'foo/bar') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
-        'utf-8');
-      stdout = eraseTime(stdout);
-      expect(stdout).toEqual(expected);
+      var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'), 'utf-8');
+      expect(eraseTime(stdout)).toEqual(expected);
       done(err);
     }
   });
 
   it('Should configure with a .gulp.* file in cwd found up', function(done) {
-    runner({ verbose: false })
-      .basedir(fixturesDir)
-      .chdir('foo/bar/baz')
-      .gulp('--tasks')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'foo/bar/baz') };
+    exec(gulp('--tasks'), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'),
-        'utf-8');
-      stdout = eraseTime(skipLines(stdout, 1));
-      expect(stdout).toEqual(expected);
+      var expected = fs.readFileSync(path.join(expectedDir, 'output0.txt'), 'utf-8');
+      expect(sliceLines(stdout, 1)).toEqual(expected);
+      done(err);
+    }
+  });
+
+  it('Should configure with a .gulp.* file in cwd even if it is not a project root', function(done) {
+    var opts = { cwd: path.join(baseDir, 'foo/bar/quux') };
+    exec(gulp('--tasks'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      var expected = fs.readFileSync(path.join(expectedDir, 'output2.txt'), 'utf-8');
+      expect(sliceLines(stdout, 1)).toEqual(expected);
       done(err);
     }
   });
 
   it('Should configure with a .gulp.* file in cwd by --cwd', function(done) {
-    runner({ verbose: false })
-      .basedir(fixturesDir)
-      .chdir('qux')
-      .gulp('--tasks', '--gulpfile ../foo/bar/gulpfile.js', '--cwd .')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'qux') };
+    exec(gulp(
+      '--tasks',
+      '--gulpfile ../foo/bar/gulpfile.js',
+      '--cwd .'
+    ), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      var expected = fs.readFileSync(path.join(expectedDir, 'output1.txt'),
-        'utf-8');
-      stdout = eraseTime(stdout);
-      expect(stdout).toEqual(expected);
+      var expected = fs.readFileSync(path.join(expectedDir, 'output1.txt'), 'utf-8');
+      expect(eraseTime(stdout)).toEqual(expected);
       done(err);
     }
   });

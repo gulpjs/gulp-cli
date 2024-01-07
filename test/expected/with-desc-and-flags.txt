@@ -1,6 +1,6 @@
 gulp-cli/test/fixtures
 ├─┬ build         Build all the things!
-│ │ --dev         …un-minified
+│ │ --dev
 │ │ --production  …compressed into single bundle
 │ └─┬ <series>
 │   ├── clean

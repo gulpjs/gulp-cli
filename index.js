@@ -3,25 +3,24 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
-var yargs = require('yargs');
+
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
-var ansi = require('./lib/shared/ansi');
+var chalk = require('chalk');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
-var cliOptions = require('./lib/shared/cli-options');
+var parser = require('./lib/shared/options/parser');
 var completion = require('./lib/shared/completion');
 var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
-var getBlacklist = require('./lib/shared/get-blacklist');
+var getBlacklist = require('./lib/shared/blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
-var loadConfigFiles = require('./lib/shared/config/load-files');
-var mergeConfigToCliFlags = require('./lib/shared/config/cli-flags');
-var mergeConfigToEnvFlags = require('./lib/shared/config/env-flags');
+var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
+var overrideEnvFlagsByConfigAndCliOpts = require('./lib/shared/config/env-flags');
 
 // Logging functions
 var logVerify = require('./lib/shared/log/verify');
@@ -41,49 +40,69 @@ var cli = new Liftoff({
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: {
-    '.gulp': {
-      home: {
+    project: [
+      {
+        name: '.gulp',
+        path: '.',
+        extensions: interpret.extensions,
+        findUp: true,
+      },
+    ],
+    userHome: [
+      {
+        name: '.gulp',
         path: '~',
         extensions: interpret.extensions,
       },
-      cwd: {
-        path: '.',
-        extensions: interpret.extensions,
-      },
-    },
+    ],
   },
 });
 
-var usage =
-  '\n' + ansi.bold('Usage:') +
-  ' gulp ' + ansi.blue('[options]') + ' tasks';
-
-var parser = yargs.usage(usage, cliOptions);
 var opts = parser.argv;
 
-cli.on('require', function(name) {
-  // This is needed because interpret needs to stub the .mjs extension
-  // Without the .mjs require hook, rechoir blows up
-  // However, we don't want to show the mjs-stub loader in the logs
-  if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info('Requiring external module', ansi.magenta(name));
-  }
+cli.on('preload:before', function(name) {
+  log.info('Preloading external module:', chalk.magenta(name));
 });
 
-cli.on('requireFail', function(name, error) {
+cli.on('preload:success', function(name) {
+  log.info('Preloaded external module:', chalk.magenta(name));
+});
+
+cli.on('preload:failure', function(name, error) {
   log.warn(
-    ansi.yellow('Failed to load external module'),
-    ansi.magenta(name)
+    chalk.yellow('Failed to preload external module:'),
+    chalk.magenta(name)
   );
   /* istanbul ignore else */
   if (error) {
-    log.warn(ansi.yellow(error.toString()));
+    log.warn(chalk.yellow(error.toString()));
+  }
+});
+
+cli.on('loader:success', function(name) {
+  // This is needed because interpret needs to stub the .mjs extension
+  // Without the .mjs require hook, rechoir blows up
+  // However, we don't want to show the mjs-stub loader in the logs
+  /* istanbul ignore else */
+  if (path.basename(name, '.js') !== 'mjs-stub') {
+    log.info('Loaded external module:', chalk.magenta(name));
+  }
+});
+
+cli.on('loader:failure', function(name, error) {
+  log.warn(
+    chalk.yellow('Failed to load external module:'),
+    chalk.magenta(name)
+  );
+  /* istanbul ignore else */
+  if (error) {
+    log.warn(chalk.yellow(error.toString()));
   }
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = ansi.magenta(flags.join(', '));
-  var pid = ansi.magenta(child.pid);
+  var nodeFlags = chalk.magenta(flags.join(', '));
+  var pid = chalk.magenta(child.pid);
   log.info('Node flags detected:', nodeFlags);
   log.info('Respawned to PID:', pid);
 });
@@ -92,49 +111,47 @@ function run() {
   cli.prepare({
     cwd: opts.cwd,
     configPath: opts.gulpfile,
-    require: opts.require,
+    preload: opts.preload,
     completion: opts.completion,
-  }, function(env) {
-    var cfgLoadOrder = ['home', 'cwd'];
-    var cfg = loadConfigFiles(env.configFiles['.gulp'], cfgLoadOrder);
-    opts = mergeConfigToCliFlags(opts, cfg);
-    env = mergeConfigToEnvFlags(env, cfg, opts);
-    env.configProps = cfg;
-
-    // Set up event listeners for logging again after configuring.
-    toConsole(log, opts);
-
-    cli.execute(env, env.nodeFlags, handleArguments);
-  });
+  }, onPrepare);
 }
 
 module.exports = run;
 
-// The actual logic
-function handleArguments(env) {
+function onPrepare(env) {
+  var cfg = mergeProjectAndUserHomeConfigs(env);
+  env = overrideEnvFlagsByConfigAndCliOpts(env, cfg, opts);
 
+  // Set up event listeners for logging again after configuring.
+  toConsole(log, env.config.flags);
+
+  cli.execute(env, env.nodeFlags, onExecute);
+}
+
+// The actual logic
+function onExecute(env) {
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
   // Can know about the flag
-  if (opts.continue) {
+  if (env.config.flags.continue) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  if (opts.help) {
+  if (env.config.flags.help) {
     parser.showHelp(console.log);
     exit(0);
   }
 
   // Anything that needs to print outside of the logging mechanism should use console.log
-  if (opts.version) {
+  if (env.config.flags.version) {
     console.log('CLI version:', cliVersion);
     console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
   }
 
-  if (opts.verify) {
-    var pkgPath = opts.verify !== true ? opts.verify : 'package.json';
+  if (env.config.flags.verify) {
+    var pkgPath = env.config.flags.verify !== true ? env.config.flags.verify : 'package.json';
     /* istanbul ignore else */
     if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
       pkgPath = path.join(env.cwd, pkgPath);
@@ -164,8 +181,8 @@ function handleArguments(env) {
         ? 'Local modules not found in'
         : 'Local gulp not found in';
     log.error(
-      ansi.red(missingGulpMessage),
-      ansi.magenta(tildify(env.cwd))
+      chalk.red(missingGulpMessage),
+      chalk.magenta(tildify(env.cwd))
     );
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     /* istanbul ignore next */
@@ -177,12 +194,12 @@ function handleArguments(env) {
         : hasYarn
           ? 'yarn add gulp'
         : 'npm install gulp';
-    log.error(ansi.red('Try running: ' + installCommand));
+    log.error(chalk.red('Try running: ' + installCommand));
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(ansi.red('No gulpfile found'));
+    log.error(chalk.red('No gulpfile found'));
     exit(1);
   }
 
@@ -192,7 +209,7 @@ function handleArguments(env) {
     process.chdir(env.cwd);
     log.info(
       'Working directory changed to',
-      ansi.magenta(tildify(env.cwd))
+      chalk.magenta(tildify(env.cwd))
     );
   }
 
@@ -201,12 +218,12 @@ function handleArguments(env) {
 
   if (!range) {
     log.error(
-      ansi.red('Unsupported gulp version', env.modulePackage.version)
+      chalk.red('Unsupported gulp version', env.modulePackage.version)
     );
     exit(1);
   }
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(opts, env, env.configProps);
+  require(versionedDir)(env);
 }

@@ -1,15 +1,15 @@
 'use strict';
 
 var expect = require('expect');
-var child = require('child_process');
+var exec = require('child_process').exec;
 
 describe('logging', function() {
 
   it('log-level flag for debug: -LLLL', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js -LLLL', cb);
+    exec('node ' + __dirname + '/fixtures/logging.js -LLLL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test debug');
@@ -20,10 +20,10 @@ describe('logging', function() {
   });
 
   it('no log-level flag: defaults to -LLL', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js', cb);
+    exec('node ' + __dirname + '/fixtures/logging.js', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
@@ -33,10 +33,10 @@ describe('logging', function() {
   });
 
   it('log-level flag for info: -LLL', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js -LLL', cb);
+    exec('node ' + __dirname + '/fixtures/logging.js -LLL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test info');
@@ -46,10 +46,10 @@ describe('logging', function() {
   });
 
   it('log-level flag for warn: -LL', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js -LL', cb);
+    exec('node ' + __dirname + '/fixtures/logging.js -LL', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       stdout = stdout.replace(/\\/g, '/').split('\n');
       expect(stdout[0]).toMatch('test warn');
@@ -58,10 +58,10 @@ describe('logging', function() {
   });
 
   it('log-level flag for error: -L', function(done) {
-    child.exec('node ' + __dirname + '/fixtures/logging.js -L', cb);
+    exec('node ' + __dirname + '/fixtures/logging.js -L', cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toMatch('test error');
       expect(stdout).toEqual('');
       done(err);

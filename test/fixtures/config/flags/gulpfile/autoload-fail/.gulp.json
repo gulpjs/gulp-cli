@@ -1,0 +1,5 @@
+{
+  "flags": {
+    "gulpfile": "./other_dir/gulpfile.coffee"
+  }
+}

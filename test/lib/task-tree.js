@@ -7,7 +7,7 @@ var taskTree = require('../../lib/versioned/^3.7.0/task-tree');
 describe('lib: taskTree', function() {
 
   it('forms a tree properly', function(done) {
-    expect(taskTree).toExist(); // Lol shutup jshint
+    expect(taskTree).not.toBeNull(); // Lol shutup jshint
 
     var tasks = {
       test: {

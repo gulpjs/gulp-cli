@@ -1,43 +1,36 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
-var skipLines = require('gulp-test-tools').skipLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
 
-var fixturesDir = path.join(__dirname, 'fixtures/config');
-var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
+var sliceLines = require('./tool/slice-lines');
+var gulp = require('./tool/gulp-cmd');
+
+var baseDir = path.join(__dirname, 'fixtures/config/flags/silent');
 
 describe('config: flags.silent', function() {
 
-  it('Should be silent if `flags.silent` is true in .gulp.*',
-  function(done) {
-    runner
-      .chdir('flags/silent/t')
-      .gulp()
-      .run(cb);
+  it('Should be silent if `flags.silent` is true in .gulp.*', function(done) {
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);
     }
   });
 
-  it('Should not be silent if `flags.silent` is false in .gulp.*',
-  function(done) {
-    runner
-      .chdir('flags/silent/f')
-      .gulp()
-      .run(cb);
+  it('Should not be silent if `flags.silent` is false in .gulp.*', function(done) {
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +
         'Finished \'default\' after ?\n' +
         ''
@@ -47,13 +40,11 @@ describe('config: flags.silent', function() {
   });
 
   it('Should overridden by cli flag: --silent', function(done) {
-    runner
-      .chdir('flags/silent/f')
-      .gulp('--silent')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'f') };
+    exec(gulp('--silent'), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(stdout).toEqual('');
       done(err);
@@ -61,16 +52,13 @@ describe('config: flags.silent', function() {
   });
 
   it('Should overridden by cli flag: --no-silent', function(done) {
-    runner
-      .chdir('flags/silent/t')
-      .gulp('--no-silent')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 't') };
+    exec(gulp('--no-silent'), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-      stdout = eraseLapse(eraseTime(skipLines(stdout, 1)));
-      expect(stdout).toEqual(
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +
         'Finished \'default\' after ?\n' +
         ''

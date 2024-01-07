@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('expect');
-var mergeConfig = require('../../lib/shared/config/env-flags');
+var overrideEnvFlags = require('../../lib/shared/config/env-flags');
 
 describe('lib: config/env-flags', function() {
 
@@ -16,18 +16,25 @@ describe('lib: config/env-flags', function() {
       },
     };
 
-    var result =  mergeConfig(env, config, {});
+    var result =  overrideEnvFlags(env, config, {});
     expect(result).toEqual({
       configPath: '/path/to/gulpfile',
       configBase: '/path/to',
+      config: {
+        description: 'DESCRIPTION.',
+        flags: {
+          silent: true,
+        },
+      },
     });
+    expect(result).toBe(env);
     done();
   });
 
   it('Should take into account forced gulpfile opts from flags', function(done) {
     var env = {
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
@@ -41,7 +48,7 @@ describe('lib: config/env-flags', function() {
       flags: {
         silent: false,
         gulpfile: '/path/to/gulpfile',
-        require: ['a', 'b'],
+        preload: ['a', 'b'],
       },
     };
 
@@ -49,24 +56,32 @@ describe('lib: config/env-flags', function() {
       gulpfile: env.configPath,
     };
 
-    var result =  mergeConfig(env, config, opts);
+    var result =  overrideEnvFlags(env, config, opts);
     expect(result).toEqual({
       cwd: '/path/to/cwd',
-      require: ['preload', 'a', 'b'],
+      preload: ['preload', 'a', 'b'],
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
       modulePath: '/path/of/module/path',
       modulePackage: { name: 'modulePackage' },
       configFiles: { aaa: {} },
+      config: {
+        description: "DESCRIPTION.",
+        flags: {
+          gulpfile: "/path/of/config/path",
+          silent: false,
+        },
+      },
     });
+    expect(result).toBe(env);
     done();
   });
 
   it('Should not cause error if config is empty', function(done) {
     var env = {
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
@@ -77,18 +92,21 @@ describe('lib: config/env-flags', function() {
 
     var config = {};
 
-    var result =  mergeConfig(env, config, {});
+    var result =  overrideEnvFlags(env, config, {});
     expect(result).toEqual({
       cwd: '/path/to/cwd',
-      require: 'preload',
+      preload: 'preload',
       configNameSearch: 'configNameSearch',
       configPath: '/path/of/config/path',
       configBase: '/path/of/config/base',
       modulePath: '/path/of/module/path',
       modulePackage: { name: 'modulePackage' },
       configFiles: { aaa: {} },
+      config: {
+        flags: {},
+      },
     });
+    expect(result).toBe(env);
     done();
   });
-
 });

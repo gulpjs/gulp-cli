@@ -1,7 +1,7 @@
 'use strict';
 
 var expect = require('expect');
-var mergeConfig = require('../../lib/shared/config/cli-flags');
+var mergeCliOpts = require('../../lib/shared/config/cli-flags');
 
 describe('lib: config/cli-flags', function() {
 
@@ -17,11 +17,12 @@ describe('lib: config/cli-flags', function() {
       },
     };
 
-    var result =  mergeConfig(opts, config);
+    var result =  mergeCliOpts(opts, config);
     expect(result).toEqual({
       silent: true,
       continue: true,
     });
+    expect(result).not.toBe(opts);
     done();
   });
 
@@ -42,13 +43,14 @@ describe('lib: config/cli-flags', function() {
       },
     };
 
-    var result =  mergeConfig(opts, config);
+    var result =  mergeCliOpts(opts, config);
     expect(result).toEqual({
       help: false,
       depth: 4,
       silent: true,
       tasks: false,
     });
+    expect(result).not.toBe(opts);
     done();
   });
 
@@ -62,13 +64,14 @@ describe('lib: config/cli-flags', function() {
 
     var config = {};
 
-    var result =  mergeConfig(opts, config);
+    var result =  mergeCliOpts(opts, config);
     expect(result).toEqual({
       help: false,
       depth: 4,
       silent: true,
       tasks: false,
     });
+    expect(result).not.toBe(opts);
     done();
   });
 

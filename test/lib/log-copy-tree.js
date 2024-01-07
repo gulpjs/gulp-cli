@@ -16,7 +16,7 @@ describe('lib: copy-tree', function() {
     var opts = {};
     var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
     expect(newTree).toEqual({ nodes: [] });
-    expect(newTree).toNotBe(srcTree);
+    expect(newTree).not.toBe(srcTree);
     done();
   });
 
@@ -42,7 +42,7 @@ describe('lib: copy-tree', function() {
         },
       ],
     });
-    expect(newTree).toNotBe(srcTree);
+    expect(newTree).not.toBe(srcTree);
     done();
   });
 
@@ -51,7 +51,7 @@ describe('lib: copy-tree', function() {
     var opts = {};
     var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
     expect(newTree).toEqual(srcTree);
-    expect(newTree).toNotBe(srcTree);
+    expect(newTree).not.toBe(srcTree);
     done();
   });
 
@@ -60,7 +60,7 @@ describe('lib: copy-tree', function() {
     var opts = {};
     var newTree = copyTree(srcTree, opts);
     expect(newTree).toEqual(srcTree);
-    expect(newTree).toNotBe(srcTree);
+    expect(newTree).not.toBe(srcTree);
     done();
   });
 
@@ -68,7 +68,7 @@ describe('lib: copy-tree', function() {
     var srcTree = require('../fixtures/copy-tree');
     var newTree = copyTree(srcTree);
     expect(newTree).toEqual(srcTree);
-    expect(newTree).toNotBe(srcTree);
+    expect(newTree).not.toBe(srcTree);
     done();
   });
 
@@ -81,7 +81,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 0 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -92,7 +92,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 1 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -103,7 +103,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 2 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -114,7 +114,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 3 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -125,7 +125,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 4 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -136,7 +136,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: 5 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -147,7 +147,7 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: -1 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -158,12 +158,12 @@ describe('lib: copy-tree', function() {
       var opts = { tasksDepth: null };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
 
       opts = { tasksDepth: 'A' };
       newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
 
@@ -177,7 +177,7 @@ describe('lib: copy-tree', function() {
       var opts = { compactTasks: true };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
-      expect(newTree).toNotBe(srcTree);
+      expect(newTree).not.toBe(srcTree);
       done();
     });
   });

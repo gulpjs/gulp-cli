@@ -1,88 +1,64 @@
 'use strict';
 
 var expect = require('expect');
+var exec = require('child_process').exec;
 var path = require('path');
 
-var fixturesDir = path.join(__dirname, 'fixtures/config');
+var sliceLines = require('./tool/slice-lines');
+var gulp = require('./tool/gulp-cmd');
 
-var runner = require('gulp-test-tools').gulpRunner().basedir(fixturesDir);
-var headLines = require('gulp-test-tools').headLines;
-var skipLines = require('gulp-test-tools').skipLines;
-var eraseTime = require('gulp-test-tools').eraseTime;
-var eraseLapse = require('gulp-test-tools').eraseLapse;
+var baseDir = path.join(__dirname, 'fixtures/config/flags/nodeFlags');
 
 describe('config: nodeFlags', function() {
 
   it('Should respawn by a node flag: --lazy', function(done) {
-    runner
-      .chdir('flags/nodeFlags/string')
-      .gulp()
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'string') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-
-      var line = eraseTime(headLines(stdout, 1));
-      expect(line).toEqual('Node flags detected: --lazy');
-
-      line = eraseTime(headLines(stdout, 2, 1));
-      expect(line).toMatch('Respawned to PID: ');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy');
+      expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
       done(err);
     }
   });
 
   it('Should respawn by a node flag: --lazy --trace-deprecation', function(done) {
-    runner
-      .chdir('flags/nodeFlags/array')
-      .gulp()
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'array') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-
-      var line = eraseTime(headLines(stdout, 1));
-      expect(line).toEqual('Node flags detected: --lazy, --trace-deprecation');
-
-      line = eraseTime(headLines(stdout, 2, 1));
-      expect(line).toMatch('Respawned to PID: ');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy, --trace-deprecation');
+      expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
       done(err);
     }
   });
 
   it('Should respawn with flags in config file and command line', function(done) {
-    runner
-      .chdir('flags/nodeFlags/string')
-      .gulp('--harmony')
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'string') };
+    exec(gulp('--harmony'), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-
-      var line = eraseTime(headLines(stdout, 1));
-      expect(line).toEqual('Node flags detected: --lazy, --harmony');
-
-      line = eraseTime(headLines(stdout, 2, 1));
-      expect(line).toMatch('Respawned to PID: ');
+      expect(sliceLines(stdout, 0, 1)).toEqual('Node flags detected: --lazy, --harmony');
+      expect(sliceLines(stdout, 1, 3)).toMatch('Respawned to PID: ');
       done(err);
     }
   });
 
   it('Should not respawn when a node flag is specified to undefined', function(done) {
-    runner
-      .chdir('flags/nodeFlags/undefined')
-      .gulp()
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'undefined') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-
-      stdout = eraseLapse(eraseTime(stdout));
-      expect(headLines(stdout, 1)).toMatch('Using gulpfile ');
-      expect(skipLines(stdout, 1)).toEqual(
+      expect(sliceLines(stdout, 0, 1)).toMatch('Using gulpfile ');
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +
         'Default\n' +
         'Finished \'default\' after ?\n' +
@@ -92,18 +68,14 @@ describe('config: nodeFlags', function() {
   });
 
   it('Should not respawn when a node flag is specified to null', function(done) {
-    runner
-      .chdir('flags/nodeFlags/null')
-      .gulp()
-      .run(cb);
+    var opts = { cwd: path.join(baseDir, 'null') };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
-      expect(err).toEqual(null);
+      expect(err).toBeNull();
       expect(stderr).toEqual('');
-
-      stdout = eraseLapse(eraseTime(stdout));
-      expect(headLines(stdout, 1)).toMatch('Using gulpfile ');
-      expect(skipLines(stdout, 1)).toEqual(
+      expect(sliceLines(stdout, 0, 1)).toMatch('Using gulpfile ');
+      expect(sliceLines(stdout, 1)).toEqual(
         'Starting \'default\'...\n' +
         'Default\n' +
         'Finished \'default\' after ?\n' +
@@ -111,5 +83,4 @@ describe('config: nodeFlags', function() {
       done(err);
     }
   });
-
 });

@@ -1,12 +1,12 @@
 <p align="center">
-  <a href="http://gulpjs.com">
+  <a href="https://gulpjs.com">
     <img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
   </a>
 </p>
 
 # gulp-cli
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][travis-image]][travis-url] [![AppVeyor Build Status][appveyor-image]][appveyor-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![Gitter chat][gitter-image]][gitter-url]
+[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Build Status][ci-image]][ci-url] [![Coveralls Status][coveralls-image]][coveralls-url]
 
 Command Line Utility for Gulp
 
@@ -91,15 +91,15 @@ Add `gulp --completion=fish | source` to `~/.config/fish/config.fish`.
 
 ## Compilers
 
-You can find a list of supported languages at https://github.com/js-cli/js-interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
+You can find a list of supported languages at https://github.com/gulpjs/interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
 
 ## Environment
 
-The CLI adds process.env.INIT_CWD which is the original cwd it was launched from.
+The CLI adds `process.env.INIT_CWD` which is the original cwd it was launched from.
 
 ## Configuration
 
-Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.json`, `.gulp.yml`). You can find a list of supported languages at https://github.com/js-cli/js-interpret.
+Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.json`, `.gulp.yml`). You can find a list of supported languages at https://github.com/gulpjs/interpret.
 
 Configuration from the home directory (`~`) and current working directory (`cwd`) are merged with `cwd` taking precedence.
 
@@ -114,7 +114,7 @@ Supported configurations properties:
 | flags.gulpfile     | Set a default gulpfile |
 | flags.silent       | Silence logging by default |
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
-| flags.require      | An array of modules to require before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
+| flags.preload      | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
 | flags.nodeFlags    | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
 
 ## Flags
@@ -143,9 +143,9 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>Print the global and local gulp versions.</td>
     </tr>
     <tr>
-      <td>--require [path]</td>
+      <td>--preload [path]</td>
       <td></td>
-      <td>Will require a module before running the gulpfile. This is useful for transpilers but also has other applications.</td>
+      <td>Will preload a module before running the gulpfile. This is useful for transpilers but also has other applications.</td>
     </tr>
     <tr>
       <td>--gulpfile [path]</td>
@@ -155,7 +155,7 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
     <tr>
       <td>--cwd [path]</td>
       <td></td>
-      <td>Manually set the CWD. The search for the gulpfile, as well as the relativity of all requires (including the `--require` flag) will be from here.</td>
+      <td>Manually set the CWD. The search for the gulpfile, as well as the relativity of all preloads (with the `--preload` flag) will be from here.</td>
     </tr>
     <tr>
       <td>--verify [path (optional)]</td>
@@ -229,18 +229,15 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
 
 MIT
 
-[downloads-image]: http://img.shields.io/npm/dm/gulp-cli.svg
+
+<!-- prettier-ignore-start -->
+[downloads-image]: https://img.shields.io/npm/dm/gulp-cli.svg?style=flat-square
 [npm-url]: https://www.npmjs.com/package/gulp-cli
-[npm-image]: http://img.shields.io/npm/v/gulp-cli.svg
+[npm-image]: https://img.shields.io/npm/v/gulp-cli.svg?style=flat-square
 
-[travis-url]: https://travis-ci.org/gulpjs/gulp-cli
-[travis-image]: http://img.shields.io/travis/gulpjs/gulp-cli.svg?label=travis-ci
-
-[appveyor-url]: https://ci.appveyor.com/project/gulpjs/gulp-cli
-[appveyor-image]: https://img.shields.io/appveyor/ci/gulpjs/gulp-cli.svg?label=appveyor
+[ci-url]: https://github.com/gulpjs/gulp-cli/actions?query=workflow:dev
+[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/gulp-cli/dev.yml?branch=master&style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
-[coveralls-image]: http://img.shields.io/coveralls/gulpjs/gulp-cli/master.svg
-
-[gitter-url]: https://gitter.im/gulpjs/gulp
-[gitter-image]: https://badges.gitter.im/gulpjs/gulp.svg
+[coveralls-image]: https://img.shields.io/coveralls/gulpjs/gulp-cli.svg?style=flat-square
+<!-- prettier-ignore-end -->
