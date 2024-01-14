@@ -14,17 +14,11 @@ var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
 var parser = require('./lib/shared/options/parser');
 var completion = require('./lib/shared/completion');
-var verifyDeps = require('./lib/shared/verify-dependencies');
 var cliVersion = require('./package.json').version;
-var getBlacklist = require('./lib/shared/blacklist');
 var toConsole = require('./lib/shared/log/to-console');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
 var overrideEnvFlagsByConfigAndCliOpts = require('./lib/shared/config/env-flags');
-
-// Logging functions
-var logVerify = require('./lib/shared/log/verify');
-var logBlacklistError = require('./lib/shared/log/blacklist-error');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -148,25 +142,6 @@ function onExecute(env) {
     console.log('CLI version:', cliVersion);
     console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
-  }
-
-  if (env.config.flags.verify) {
-    var pkgPath = env.config.flags.verify !== true ? env.config.flags.verify : 'package.json';
-    /* istanbul ignore else */
-    if (path.resolve(pkgPath) !== path.normalize(pkgPath)) {
-      pkgPath = path.join(env.cwd, pkgPath);
-    }
-    log.info('Verifying plugins in ' + pkgPath);
-    return getBlacklist(function(err, blacklist) {
-      /* istanbul ignore if */
-      if (err) {
-        return logBlacklistError(err);
-      }
-
-      var blacklisted = verifyDeps(require(pkgPath), blacklist);
-
-      logVerify(blacklisted);
-    });
   }
 
   if (!env.modulePath) {

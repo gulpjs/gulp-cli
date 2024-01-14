@@ -43,9 +43,6 @@ gulp has very few flags to know about. All other flags are for tasks to use if n
 **--cwd** [path]
     Manually set the CWD. The search for the gulpfile, as well as the relativity of all requires will be from here.
 
-**--verify** [path (optional)]
-    Will verify plugins referenced in project's package.json against the plugins blacklist.
-
 **--tasks**, **-T**
     Print the task dependency tree for the loaded gulpfile.
 
