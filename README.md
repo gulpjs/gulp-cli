@@ -158,11 +158,6 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
       <td>Manually set the CWD. The search for the gulpfile, as well as the relativity of all preloads (with the `--preload` flag) will be from here.</td>
     </tr>
     <tr>
-      <td>--verify [path (optional)]</td>
-      <td></td>
-      <td>Will verify plugins referenced in project's package.json against the plugins blacklist.</td>
-    </tr>
-    <tr>
       <td>--tasks</td>
       <td>-T</td>
       <td>Print the task dependency tree for the loaded gulpfile.</td>
