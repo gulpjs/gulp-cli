@@ -43,13 +43,8 @@ describe('execution error', function() {
   });
 
   it('should output an error if gulp is not found', function(done) {
-    var tmpdir = os.tmpdir();
-    if (os.platform() === 'win32') {
-      var moveDrive = tmpdir.slice(0, 2);
-      exec(moveDrive + '& cd ' + tmpdir + ' & ' + gulp(), cb);
-    } else {
-      exec(gulp(), { cwd: tmpdir }, cb);
-    }
+    var opts = { cwd: os.tmpdir() };
+    exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
