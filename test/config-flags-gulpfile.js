@@ -145,4 +145,15 @@ describe('config: flags.gulpfile', function() {
     }
   });
 
+  it('Should not find up but use config file in current directory', function(done) {
+    var opts = { cwd: path.join(baseDir, 'use-current-cfg/current-dir') };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      expect(sliceLines(stdout, 3, 4)).toEqual(path.join(opts.cwd, 'gulpfile-2.js'));
+      done(err);
+    }
+  });
 });
