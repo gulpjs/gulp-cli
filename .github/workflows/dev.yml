@@ -56,6 +56,12 @@ jobs:
         # Run test without coverage because a behavior about esm is different with nyc or not
         run: npm test
 
+      - name: Run tests with coloring
+        run: npx mocha test/lib/theme.js
+        env:
+          FORCE_COLOR: 2
+          CI: ""
+
   coveralls:
     needs: test
     name: Finish up
