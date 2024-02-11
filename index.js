@@ -21,7 +21,7 @@ var theme = require('./lib/shared/log/theme');
 var msgs = require('./lib/shared/log/messages');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
-var overrideEnvFlagsByConfigAndCliOpts = require('./lib/shared/config/env-flags');
+var overrideEnvByConfigAndCliOpts = require('./lib/shared/config/env-config');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -100,7 +100,7 @@ module.exports = run;
 
 function onPrepare(env) {
   var cfg = mergeProjectAndUserHomeConfigs(env);
-  env = overrideEnvFlagsByConfigAndCliOpts(env, cfg, opts);
+  env = overrideEnvByConfigAndCliOpts(env, cfg, opts);
 
   // Set up event listeners for logging again after configuring.
   toConsole(log, env.config.flags);
@@ -131,7 +131,6 @@ function onExecute(env) {
   }
 
   if (!env.modulePath) {
-    /* istanbul ignore next */
     var missingNodeModules =
       fs.existsSync(path.join(env.cwd, 'package.json'))
       && !fs.existsSync(path.join(env.cwd, 'node_modules'));
@@ -139,7 +138,6 @@ function onExecute(env) {
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     var hasNpm = !hasYarn;
 
-    /* istanbul ignore if */
     if (missingNodeModules) {
       log.error(msgs.error.nodeModulesNotFound, tildify(env.cwd), hasYarn, hasNpm);
     } else {

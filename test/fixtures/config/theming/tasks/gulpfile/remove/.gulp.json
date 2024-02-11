@@ -1,0 +1,10 @@
+{
+  "msgs": {
+    "tasks": {
+      "gulpfile": null
+    }
+  },
+  "theme": {
+    "FILE": "** {1} **"
+  }
+}

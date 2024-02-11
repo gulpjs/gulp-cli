@@ -31,7 +31,7 @@ describe('flag: --tasks', function() {
     }
   });
 
-  it('print the task list with description and flags', function(done) {
+  it('prints the task list with description and flags', function(done) {
     var opts = { cwd: baseDir };
     exec(gulp(
       '--tasks',
@@ -50,7 +50,7 @@ describe('flag: --tasks', function() {
     }
   });
 
-  it('print the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
+  it('prints the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
     var opts = { cwd: baseDir };
     exec(gulp(
       '--tasks',
