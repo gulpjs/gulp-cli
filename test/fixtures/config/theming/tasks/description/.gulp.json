@@ -1,7 +1,7 @@
 {
   "msgs": {
     "tasks": {
-      "gulpfile": "{FILE: {1}}"
+      "description": "{FILE: {1}}"
     }
   },
   "theme": {

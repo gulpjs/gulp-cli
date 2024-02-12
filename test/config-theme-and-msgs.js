@@ -47,8 +47,8 @@ describe('config: theme.* & msgs.*', function() {
     }
   });
 
-  it('Should change tasks.gulpfile with .gulp.*', function(done) {
-    var cwd = path.join(baseDir, 'tasks/gulpfile');
+  it('Should change tasks.description with .gulp.*', function(done) {
+    var cwd = path.join(baseDir, 'tasks/description');
     var gulpfile = tildify(path.join(cwd, 'gulpfile.js'));
     var expected = '** ' + gulpfile + ' **\n' +
       '└── default\n';
@@ -65,7 +65,7 @@ describe('config: theme.* & msgs.*', function() {
   });
 
   it('Should remove task.gulpfile line output with .gulp.*', function(done) {
-    var cwd = path.join(baseDir, 'tasks/gulpfile/remove');
+    var cwd = path.join(baseDir, 'tasks/description/remove');
     var expected = '└── default\n';
 
     var opts = { cwd: cwd };
@@ -155,7 +155,7 @@ describe('config: theme.* & msgs.*', function() {
   });
 
   it('Should change tasksJson.gulpfile with .gulp.*', function(done) {
-    var cwd = path.join(baseDir, 'tasksJson/gulpfile');
+    var cwd = path.join(baseDir, 'tasksJson/description');
     var gulpfile = tildify(path.join(cwd, 'gulpfile.js'));
     var expected = JSON.stringify({
       label: '** ' + gulpfile + ' **',
