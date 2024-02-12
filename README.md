@@ -107,7 +107,6 @@ Supported configurations properties:
 
 | Property           | Description |
 |--------------------|-------------|
-| description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
 | flags.continue     | Continue execution of tasks upon failure by default. |
 | flags.compactTasks | Reduce the output of task dependency tree by default. |
 | flags.tasksDepth   | Set default depth of task dependency tree. |

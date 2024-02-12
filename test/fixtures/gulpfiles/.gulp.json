@@ -1,3 +1,12 @@
 {
-  "description" : "gulp-cli/test/fixtures/gulpfiles"
+  "log": {
+    "msgs": {
+      "tasks": {
+        "description" : "gulp-cli/test/fixtures/gulpfiles"
+      },
+      "tasksJson": {
+        "description" : "gulp-cli/test/fixtures/gulpfiles"
+      }
+    }
+  }
 }
