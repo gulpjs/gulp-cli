@@ -1,10 +1,12 @@
 module.exports = {
-  msgs: {
-    error: {
-      unknownCompletionType: 'GULP COMPLETION TYPE {Type: {1}} IS NOT FOUND',
+  log: {
+    msgs: {
+      error: {
+        unknownCompletionType: 'GULP COMPLETION TYPE {Type: {1}} IS NOT FOUND',
+      },
     },
-  },
-  theme: {
-    Type: '**{1}**',
+    theme: {
+      Type: '**{1}**',
+    },
   },
 };

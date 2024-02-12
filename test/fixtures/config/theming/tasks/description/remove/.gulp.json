@@ -1,7 +1,9 @@
 {
-  "msgs": {
-    "tasks": {
-      "description": null
+  "log": {
+    "msgs": {
+      "tasks": {
+        "description": null
+      }
     }
   }
 }

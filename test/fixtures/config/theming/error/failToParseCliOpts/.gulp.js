@@ -1,7 +1,9 @@
 module.exports = {
-  msgs: {
-    error: {
-      failToParseCliOpts: '**{1}**',
+  log: {
+    msgs: {
+      error: {
+        failToParseCliOpts: '**{1}**',
+      },
     },
   },
 };

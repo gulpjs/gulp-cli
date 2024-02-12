@@ -1,10 +1,12 @@
 module.exports = {
-  msgs: {
-    error: {
-      taskError: '{TIMESTAMP}TASK ERROR: {TaskName:{1}}',
+  log: {
+    msgs: {
+      error: {
+        taskError: '{TIMESTAMP}TASK ERROR: {TaskName:{1}}',
+      },
     },
-  },
-  theme: {
-    TaskName: '**{1}**',
+    theme: {
+      TaskName: '**{1}**',
+    },
   },
 };

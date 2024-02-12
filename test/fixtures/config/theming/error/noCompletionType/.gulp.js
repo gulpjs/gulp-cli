@@ -1,7 +1,9 @@
 module.exports = {
-  msgs: {
-    error: {
-      noCompletionType: 'NO COMPLETION TYPE',
+  log: {
+    msgs: {
+      error: {
+        noCompletionType: 'NO COMPLETION TYPE',
+      },
     },
   },
 };

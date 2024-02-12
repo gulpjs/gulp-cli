@@ -1,8 +1,10 @@
 module.exports = {
-  msgs: {
-    info: null,  // To cause failToRun error forcefully
-    error: {
-      failToRun: 'FAIL TO RUN',
+  log: {
+    msgs: {
+      info: null,  // To cause failToRun error forcefully
+      error: {
+        failToRun: 'FAIL TO RUN',
+      },
     },
   },
 };

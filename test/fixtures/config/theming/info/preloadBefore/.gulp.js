@@ -1,10 +1,12 @@
 module.exports = {
-  msgs: {
-    info: {
-      preloadBefore: 'PRELOADING {ModuleName: {1}}',
+  log: {
+    msgs: {
+      info: {
+        preloadBefore: 'PRELOADING {ModuleName: {1}}',
+      },
     },
-  },
-  theme: {
-    ModuleName: '**{1}**',
+    theme: {
+      ModuleName: '**{1}**',
+    },
   },
 };

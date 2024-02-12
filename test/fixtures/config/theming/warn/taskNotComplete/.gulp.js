@@ -1,10 +1,12 @@
 module.exports = {
-  msgs: {
-    warn: {
-      taskNotComplete: '{TIMESTAMP}TASK {TaskName: {1}} DID NOT COMPLETE',
+  log: {
+    msgs: {
+      warn: {
+        taskNotComplete: '{TIMESTAMP}TASK {TaskName: {1}} DID NOT COMPLETE',
+      },
     },
-  },
-  theme: {
-    TaskName: '**{1}**',
+    theme: {
+      TaskName: '**{1}**',
+    },
   },
 };

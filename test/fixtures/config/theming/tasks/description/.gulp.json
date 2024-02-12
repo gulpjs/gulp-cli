@@ -1,10 +1,12 @@
 {
-  "msgs": {
-    "tasks": {
-      "description": "{FILE: {1}}"
+  "log": {
+    "msgs": {
+      "tasks": {
+        "description": "{FILE: {1}}"
+      }
+    },
+    "theme": {
+      "FILE": "** {1} **"
     }
-  },
-  "theme": {
-    "FILE": "** {1} **"
   }
 }

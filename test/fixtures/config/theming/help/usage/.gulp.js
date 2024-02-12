@@ -1,7 +1,9 @@
 module.exports = {
-  msgs: {
-    help: {
-      usage: 'GULP USAGE',
+  log: {
+    msgs: {
+      help: {
+        usage: 'GULP USAGE',
+      },
     },
   },
 };
