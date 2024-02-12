@@ -55,7 +55,13 @@ var cli = new Liftoff({
   },
 });
 
-var opts = parser.argv;
+var opts = {};
+var optsErr;
+try {
+  opts = parser.argv;
+} catch (e) {
+  optsErr = e;
+}
 
 cli.on('preload:before', function(name) {
   log.info(msgs.info.preloadBefore, name);
@@ -118,6 +124,11 @@ function onExecute(env) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
+  if (optsErr) {
+    log.error(msgs.error.failToParseCliOpts, optsErr.message);
+    makeHelp(parser).showHelp(console.error);
+    exit(1);
+  }
   if (env.config.flags.help) {
     makeHelp(parser).showHelp(console.log);
     exit(0);

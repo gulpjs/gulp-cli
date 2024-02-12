@@ -19,7 +19,7 @@ describe('config: theme.* & msgs.*', function() {
 
   it('Should change help.usage with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'help/usage');
-    var expected =fs.readFileSync(path.join(expectedDir, 'help/usage/help.txt'), 'utf8');
+    var expected = fs.readFileSync(path.join(expectedDir, 'help/usage/help.txt'), 'utf8');
 
     var opts = { cwd: cwd };
     exec(gulp('--help'), opts, cb);
@@ -27,14 +27,14 @@ describe('config: theme.* & msgs.*', function() {
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(eraseTime(stdout)).toEqual(expected);
+      expect(stdout).toEqual(expected);
       done(err);
     }
   });
 
   it('Should change help.flags.* with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'help/flags');
-    var expected =fs.readFileSync(path.join(expectedDir, 'help/flags/help.txt'), 'utf8');
+    var expected = fs.readFileSync(path.join(expectedDir, 'help/flags/help.txt'), 'utf8');
 
     var opts = { cwd: cwd };
     exec(gulp('--help'), opts, cb);
@@ -42,7 +42,7 @@ describe('config: theme.* & msgs.*', function() {
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(eraseTime(stdout)).toEqual(expected);
+      expect(stdout).toEqual(expected);
       done(err);
     }
   });
@@ -394,6 +394,21 @@ describe('config: theme.* & msgs.*', function() {
       expect(err).not.toBeNull();
       expect(stderr).toEqual('');
       expect(eraseTime(stdout)).toEqual(expected);
+      done();
+    }
+  });
+
+  it('Should change error.failToParseCliOpts with .gulp.*', function(done) {
+    var cwd = path.join(baseDir, 'error/failToParseCliOpts');
+    var expected = fs.readFileSync(path.join(expectedDir, 'error/failToParseCliOpts/help.txt'), 'utf8');
+
+    var opts = { cwd: cwd };
+    exec(gulp('-f'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).not.toBeNull();
+      expect(stdout).toEqual('');
+      expect(stderr).toEqual(expected);
       done();
     }
   });
