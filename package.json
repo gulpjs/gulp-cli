@@ -34,6 +34,7 @@
     "copy-props": "^4.0.0",
     "fancy-log": "^2.0.0",
     "gulplog": "^2.0.1",
+    "gulplog-v1": "npm:gulplog@1.0.0",
     "interpret": "^3.1.1",
     "liftoff": "^4.0.0",
     "mute-stdout": "^2.0.0",

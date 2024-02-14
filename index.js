@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
+var oldLog = require('gulplog-v1');
 
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
@@ -117,7 +118,8 @@ function onPrepare(env) {
   env = overrideEnvFlagsByConfigAndCliOpts(env, cfg, opts);
 
   // Set up event listeners for logging again after configuring.
-  toConsole(log, env.config.flags);
+  toConsole(log, env.config.flags, false);
+  toConsole(oldLog, env.config.flags, true);
 
   cli.execute(env, env.nodeFlags, onExecute);
 }
