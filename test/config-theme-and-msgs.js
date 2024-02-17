@@ -257,21 +257,6 @@ describe('config: theme.* & msgs.*', function() {
     }
   });
 
-  it('Should change info.version with .gulp.*', function(done) {
-    var cwd = path.join(baseDir, 'info/version');
-    var expected = /gulp-cli @@v\d.\d.\d@@ | gulp @@v\d.\d.\d@@\n/;
-
-    var opts = { cwd: cwd };
-    exec(gulp('--version'), opts, cb);
-
-    function cb(err, stdout, stderr) {
-      expect(err).toBeNull();
-      expect(stderr).toEqual('');
-      expect(stdout).toMatch(expected);
-      done(err);
-    }
-  });
-
   it('Should change info.cwdChanged with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'info/cwdChanged');
     var gulpfile = tildify(path.join(cwd, 'gulpfile.js'));

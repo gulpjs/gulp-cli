@@ -7,7 +7,6 @@ var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
-var format = require('theming-log').format;
 
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
@@ -17,7 +16,6 @@ var makeHelp = require('./lib/shared/options/make-help');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
-var theme = require('./lib/shared/log/theme');
 var msgs = require('./lib/shared/log/messages');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
@@ -136,8 +134,8 @@ function onExecute(env) {
 
   // Anything that needs to print outside of the logging mechanism should use console.log
   if (env.config.flags.version) {
-    var gulpVersion = env.modulePackage.version || 'Unknown';
-    console.log(format(theme, msgs.info.version, cliVersion, gulpVersion));
+    console.log('CLI version:', cliVersion);
+    console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
   }
 
