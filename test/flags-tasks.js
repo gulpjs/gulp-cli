@@ -122,6 +122,24 @@ describe('flag: --tasks', function() {
     }
   });
 
+  it('prints the top task only if negative tasks depth is specified', function(done) {
+    var opts = { cwd: baseDir };
+    exec(gulp(
+      '--tasks',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+      '--tasks-depth -1'
+    ), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      var filepath = path.join(expectedDir, 'flags-tasks-depth1.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expect(sliceLines(stdout, 1)).toEqual(expected);
+      done(err);
+    }
+  });
+
   it('prints the task list with --depth flag', function(done) {
     var opts = { cwd: baseDir };
     exec(gulp(

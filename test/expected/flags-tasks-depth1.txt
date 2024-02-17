@@ -1,0 +1,4 @@
+gulp-cli/test/fixtures/gulpfiles
+├── taskC
+├── taskB
+└── default
