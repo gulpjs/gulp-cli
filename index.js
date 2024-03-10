@@ -2,8 +2,8 @@
 
 var fs = require('fs');
 var path = require('path');
+
 var log = require('gulplog');
-var chalk = require('chalk');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
