@@ -17,7 +17,6 @@ var makeHelp = require('./lib/shared/options/make-help');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
-var msgs = require('./lib/shared/log/messages');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
 var overrideEnvByConfigAndCliOpts = require('./lib/shared/config/env-config');
@@ -116,65 +115,7 @@ function onPrepare(env) {
   env = overrideEnvByConfigAndCliOpts(env, cfg, opts);
 
   // Set up event listeners for logging after configuring.
-  toConsole(log, {
-    tasksSimple: env.config.flags.tasksSimple,
-    tasksJson: env.config.flags.tasksJson,
-    help: env.config.flags.help,
-    version: env.config.flags.version,
-    silent: env.config.flags.silent,
-    logLevel: env.config.flags.logLevel,
-    getMessage: function(msg, data) {
-      if (msg === messages.PRELOAD_BEFORE) {
-        return 'Preloading external module: ' + chalk.magenta(data);
-      }
-
-      if (msg === messages.PRELOAD_SUCCESS) {
-        return 'Preloaded external module: ' + chalk.magenta(data)
-      }
-
-      if (msg === messages.PRELOAD_FAILURE) {
-        return chalk.yellow('Failed to preload external module: ') + chalk.magenta(data);
-      }
-
-      if (msg === messages.PRELOAD_ERROR) {
-        return chalk.yellow(data.toString());
-      }
-
-      if (msg === messages.LOADER_SUCCESS) {
-        return 'Loaded external module: ' + chalk.magenta(data);
-      }
-
-      if (msg === messages.LOADER_FAILURE) {
-        return chalk.yellow('Failed to load external module: ') + chalk.magenta(data);
-      }
-
-      if (msg === messages.LOADER_ERROR) {
-        return chalk.yellow(data.toString());
-      }
-
-      if (msg === messages.NODE_FLAGS) {
-        var nodeFlags = chalk.magenta(data.join(', '));
-        return 'Node flags detected: ' + nodeFlags;
-      }
-
-      if (msg === messages.RESPAWNED) {
-        var pid = chalk.magenta(data);
-        return 'Respawned to PID: ' + pid;
-      }
-
-      if (msg === messages.GULPFILE_NOT_FOUND) {
-        return chalk.red('No gulpfile found');
-      }
-
-      if (msg === messages.CWD_CHANGED) {
-        return 'Working directory changed to ' + chalk.magenta(data);
-      }
-
-      if (msg === messages.UNSUPPORTED_GULP_VERSION) {
-        return chalk.red('Unsupported gulp version', env.modulePackage.version)
-      }
-    },
-  });
+  toConsole(log, env.config.flags);
 
   cli.execute(env, env.nodeFlags, onExecute);
 }
