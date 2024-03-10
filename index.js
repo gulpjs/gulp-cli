@@ -4,6 +4,7 @@ var fs = require('fs');
 var path = require('path');
 
 var log = require('gulplog');
+var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
@@ -12,8 +13,8 @@ var findRange = require('semver-greatest-satisfied-range');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
-var parser = require('./lib/shared/options/parser');
 var makeHelp = require('./lib/shared/options/make-help');
+var cliOptions = require('./lib/shared/options/cli-options');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
@@ -54,13 +55,27 @@ var cli = new Liftoff({
   },
 });
 
-var opts = {};
-var optsErr;
-try {
-  opts = parser.argv;
-} catch (e) {
-  optsErr = e;
-}
+// var opts = {};
+// var optsErr;
+// try {
+//   opts = parser.argv;
+// } catch (e) {
+//   optsErr = e;
+// }
+// var usage =
+//   '\n' + chalk.bold('Usage:') +
+//   ' gulp ' + chalk.blue('[options]') + ' tasks';
+
+var parser = yargs
+  .help(false)
+  .version(false)
+  .detectLocale(false)
+  .showHelpOnFail(false)
+  .exitProcess(false)
+  .fail(function(msg) { throw new Error(msg); })
+  .options(cliOptions);
+
+var opts = parser.parse();
 
 cli.on('preload:before', function(name) {
   log.info(messages.PRELOAD_BEFORE, name);
