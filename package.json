@@ -24,7 +24,6 @@
   ],
   "scripts": {
     "lint": "eslint .",
-    "prepublish": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
     "test": "mocha --async-only --timeout 5000 test/lib test",
     "cover": "nyc mocha --async-only --timeout 5000 test/lib test"
@@ -32,14 +31,14 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "copy-props": "^4.0.0",
-    "gulplog": "^2.0.1",
+    "fancy-log": "^2.0.0",
+    "gulplog": "^2.1.0",
     "interpret": "^3.1.1",
     "liftoff": "^4.0.0",
     "mute-stdout": "^2.0.0",
     "replace-homedir": "^2.0.0",
     "semver-greatest-satisfied-range": "^2.0.0",
     "string-width": "^4.2.3",
-    "theming-log": "^3.0.0",
     "v8flags": "^4.0.0",
     "yargs": "^16.2.0"
   },
@@ -51,8 +50,6 @@
     "eslint-config-gulp": "^5.0.1",
     "expect": "^27.5.1",
     "gulp": "^4.0.2",
-    "marked": "^0.7.0",
-    "marked-man": "^0.7.0",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
     "rimraf": "^3.0.2",

@@ -3,6 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 var log = require('gulplog');
+var chalk = require('chalk');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
@@ -20,6 +21,7 @@ var msgs = require('./lib/shared/log/messages');
 
 var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
 var overrideEnvByConfigAndCliOpts = require('./lib/shared/config/env-config');
+var messages = require('./messages');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -62,15 +64,18 @@ try {
 }
 
 cli.on('preload:before', function(name) {
-  log.info(msgs.info.preloadBefore, name);
+  log.info(messages.PRELOAD_BEFORE, name);
 });
 
 cli.on('preload:success', function(name) {
-  log.info(msgs.info.preloadSuccess, name);
+  log.info(messages.PRELOAD_SUCCESS, name);
 });
 
 cli.on('preload:failure', function(name, error) {
-  log.warn(msgs.warn.preloadFailure, name, Boolean(error), error.toString());
+  log.warn(messages.PRELOAD_FAILURE, name);
+  if (error) {
+    log.warn(messages.PRELOAD_ERROR, error);
+  }
 });
 
 cli.on('loader:success', function(name) {
@@ -79,16 +84,20 @@ cli.on('loader:success', function(name) {
   // However, we don't want to show the mjs-stub loader in the logs
   /* istanbul ignore else */
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info(msgs.info.loaderSuccess, name);
+    log.info(messages.LOADER_SUCCESS, name);
   }
 });
 
 cli.on('loader:failure', function(name, error) {
-  log.warn(msgs.warn.loaderFailure, name, Boolean(error), error.toString());
+  log.warn(messages.LOADER_FAILURE, name);
+  if (error) {
+    log.warn(messages.LOADER_ERROR, error);
+  }
 });
 
 cli.on('respawn', function(flags, child) {
-  log.info(msgs.info.respawn, flags.join(', '), child.pid);
+  log.info(messages.NODE_FLAGS, flags);
+  log.info(messages.RESPAWNED, child.pid);
 });
 
 function run() {
@@ -106,8 +115,66 @@ function onPrepare(env) {
   var cfg = mergeProjectAndUserHomeConfigs(env);
   env = overrideEnvByConfigAndCliOpts(env, cfg, opts);
 
-  // Set up event listeners for logging again after configuring.
-  toConsole(log, env.config.flags);
+  // Set up event listeners for logging after configuring.
+  toConsole(log, {
+    tasksSimple: env.config.flags.tasksSimple,
+    tasksJson: env.config.flags.tasksJson,
+    help: env.config.flags.help,
+    version: env.config.flags.version,
+    silent: env.config.flags.silent,
+    logLevel: env.config.flags.logLevel,
+    getMessage: function(msg, data) {
+      if (msg === messages.PRELOAD_BEFORE) {
+        return 'Preloading external module: ' + chalk.magenta(data);
+      }
+
+      if (msg === messages.PRELOAD_SUCCESS) {
+        return 'Preloaded external module: ' + chalk.magenta(data)
+      }
+
+      if (msg === messages.PRELOAD_FAILURE) {
+        return chalk.yellow('Failed to preload external module: ') + chalk.magenta(data);
+      }
+
+      if (msg === messages.PRELOAD_ERROR) {
+        return chalk.yellow(data.toString());
+      }
+
+      if (msg === messages.LOADER_SUCCESS) {
+        return 'Loaded external module: ' + chalk.magenta(data);
+      }
+
+      if (msg === messages.LOADER_FAILURE) {
+        return chalk.yellow('Failed to load external module: ') + chalk.magenta(data);
+      }
+
+      if (msg === messages.LOADER_ERROR) {
+        return chalk.yellow(data.toString());
+      }
+
+      if (msg === messages.NODE_FLAGS) {
+        var nodeFlags = chalk.magenta(data.join(', '));
+        return 'Node flags detected: ' + nodeFlags;
+      }
+
+      if (msg === messages.RESPAWNED) {
+        var pid = chalk.magenta(data);
+        return 'Respawned to PID: ' + pid;
+      }
+
+      if (msg === messages.GULPFILE_NOT_FOUND) {
+        return chalk.red('No gulpfile found');
+      }
+
+      if (msg === messages.CWD_CHANGED) {
+        return 'Working directory changed to ' + chalk.magenta(data);
+      }
+
+      if (msg === messages.UNSUPPORTED_GULP_VERSION) {
+        return chalk.red('Unsupported gulp version', env.modulePackage.version)
+      }
+    },
+  });
 
   cli.execute(env, env.nodeFlags, onExecute);
 }
@@ -122,15 +189,15 @@ function onExecute(env) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  if (optsErr) {
-    log.error(msgs.error.failToParseCliOpts, optsErr.message);
-    makeHelp(parser).showHelp(console.error);
-    exit(1);
-  }
-  if (env.config.flags.help) {
-    makeHelp(parser).showHelp(console.log);
-    exit(0);
-  }
+  // if (optsErr) {
+  //   log.error(msgs.error.failToParseCliOpts, optsErr.message);
+  //   makeHelp(parser).showHelp(console.error);
+  //   exit(1);
+  // }
+  // if (env.config.flags.help) {
+  //   makeHelp(parser).showHelp(console.log);
+  //   exit(0);
+  // }
 
   // Anything that needs to print outside of the logging mechanism should use console.log
   if (env.config.flags.version) {
@@ -140,23 +207,23 @@ function onExecute(env) {
   }
 
   if (!env.modulePath) {
-    var missingNodeModules =
-      fs.existsSync(path.join(env.cwd, 'package.json'))
-      && !fs.existsSync(path.join(env.cwd, 'node_modules'));
+    // var missingNodeModules =
+    //   fs.existsSync(path.join(env.cwd, 'package.json'))
+    //   && !fs.existsSync(path.join(env.cwd, 'node_modules'));
 
-    var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
-    var hasNpm = !hasYarn;
+    // var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
+    // var hasNpm = !hasYarn;
 
-    if (missingNodeModules) {
-      log.error(msgs.error.nodeModulesNotFound, tildify(env.cwd), hasYarn, hasNpm);
-    } else {
-      log.error(msgs.error.gulpNotFound, tildify(env.cwd), hasYarn, hasNpm);
-    }
+    // if (missingNodeModules) {
+    //   log.error(msgs.error.nodeModulesNotFound, tildify(env.cwd), hasYarn, hasNpm);
+    // } else {
+    //   log.error(msgs.error.gulpNotFound, tildify(env.cwd), hasYarn, hasNpm);
+    // }
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(msgs.error.gulpfileNotFound);
+    log.error(messages.GULPFILE_NOT_FOUND);
     exit(1);
   }
 
@@ -164,14 +231,14 @@ function onExecute(env) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    log.info(msgs.info.cwdChanged, tildify(env.cwd));
+    log.info(messages.CWD_CHANGED, tildify(env.cwd));
   }
 
   // Find the correct CLI version to run
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    log.error(msgs.error.badGulpVersion, env.modulePackage.version);
+    log.error(messages.UNSUPPORTED_GULP_VERSION, env.modulePackage.version);
     exit(1);
   }
 
