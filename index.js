@@ -148,18 +148,26 @@ function onExecute(env) {
   }
 
   if (!env.modulePath) {
-    // var missingNodeModules =
-    //   fs.existsSync(path.join(env.cwd, 'package.json'))
-    //   && !fs.existsSync(path.join(env.cwd, 'node_modules'));
+    var missingNodeModules =
+      fs.existsSync(path.join(env.cwd, 'package.json'))
+      && !fs.existsSync(path.join(env.cwd, 'node_modules'));
 
-    // var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
-    // var hasNpm = !hasYarn;
-
-    // if (missingNodeModules) {
-    //   log.error(msgs.error.nodeModulesNotFound, tildify(env.cwd), hasYarn, hasNpm);
-    // } else {
-    //   log.error(msgs.error.gulpNotFound, tildify(env.cwd), hasYarn, hasNpm);
-    // }
+    var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
+    if (missingNodeModules) {
+      log.error(messages.MISSING_NODE_MODULES, tildify(env.cwd));
+      if (hasYarn) {
+        log.error(messages.YARN_INSTALL)
+      } else {
+        log.error(messages.NPM_INSTALL)
+      }
+    } else {
+      log.error(messages.MISSING_GULP, tildify(env.cwd));
+      if (hasYarn) {
+        log.error(messages.YARN_INSTALL_GULP);
+      } else {
+        log.error(messages.NPM_INSTALL_GULP);
+      }
+    }
     exit(1);
   }
 
