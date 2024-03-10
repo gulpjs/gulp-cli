@@ -3,8 +3,6 @@
 // var expect = require('expect');
 // var copyProps = require('copy-props');
 // var overrideEnvConfig = require('../../lib/shared/config/env-config');
-// var theme = require('../../lib/shared/log/theme');
-// var msgs = require('../../lib/shared/log/messages');
 
 // describe('lib: env-config', function() {
 

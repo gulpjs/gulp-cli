@@ -1,8 +1,6 @@
 'use strict';
 
 var expect = require('expect');
-// var format = require('theming-log').format;
-// var theme = require('../../lib/shared/log/theme');
 
 // describe('lib: theme', function() {
 
