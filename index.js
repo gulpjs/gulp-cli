@@ -2,8 +2,9 @@
 
 var fs = require('fs');
 var path = require('path');
-var log = require('gulplog');
 
+var log = require('gulplog');
+var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
@@ -12,7 +13,7 @@ var chalk = require('chalk');
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
 var makeTitle = require('./lib/shared/make-title');
-var parser = require('./lib/shared/options/parser');
+var cliOptions = require('./lib/shared/options/cli-options');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
@@ -52,7 +53,18 @@ var cli = new Liftoff({
   },
 });
 
-var opts = parser.argv;
+var usage =
+  '\n' + chalk.bold('Usage:') +
+  ' gulp ' + chalk.blue('[options]') + ' tasks';
+
+var parser = yargs
+  .help(false)
+  .version(false)
+  .detectLocale(false)
+  .usage(usage)
+  .options(cliOptions);
+
+var opts = parser.parse();
 
 cli.on('preload:before', function(name) {
   log.info('Preloading external module:', chalk.magenta(name));
