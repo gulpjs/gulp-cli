@@ -66,6 +66,9 @@ var parser = yargs
 
 var opts = parser.parse();
 
+// Set up event listeners for logging temporarily.
+toConsole(log, opts);
+
 cli.on('preload:before', function(name) {
   log.info('Preloading external module:', chalk.magenta(name));
 });
