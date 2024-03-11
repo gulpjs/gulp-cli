@@ -48,7 +48,7 @@ describe('config: description', function() {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
       var expected = fs.readFileSync(path.join(expectedDir, 'output2.txt'), 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 2)).toEqual(expected);
       done(err);
     }
   });
