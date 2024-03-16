@@ -1,6 +1,6 @@
 {
+  "gulpfile": "../../../../gulpfiles/gulpfile-4.js",
   "flags": {
-    "sortTasks": false,
-    "gulpfile": "../../../../gulpfiles/gulpfile-4.js"
+    "sortTasks": false
   }
 }

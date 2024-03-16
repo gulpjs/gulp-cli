@@ -9,7 +9,7 @@ var gulp = require('./tool/gulp-cmd');
 
 var baseDir = path.join(__dirname, 'fixtures/config/flags/preload');
 
-describe('config: flags.preload', function() {
+describe('config: preload', function() {
 
   it('Should configure with an array in a .gulp.* file', function(done) {
     var opts = { cwd: path.join(baseDir, 'array') };

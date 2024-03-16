@@ -35,7 +35,7 @@
     "fancy-log": "^2.0.0",
     "gulplog": "^2.0.1",
     "interpret": "^3.1.1",
-    "liftoff": "^4.0.0",
+    "liftoff": "^5.0.0",
     "mute-stdout": "^2.0.0",
     "replace-homedir": "^2.0.0",
     "semver-greatest-satisfied-range": "^2.0.0",

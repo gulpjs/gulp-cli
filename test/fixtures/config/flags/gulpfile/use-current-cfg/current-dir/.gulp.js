@@ -1,5 +1,3 @@
 module.exports = {
-  flags: {
-    gulpfile: './gulpfile-2.js',
-  },
+  gulpfile: './gulpfile-2.js',
 };
