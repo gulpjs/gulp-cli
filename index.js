@@ -22,6 +22,7 @@ var toConsole = require('./lib/shared/log/to-console');
 var mergeCliOpts = require('./lib/shared/config/cli-flags');
 var buildTranslations = require('./lib/shared/translate');
 
+// TODO: make into `@gulpjs/messages`
 var messages = require('./messages');
 
 // Get supported ranges
