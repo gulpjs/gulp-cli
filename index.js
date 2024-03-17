@@ -20,6 +20,7 @@ var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
 var mergeCliOpts = require('./lib/shared/config/cli-flags');
+var buildTranslations = require('./lib/shared/translate');
 
 var messages = require('./messages');
 
@@ -68,13 +69,21 @@ var parser = yargs
   .detectLocale(false)
   .showHelpOnFail(false)
   .exitProcess(false)
-  .fail(function(msg) { throw new Error(msg); })
+  .fail(function(msg) {
+    cli.prepare({}, function (env) {
+      log.error(messages.ARGV_ERROR, msg);
+      // makeHelp(parser).showHelp(console.error);
+      exit(1);
+    });
+  })
   .options(cliOptions);
 
 var opts = parser.parse();
 
 // Set up event listeners for logging temporarily.
-toConsole(log, opts);
+// TODO: Rework console logging before we can set up proper config
+// Possibly by batching messages in gulplog until listeners are attached
+var cleanupListeners = toConsole(log, opts, buildTranslations());
 
 cli.on('preload:before', function(name) {
   log.info(messages.PRELOAD_BEFORE, name);
@@ -134,16 +143,21 @@ function onPrepare(env) {
   var cfg = arrayFind(env.config, isDefined);
   var flags = mergeCliOpts(opts, cfg);
 
-  // Set up event listeners for again logging after configuring.
-  toConsole(log, flags);
+  // Remove the previous listeners since we have appropriate config now
+  cleanupListeners();
+
+  var translate = buildTranslations(cfg);
+
+  // Set up event listeners for logging again after configuring.
+  toConsole(log, flags, translate);
 
   cli.execute(env, cfg.nodeFlags, function (env) {
-    onExecute(env, cfg, flags);
+    onExecute(env, flags, translate);
   });
 }
 
 // The actual logic
-function onExecute(env, cfg, flags) {
+function onExecute(env, flags, translate) {
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
@@ -152,16 +166,8 @@ function onExecute(env, cfg, flags) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  // if (optsErr) {
-  //   log.error(msgs.error.failToParseCliOpts, optsErr.message);
-  //   makeHelp(parser).showHelp(console.error);
-  //   exit(1);
-  // }
-  // if (env.config.flags.help) {
-  //   makeHelp(parser).showHelp(console.log);
-  //   exit(0);
-  // }
   if (flags.help) {
+    // makeHelp(parser).showHelp(console.log);
     parser.showHelp(console.log);
     exit(0);
   }
@@ -219,5 +225,5 @@ function onExecute(env, cfg, flags) {
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(env, cfg, flags);
+  require(versionedDir)(env, flags, translate);
 }

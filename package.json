@@ -31,7 +31,6 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "copy-props": "^4.0.0",
-    "fancy-log": "^2.0.0",
     "gulplog": "^2.1.0",
     "interpret": "^3.1.1",
     "liftoff": "^5.0.0",

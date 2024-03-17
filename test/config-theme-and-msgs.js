@@ -84,14 +84,14 @@ describe('config: theme.* & msgs.*', function() {
     var gulpfile = tildify(path.join(cwd, 'gulpfile.js'));
     var expected = 'Tasks for ' + gulpfile + '\n' +
       '├─┬ **default**  This is default task\n' +
-      '│ │ --ghi        …is a flag for default task\n' +
+      '│ │ --ghi        is a flag for default task\n' +
       '│ └─┬ <series>\n' +
       '│   ├── taskA\n' +
       '│   └── taskB\n' +
       '├── **taskA**    This is task A\n' +
-      '│   --abc        …is a flag for task A\n' +
+      '│   --abc        is a flag for task A\n' +
       '└── **taskB**    This is task B\n' +
-      '    --def        …is a flag for task B\n';
+      '    --def        is a flag for task B\n';
 
     var opts = { cwd: cwd };
     exec(gulp('--tasks'), opts, cb);
@@ -134,14 +134,14 @@ describe('config: theme.* & msgs.*', function() {
     var gulpfile = tildify(path.join(cwd, 'gulpfile.js'));
     var expected = 'Tasks for ' + gulpfile + '\n' +
       '├─┬ default  This is default task\n' +
-      '│ │ --ghi    …is a flag for default task\n' +
+      '│ │ --ghi    is a flag for default task\n' +
       '│ └─┬ **<series>**\n' +
       '│   ├── **taskA**\n' +
       '│   └── **taskB**\n' +
       '├── taskA    This is task A\n' +
-      '│   --abc    …is a flag for task A\n' +
+      '│   --abc    is a flag for task A\n' +
       '└── taskB    This is task B\n' +
-      '    --def    …is a flag for task B\n';
+      '    --def    is a flag for task B\n';
 
     var opts = { cwd: cwd };
     exec(gulp('--tasks'), opts, cb);

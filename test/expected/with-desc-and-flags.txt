@@ -1,7 +1,7 @@
 gulp-cli/test/fixtures
 ├─┬ build         Build all the things!
 │ │ --dev
-│ │ --production  …compressed into single bundle
+│ │ --production  compressed into single bundle
 │ └─┬ <series>
 │   ├── clean
 │   ├── scripts
@@ -17,6 +17,6 @@ gulp-cli/test/fixtures
 │   └── watch
 ├── scripts       Bundles JavaScript
 ├── serve         Serves files reloading
-│   --lr          …with live reloading
+│   --lr          with live reloading
 ├── styles        Compiles and bundles CSS
 └── watch         Watch files and build on change
