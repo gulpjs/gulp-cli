@@ -1,6 +1,6 @@
 {
+  "gulpfile": "../../../gulpfiles/gulpfile-4.js",
   "flags": {
-    "tasksDepth": 4,
-    "gulpfile": "../../../gulpfiles/gulpfile-4.js"
+    "tasksDepth": 4
   }
 }

@@ -81,7 +81,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
       done(err);
     }
   });
@@ -99,7 +99,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
       done(err);
     }
   });
@@ -117,7 +117,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
       done(err);
     }
   });
@@ -153,7 +153,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
       done(err);
     }
   });
@@ -171,7 +171,7 @@ describe('flag: --tasks', function() {
       expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(expected);
+      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
       done(err);
     }
   });

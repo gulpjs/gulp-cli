@@ -20,7 +20,7 @@ describe('config: flags.tasksDepth', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }
@@ -33,7 +33,7 @@ describe('config: flags.tasksDepth', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-depth2.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }

@@ -20,8 +20,8 @@ describe('config: flags.compactTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expected = sliceLines(expected, 1);
-      stdout = sliceLines(stdout, 1);
+      expected = sliceLines(expected, 2);
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
       done(err);
@@ -35,8 +35,8 @@ describe('config: flags.compactTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expected = sliceLines(expected, 1);
-      stdout = sliceLines(stdout, 1);
+      expected = sliceLines(expected, 2);
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
       done(err);
@@ -50,8 +50,8 @@ describe('config: flags.compactTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-compact.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expected = sliceLines(expected, 1);
-      stdout = sliceLines(stdout, 1);
+      expected = sliceLines(expected, 2);
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
       done(err);
@@ -65,8 +65,8 @@ describe('config: flags.compactTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expected = sliceLines(expected, 1);
-      stdout = sliceLines(stdout, 1);
+      expected = sliceLines(expected, 2);
+      stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(expected);
       expect(stderr).toEqual('');
       done(err);
