@@ -10,16 +10,16 @@ var interpret = require('interpret');
 var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
 var chalk = require('chalk');
+
 var exit = require('./lib/shared/exit');
 var tildify = require('./lib/shared/tildify');
+var arrayFind = require('./lib/shared/array-find');
 var makeTitle = require('./lib/shared/make-title');
 var cliOptions = require('./lib/shared/options/cli-options');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
-
-var mergeProjectAndUserHomeConfigs = require('./lib/shared/config/merge-configs');
-var overrideEnvFlagsByConfigAndCliOpts = require('./lib/shared/config/env-flags');
+var mergeCliOpts = require('./lib/shared/config/cli-flags');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -34,23 +34,19 @@ var cli = new Liftoff({
   completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
-  configFiles: {
-    project: [
-      {
-        name: '.gulp',
-        path: '.',
-        extensions: interpret.extensions,
-        findUp: true,
-      },
-    ],
-    userHome: [
-      {
-        name: '.gulp',
-        path: '~',
-        extensions: interpret.extensions,
-      },
-    ],
-  },
+  configFiles: [
+    {
+      name: '.gulp',
+      path: '.',
+      extensions: interpret.extensions,
+      findUp: true,
+    },
+    {
+      name: '.gulp',
+      path: '~',
+      extensions: interpret.extensions,
+    },
+  ],
 });
 
 var usage =
@@ -127,33 +123,41 @@ function run() {
 
 module.exports = run;
 
+function isDefined(cfg) {
+  return cfg != null;
+}
+
 function onPrepare(env) {
-  var cfg = mergeProjectAndUserHomeConfigs(env);
-  env = overrideEnvFlagsByConfigAndCliOpts(env, cfg, opts);
+  // We only use the first config found, which is a departure from
+  // the previous implementation that merged with the home
+  var cfg = arrayFind(env.config, isDefined);
+  var flags = mergeCliOpts(opts, cfg);
 
-  // Set up event listeners for logging again after configuring.
-  toConsole(log, env.config.flags);
+  // Set up event listeners for logging after configuring.
+  toConsole(log, flags);
 
-  cli.execute(env, env.nodeFlags, onExecute);
+  cli.execute(env, cfg.nodeFlags, function (env) {
+    onExecute(env, cfg, flags);
+  });
 }
 
 // The actual logic
-function onExecute(env) {
+function onExecute(env, cfg, flags) {
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
   // Can know about the flag
-  if (env.config.flags.continue) {
+  if (flags.continue) {
     process.env.UNDERTAKER_SETTLE = 'true';
   }
 
-  if (env.config.flags.help) {
+  if (flags.help) {
     parser.showHelp(console.log);
     exit(0);
   }
 
   // Anything that needs to print outside of the logging mechanism should use console.log
-  if (env.config.flags.version) {
+  if (flags.version) {
     console.log('CLI version:', cliVersion);
     console.log('Local version:', env.modulePackage.version || 'Unknown');
     exit(0);
@@ -215,5 +219,5 @@ function onExecute(env) {
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(env);
+  require(versionedDir)(env, cfg, flags);
 }

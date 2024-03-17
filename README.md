@@ -101,21 +101,21 @@ The CLI adds `process.env.INIT_CWD` which is the original cwd it was launched fr
 
 Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.json`, `.gulp.yml`). You can find a list of supported languages at https://github.com/gulpjs/interpret.
 
-Configuration from the home directory (`~`) and current working directory (`cwd`) are merged with `cwd` taking precedence.
+A configuration file from the current working directory (`cwd`) or above are selected before a configuration file from the home directory (`~`).
 
 Supported configurations properties:
 
 | Property           | Description |
 |--------------------|-------------|
 | description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
+| gulpfile           | Set a default gulpfile |
+| preload            | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
+| nodeFlags          | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
 | flags.continue     | Continue execution of tasks upon failure by default. |
 | flags.compactTasks | Reduce the output of task dependency tree by default. |
 | flags.tasksDepth   | Set default depth of task dependency tree. |
-| flags.gulpfile     | Set a default gulpfile |
 | flags.silent       | Silence logging by default |
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
-| flags.preload      | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
-| flags.nodeFlags    | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
 
 ## Flags
 

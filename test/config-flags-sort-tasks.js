@@ -20,7 +20,7 @@ describe('config: flags.sortTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }
@@ -33,7 +33,7 @@ describe('config: flags.sortTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }
@@ -46,7 +46,7 @@ describe('config: flags.sortTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-sorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }
@@ -59,7 +59,7 @@ describe('config: flags.sortTasks', function() {
     function cb(err, stdout, stderr) {
       var filepath = path.join(expectedDir, 'flags-tasks-unsorted.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
-      expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      expect(sliceLines(stdout, 2)).toEqual(sliceLines(expected, 2));
       expect(stderr).toEqual('');
       done(err);
     }

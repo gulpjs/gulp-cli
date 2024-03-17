@@ -1,5 +1,3 @@
 {
-  "flags": {
-    "preload": "./preload"
-  }
+  "preload": "./preload"
 }

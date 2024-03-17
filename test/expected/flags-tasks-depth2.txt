@@ -1,3 +1,4 @@
+Working directory changed to gulp-cli/test/fixtures/gulpfiles
 gulp-cli/test/fixtures/gulpfiles
 ├─┬ taskC
 │ └── <series>

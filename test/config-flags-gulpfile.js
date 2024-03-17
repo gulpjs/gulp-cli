@@ -10,7 +10,7 @@ var gulp = require('./tool/gulp-cmd');
 var baseDir = path.join(__dirname, 'fixtures/config/flags/gulpfile');
 var prjDir = path.join(baseDir, 'prj');
 
-describe('config: flags.gulpfile', function() {
+describe('config: gulpfile', function() {
 
   it('Should configure with a .gulp.* file', function(done) {
     var opts = { cwd: prjDir };
@@ -19,9 +19,9 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 2, 4)).toEqual(
+      expect(sliceLines(stdout, 3, 5)).toEqual(
         'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-prj-cfg.js') + '\n' +
-        'The current directory : ' + prjDir
+        'The current directory : ' + path.join(baseDir, 'is/here')
       );
       done(err);
     }
@@ -49,9 +49,9 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 2, 4)).toEqual(
+      expect(sliceLines(stdout, 3, 5)).toEqual(
         'This gulpfile : ' + path.join(baseDir, 'is/here/gulpfile-by-prj-cfg.js') + '\n' +
-        'The current directory : ' + path.join(prjDir, 'findup')
+        'The current directory : ' + path.join(baseDir, 'is/here')
       );
       done(err);
     }
@@ -126,8 +126,8 @@ describe('config: flags.gulpfile', function() {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
       expect(sliceLines(stdout, 0, 1)).toEqual('Loaded external module: @babel/register');
-      expect(sliceLines(stdout, 4, 5)).toEqual('clean!');
-      expect(sliceLines(stdout, 7, 8)).toEqual('build!');
+      expect(sliceLines(stdout, 5, 6)).toEqual('clean!');
+      expect(sliceLines(stdout, 8, 9)).toEqual('build!');
       done(err);
     }
   });
@@ -152,7 +152,7 @@ describe('config: flags.gulpfile', function() {
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
       expect(stderr).toEqual('');
-      expect(sliceLines(stdout, 3, 4)).toEqual(path.join(opts.cwd, 'gulpfile-2.js'));
+      expect(sliceLines(stdout, 2, 3)).toEqual(path.join(opts.cwd, 'gulpfile-2.js'));
       done(err);
     }
   });
