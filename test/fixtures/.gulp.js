@@ -7,4 +7,4 @@ module.exports = {
       return "gulp-cli/test/fixtures";
     }
   }
-}
+};

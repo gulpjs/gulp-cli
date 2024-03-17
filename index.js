@@ -41,13 +41,13 @@ var cli = new Liftoff({
     {
       name: '.gulp',
       path: '.',
-      extensions: interpret.extensions,
+      extensions: interpret.jsVariants,
       findUp: true,
     },
     {
       name: '.gulp',
       path: '~',
-      extensions: interpret.extensions,
+      extensions: interpret.jsVariants,
     },
   ],
 });

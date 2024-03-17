@@ -91,7 +91,7 @@ Add `gulp --completion=fish | source` to `~/.config/fish/config.fish`.
 
 ## Compilers
 
-You can find a list of supported languages at https://github.com/gulpjs/interpret. If you would like to add support for a new language, send pull requests/open issues on that project.
+You can find a list of supported JavaScript variant languages in [Interpret][interpret-js-variants]. If you would like to add support for a new language, send pull requests/open issues on that project.
 
 ## Environment
 
@@ -99,7 +99,7 @@ The CLI adds `process.env.INIT_CWD` which is the original cwd it was launched fr
 
 ## Configuration
 
-Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.json`, `.gulp.yml`). You can find a list of supported languages at https://github.com/gulpjs/interpret.
+Configuration is supported through the use of a `.gulp.*` file (e.g. `.gulp.js`, `.gulp.ts`). You can find a list of supported JavaScript variant languages in [Interpret][interpret-js-variants].
 
 A configuration file from the current working directory (`cwd`) or above are selected before a configuration file from the home directory (`~`).
 
@@ -224,6 +224,9 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
 
 MIT
 
+<!-- prettier-ignore-start -->
+[interpret-js-variants]: https://github.com/gulpjs/interpret#jsvariants
+<!-- prettier-ignore-end -->
 
 <!-- prettier-ignore-start -->
 [downloads-image]: https://img.shields.io/npm/dm/gulp-cli.svg?style=flat-square
