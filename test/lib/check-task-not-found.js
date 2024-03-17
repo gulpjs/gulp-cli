@@ -9,7 +9,7 @@ describe('lib: checkTaskNotFound', function() {
     var err = new Error('Task never defined: task2 - did you mean? task0, task1');
     expect(checkTaskNotFound(err)).toEqual({
       target: 'task2',
-      similar: 'task0, task1',
+      similar: ['task0', 'task1']
     });
     done();
   });

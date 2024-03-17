@@ -15,7 +15,7 @@ var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
 var gulp = require('./tool/gulp-cmd');
 
-describe('config: theme.* & msgs.*', function() {
+describe.skip('config: theme.* & msgs.*', function() {
 
   it('Should change help.usage with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'help/usage');

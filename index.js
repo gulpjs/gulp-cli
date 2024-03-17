@@ -34,7 +34,6 @@ process.env.INIT_CWD = process.cwd();
 var cli = new Liftoff({
   name: 'gulp',
   processTitle: makeTitle('gulp', process.argv.slice(2)),
-  completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: [
@@ -52,30 +51,13 @@ var cli = new Liftoff({
   ],
 });
 
-// var opts = {};
-// var optsErr;
-// try {
-//   opts = parser.argv;
-// } catch (e) {
-//   optsErr = e;
-// }
-// var usage =
-//   '\n' + chalk.bold('Usage:') +
-//   ' gulp ' + chalk.blue('[options]') + ' tasks';
-
 var parser = yargs
   .help(false)
   .version(false)
   .detectLocale(false)
   .showHelpOnFail(false)
   .exitProcess(false)
-  .fail(function(msg) {
-    cli.prepare({}, function (env) {
-      log.error(messages.ARGV_ERROR, msg);
-      // makeHelp(parser).showHelp(console.error);
-      exit(1);
-    });
-  })
+  .fail(onFail)
   .options(cliOptions);
 
 var opts = parser.parse();
@@ -127,7 +109,6 @@ function run() {
     cwd: opts.cwd,
     configPath: opts.gulpfile,
     preload: opts.preload,
-    completion: opts.completion,
   }, onPrepare);
 }
 
@@ -135,6 +116,24 @@ module.exports = run;
 
 function isDefined(cfg) {
   return cfg != null;
+}
+
+function onFail(message, error) {
+  // Run Liftoff#prepare to get the env. Primarily to load themes.
+  cli.prepare({}, function (env) {
+    // We only use the first config found, which is a departure from
+    // the previous implementation that merged with the home
+    var cfg = arrayFind(env.config, isDefined);
+    var translate = buildTranslations(cfg);
+
+    var errorMsg = translate.message(messages.ARGV_ERROR, { message: message, error: error });
+    if (errorMsg) {
+      console.error(errorMsg);
+    }
+
+    makeHelp(parser, translate).showHelp(console.error);
+    exit(1);
+  });
 }
 
 function onPrepare(env) {
@@ -158,6 +157,11 @@ function onPrepare(env) {
 
 // The actual logic
 function onExecute(env, flags, translate) {
+  // Moved the completion logic outside of Liftoff since we need to include translations
+  if (flags.completion) {
+    return completion(flags.completion, translate);
+  }
+
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
@@ -167,8 +171,7 @@ function onExecute(env, flags, translate) {
   }
 
   if (flags.help) {
-    // makeHelp(parser).showHelp(console.log);
-    parser.showHelp(console.log);
+    makeHelp(parser, translate).showHelp(console.log);
     exit(0);
   }
 
