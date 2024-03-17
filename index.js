@@ -11,7 +11,7 @@ var v8flags = require('v8flags');
 var findRange = require('semver-greatest-satisfied-range');
 
 var exit = require('./lib/shared/exit');
-var tildify = require('./lib/shared/tildify');
+
 var arrayFind = require('./lib/shared/array-find');
 var makeTitle = require('./lib/shared/make-title');
 var makeHelp = require('./lib/shared/options/make-help');
@@ -190,14 +190,14 @@ function onExecute(env, flags, translate) {
 
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     if (missingNodeModules) {
-      log.error(messages.MISSING_NODE_MODULES, tildify(env.cwd));
+      log.error(messages.MISSING_NODE_MODULES, { cwd: env.cwd });
       if (hasYarn) {
         log.error(messages.YARN_INSTALL)
       } else {
         log.error(messages.NPM_INSTALL)
       }
     } else {
-      log.error(messages.MISSING_GULP, tildify(env.cwd));
+      log.error(messages.MISSING_GULP, { cwd: env.cwd });
       if (hasYarn) {
         log.error(messages.YARN_INSTALL_GULP);
       } else {
@@ -216,7 +216,7 @@ function onExecute(env, flags, translate) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    log.info(messages.CWD_CHANGED, tildify(env.cwd));
+    log.info(messages.CWD_CHANGED, { cwd: env.cwd });
   }
 
   // Find the correct CLI version to run
