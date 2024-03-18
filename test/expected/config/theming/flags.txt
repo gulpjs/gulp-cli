@@ -1,0 +1,18 @@
+Options:
+  -h, --help                  **HELP**                                 [boolean]
+  -v, --version               **VERSION**                              [boolean]
+      --preload               **PRELOAD**                               [string]
+  -f, --gulpfile              **GULPFILE**                              [string]
+      --cwd                   **CWD**                                   [string]
+  -T, --tasks                 **TASKS**                                [boolean]
+      --tasks-simple          **TASKS SIMPLE**                         [boolean]
+      --tasks-json            **TASKS JSON**
+      --tasks-depth, --depth  **TASKS DEPTH**                           [number]
+      --compact-tasks         **COMPACT TASKS**                        [boolean]
+      --sort-tasks            **SORT_TASKS**                           [boolean]
+      --color                 **COLOR**                                [boolean]
+      --no-color              **NO COLOR**                             [boolean]
+  -S, --silent                **SILENT**                               [boolean]
+      --continue              **CONTINUE**                             [boolean]
+      --series                **SERIES**                               [boolean]
+  -L, --log-level             **LOG LEVEL**                              [count]

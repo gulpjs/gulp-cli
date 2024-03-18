@@ -13,8 +13,8 @@ module.exports = {
   /**
    * Various problems that might occur
    */
-  GULPFILE_NOT_FOUND: Symbol.for('GULP_CLI_GULPFILE_NOT_FOUND'),
   UNSUPPORTED_GULP_VERSION: Symbol.for('GULP_CLI_UNSUPPORTED_GULP_VERSION'),
+  MISSING_GULPFILE: Symbol.for('GULP_CLI_MISSING_GULPFILE'),
   MISSING_NODE_MODULES: Symbol.for('GULP_CLI_MISSING_NODE_MODULES'),
   MISSING_GULP: Symbol.for('GULP_CLI_MISSING_GULP'),
   YARN_INSTALL: Symbol.for('GULP_CLI_YARN_INSTALL'),
@@ -36,7 +36,7 @@ module.exports = {
   TASK_STOP: Symbol.for('GULP_CLI_TASK_STOP'),
   TASK_ERROR: Symbol.for('GULP_CLI_TASK_ERROR'),
   TASK_MISSING: Symbol.for('GULP_CLI_TASK_MISSING'),
-  SYNC_TASK: Symbol.for('GULP_CLI_SYNC_TASK'),
+  TASK_SYNC: Symbol.for('GULP_CLI_TASK_SYNC'),
 
   /**
    * Completions

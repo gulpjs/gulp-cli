@@ -208,7 +208,7 @@ function onExecute(env, flags, translate) {
   }
 
   if (!env.configPath) {
-    log.error(messages.GULPFILE_NOT_FOUND);
+    log.error(messages.MISSING_GULPFILE);
     exit(1);
   }
 
