@@ -1,12 +1,7 @@
 {
-  "name": "nodeModulesNotFound",
+  "name": "node-modules-not-found",
+  "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": ".gulp.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "main": ".gulp.js"
 }
