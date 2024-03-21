@@ -63,7 +63,6 @@ describe('config: message function', function() {
     }
   });
 
-  // TODO: Do we want tests returning false for every message?
   it('can remove DESCRIPTION line output with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'DESCRIPTION/remove');
     var expected = '└── default\n';
