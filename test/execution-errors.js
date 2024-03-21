@@ -29,6 +29,21 @@ describe('execution error', function() {
     }
   });
 
+  it('should output an error if a task is not defined but a similar task is found', function(done) {
+    var opts = { cwd: path.join(__dirname, './fixtures/gulpfiles') };
+    exec(gulp('test0'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).not.toBeNull();
+      expect(err.code).toEqual(1);
+      expect(eraseTime(stdout)).toMatch('Using gulpfile ');
+      expect(eraseTime(stderr)).toEqual(
+        'Task never defined: test0 - did you mean? test1, test2, test3, test4, test5, test6, test7, test8\n' +
+        'To list available tasks, try running: gulp --tasks\n');
+      done();
+    }
+  });
+
   it('should output an error if gulp version is unsupported', function(done) {
     var opts = { cwd: path.join(__dirname, './fixtures/errors/bad-gulp-version') };
     exec(gulp(), opts, cb);
