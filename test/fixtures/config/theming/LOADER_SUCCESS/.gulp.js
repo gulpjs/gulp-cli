@@ -2,9 +2,9 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.LOADER_SUCCESS) {
-      return 'LOADED **' + data + '**!';
+  message: function (data) {
+    if (data.tag === messages.LOADER_SUCCESS) {
+      return 'LOADED **' + data.name + '**!';
     }
 
     // Silence all other messages for test

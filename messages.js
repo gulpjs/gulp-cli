@@ -34,7 +34,7 @@ module.exports = {
    */
   TASK_START: Symbol.for('GULP_CLI_TASK_START'),
   TASK_STOP: Symbol.for('GULP_CLI_TASK_STOP'),
-  TASK_ERROR: Symbol.for('GULP_CLI_TASK_ERROR'),
+  TASK_FAILURE: Symbol.for('GULP_CLI_TASK_FAILURE'),
   TASK_MISSING: Symbol.for('GULP_CLI_TASK_MISSING'),
   TASK_SYNC: Symbol.for('GULP_CLI_TASK_SYNC'),
 
@@ -51,6 +51,7 @@ module.exports = {
   LOADER_ERROR: Symbol.for('GULP_CLI_LOADER_ERROR'),
   ARGV_ERROR: Symbol.for('GULP_CLI_ARGV_ERROR'),
   EXEC_ERROR: Symbol.for('GULP_CLI_EXEC_ERROR'),
+  TASK_ERROR: Symbol.for('GULP_CLI_TASK_ERROR'),
 
   /**
    * Help

@@ -2,12 +2,12 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg) {
-    if (msg === messages.EXEC_ERROR) {
+  message: function (data) {
+    if (data.tag === messages.EXEC_ERROR) {
       return 'FAIL TO RUN';
     }
 
-    if (msg === messages.GULPFILE) {
+    if (data.tag === messages.GULPFILE) {
       throw new Error('Crash before task execution');
     }
   }

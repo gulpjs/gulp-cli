@@ -2,8 +2,8 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg) {
-    if (msg === messages.MISSING_GULPFILE) {
+  message: function (data) {
+    if (data.tag === messages.MISSING_GULPFILE) {
       return 'NO GULPFILE';
     }
   }

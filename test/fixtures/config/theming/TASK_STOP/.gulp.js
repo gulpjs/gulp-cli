@@ -2,8 +2,8 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.TASK_STOP) {
+  message: function (data) {
+    if (data.tag === messages.TASK_STOP) {
       return 'STOP **' + data.task + '**';
     }
 

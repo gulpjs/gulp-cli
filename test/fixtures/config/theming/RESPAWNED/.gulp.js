@@ -2,8 +2,8 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg) {
-    if (msg === messages.RESPAWNED) {
+  message: function (data) {
+    if (data.tag === messages.RESPAWNED) {
       return 'RESPAWN!';
     }
 

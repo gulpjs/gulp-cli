@@ -2,13 +2,16 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function(msg, data) {
-    if (msg === messages.GULPFILE) {
-      return 'Using gulpfile!';
+  message: function (data) {
+    if (data.tag === messages.TASK_ERROR) {
+      return '**TASK ERROR**';
     }
 
-    if (msg === messages.TASK_ERROR) {
-      return 'TASK ERROR: **' + data.task + '**';
-    }
+    // Silence everything else for test
+    return false;
+  },
+  timestamp: function () {
+    // Silence timestamps for test
+    return false;
   }
 };

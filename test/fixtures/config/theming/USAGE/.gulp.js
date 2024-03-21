@@ -2,8 +2,8 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.USAGE) {
+  message: function (data) {
+    if (data.tag === messages.USAGE) {
       return 'GULP USAGE';
     }
   }

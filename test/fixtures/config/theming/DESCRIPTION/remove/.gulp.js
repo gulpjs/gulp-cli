@@ -2,8 +2,8 @@
 var messages = require('../../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.DESCRIPTION) {
+  message: function (data) {
+    if (data.tag === messages.DESCRIPTION) {
       return false;
     }
   }

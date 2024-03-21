@@ -2,9 +2,9 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.PRELOAD_BEFORE) {
-      return 'PRELOADING **' + data + '**!';
+  message: function (data) {
+    if (data.tag === messages.PRELOAD_BEFORE) {
+      return 'PRELOADING **' + data.name + '**!';
     }
 
     // Silence all other messages for test

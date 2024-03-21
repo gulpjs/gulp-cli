@@ -69,17 +69,17 @@ var opts = parser.parse();
 var cleanupListeners = toConsole(log, opts, buildTranslations());
 
 cli.on('preload:before', function(name) {
-  log.info(messages.PRELOAD_BEFORE, name);
+  log.info({ tag: messages.PRELOAD_BEFORE, name: name });
 });
 
 cli.on('preload:success', function(name) {
-  log.info(messages.PRELOAD_SUCCESS, name);
+  log.info({ tag: messages.PRELOAD_SUCCESS, name: name });
 });
 
 cli.on('preload:failure', function(name, error) {
-  log.warn(messages.PRELOAD_FAILURE, name);
+  log.warn({ tag: messages.PRELOAD_FAILURE, name: name });
   if (error) {
-    log.warn(messages.PRELOAD_ERROR, error);
+    log.warn({ tag: messages.PRELOAD_ERROR, error: error });
   }
 });
 
@@ -89,20 +89,20 @@ cli.on('loader:success', function(name) {
   // However, we don't want to show the mjs-stub loader in the logs
   /* istanbul ignore else */
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info(messages.LOADER_SUCCESS, name);
+    log.info({ tag: messages.LOADER_SUCCESS, name: name });
   }
 });
 
 cli.on('loader:failure', function(name, error) {
-  log.warn(messages.LOADER_FAILURE, name);
+  log.warn({ tag: messages.LOADER_FAILURE, name: name });
   if (error) {
-    log.warn(messages.LOADER_ERROR, error);
+    log.warn({ tag: messages.LOADER_ERROR, error: error });
   }
 });
 
 cli.on('respawn', function(flags, child) {
-  log.info(messages.NODE_FLAGS, flags);
-  log.info(messages.RESPAWNED, child.pid);
+  log.info({ tag: messages.NODE_FLAGS, flags: flags });
+  log.info({ tag: messages.RESPAWNED, pid: child.pid });
 });
 
 function run() {
@@ -127,7 +127,7 @@ function onFail(message, error) {
     var cfg = arrayFind(env.config, isDefined);
     var translate = buildTranslations(cfg);
 
-    var errorMsg = translate.message(messages.ARGV_ERROR, { message: message, error: error });
+    var errorMsg = translate.message({ tag: messages.ARGV_ERROR, message: message, error: error });
     if (errorMsg) {
       console.error(errorMsg);
     }
@@ -190,25 +190,25 @@ function onExecute(env, flags, translate) {
 
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
     if (missingNodeModules) {
-      log.error(messages.MISSING_NODE_MODULES, { cwd: env.cwd });
+      log.error({ tag: messages.MISSING_NODE_MODULES, cwd: env.cwd });
       if (hasYarn) {
-        log.error(messages.YARN_INSTALL)
+        log.error({ tag: messages.YARN_INSTALL })
       } else {
-        log.error(messages.NPM_INSTALL)
+        log.error({ tag: messages.NPM_INSTALL })
       }
     } else {
-      log.error(messages.MISSING_GULP, { cwd: env.cwd });
+      log.error({ tag: messages.MISSING_GULP, cwd: env.cwd });
       if (hasYarn) {
-        log.error(messages.YARN_INSTALL_GULP);
+        log.error({ tag: messages.YARN_INSTALL_GULP });
       } else {
-        log.error(messages.NPM_INSTALL_GULP);
+        log.error({ tag: messages.NPM_INSTALL_GULP });
       }
     }
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(messages.MISSING_GULPFILE);
+    log.error({ tag: messages.MISSING_GULPFILE });
     exit(1);
   }
 
@@ -216,14 +216,14 @@ function onExecute(env, flags, translate) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    log.info(messages.CWD_CHANGED, { cwd: env.cwd });
+    log.info({ tag: messages.CWD_CHANGED, cwd: env.cwd });
   }
 
   // Find the correct CLI version to run
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    log.error(messages.UNSUPPORTED_GULP_VERSION, env.modulePackage.version);
+    log.error({ tag: messages.UNSUPPORTED_GULP_VERSION, version: env.modulePackage.version });
     exit(1);
   }
 

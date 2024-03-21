@@ -13,7 +13,6 @@ var expectedDir = path.join(__dirname, 'expected/config/theming');
 
 var eraseTime = require('./tool/erase-time');
 var eraseLapse = require('./tool/erase-lapse');
-var sliceLines = require('./tool/slice-lines');
 var gulp = require('./tool/gulp-cmd');
 
 describe('config: message function', function() {
@@ -383,18 +382,32 @@ describe('config: message function', function() {
     }
   });
 
-  it('can change TASK_ERROR with .gulp.*', function(done) {
-    var cwd = path.join(baseDir, 'TASK_ERROR');
-    var expectedStdout = "Using gulpfile!\nStarting 'default'...\n";
-    var expectedStderr = 'TASK ERROR: **default**';
+  it('can change TASK_FAILURE with .gulp.*', function(done) {
+    var cwd = path.join(baseDir, 'TASK_FAILURE');
+    var expectedStderr = 'TASK FAILURE: **default**\n';
 
     var opts = { cwd: cwd };
     exec(gulp(), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
-      expect(sliceLines(stderr, 0, 1)).toEqual(expectedStderr);
-      expect(eraseTime(stdout)).toEqual(expectedStdout);
+      expect(stdout).toEqual('');
+      expect(stderr).toEqual(expectedStderr);
+      done();
+    }
+  });
+
+  it('can change TASK_ERROR with .gulp.*', function(done) {
+    var cwd = path.join(baseDir, 'TASK_ERROR');
+    var expectedStderr = '**TASK ERROR**\n';
+
+    var opts = { cwd: cwd };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).not.toBeNull();
+      expect(stdout).toEqual('');
+      expect(stderr).toEqual(expectedStderr);
       done();
     }
   });

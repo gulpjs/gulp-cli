@@ -2,9 +2,9 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.UNSUPPORTED_GULP_VERSION) {
-      return 'BAD GULP VERSION **' + data + '**';
+  message: function (data) {
+    if (data.tag === messages.UNSUPPORTED_GULP_VERSION) {
+      return 'BAD GULP VERSION **' + data.version + '**';
     }
   }
 };

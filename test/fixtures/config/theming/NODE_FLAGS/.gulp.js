@@ -2,9 +2,9 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.NODE_FLAGS) {
-      return 'RESPAWNED BY **' + data + '**!';
+  message: function (data) {
+    if (data.tag === messages.NODE_FLAGS) {
+      return 'RESPAWNED BY **' + data.flags + '**!';
     }
 
     // Silence all other messages for test

@@ -2,8 +2,8 @@
 var messages = require('../../../../../messages');
 
 module.exports = {
-  message: function (msg, data) {
-    if (msg === messages.GULPFILE) {
+  message: function (data) {
+    if (data.tag === messages.GULPFILE) {
       return 'USING GULPFILE **abcxyz**';
     }
 
