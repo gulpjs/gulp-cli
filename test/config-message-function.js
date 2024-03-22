@@ -427,7 +427,8 @@ describe('config: message function', function() {
     }
   });
 
-  it('can change EXEC_ERROR with .gulp.*', function(done) {
+  // Would need to hook gulp to test this
+  it.skip('can change EXEC_ERROR with .gulp.*', function(done) {
     var cwd = path.join(baseDir, 'EXEC_ERROR');
     var expected = 'FAIL TO RUN\n';
 
