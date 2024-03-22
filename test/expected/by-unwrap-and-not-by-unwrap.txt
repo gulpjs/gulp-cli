@@ -7,9 +7,9 @@ gulp-cli/test/fixtures
 │     └── task3
 ├── no-desc
 ├── task1             Description for gulp.task("task1")
-│   --flag-of-task1   Description for flag of task1
+│   --flag-of-task1   …Description for flag of task1
 ├── task2             Description for gulp.task("task2").unwrap()
-│   --flag-of-task2   Description for flag of task2
+│   --flag-of-task2   …Description for flag of task2
 └── task3             Use gulp.task("task3").description preferentially
-    --flag0-of-task3  Description for flag0 of task3
-    --flag1-of-task3  Use gulp.task("task3").flags preferentially
+    --flag0-of-task3  …Description for flag0 of task3
+    --flag1-of-task3  …Use gulp.task("task3").flags preferentially
