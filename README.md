@@ -116,6 +116,8 @@ Supported configurations properties:
 | flags.tasksDepth   | Set default depth of task dependency tree. |
 | flags.silent       | Silence logging by default |
 | flags.series       | Run tasks given on the CLI in series (the default is parallel) |
+| message(data)      | A function used to translate messages that pass through gulp-cli. Can receive an object like `{ tag: Symbol(), ...props }` where the `tag` is a symbol from `@gulpjs/messages`. The string returned from this function will be logged. If `false` is explicitly returned, no message will be logged. |
+| timestamp(data)    | A function used to provide timestamps for gulp-cli. Can receive an object like `{ tag: Symbol(), ...props }` where the `tag` is a symbol from `@gulpjs/messages`. The string returned from this function will be output before any messages. If `false` is explicitly returned, no timestamp will be output. |
 
 ## Flags
 
