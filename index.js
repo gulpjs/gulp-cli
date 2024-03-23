@@ -8,6 +8,7 @@ var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
+var messages = require('@gulpjs/messages');
 var findRange = require('semver-greatest-satisfied-range');
 
 var exit = require('./lib/shared/exit');
@@ -21,9 +22,6 @@ var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
 var mergeCliOpts = require('./lib/shared/config/cli-flags');
 var buildTranslations = require('./lib/shared/translate');
-
-// TODO: make into `@gulpjs/messages`
-var messages = require('./messages');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));

@@ -1,5 +1,4 @@
-// TODO: make into `@gulpjs/messages`
-var messages = require('../../../messages');
+var messages = require('@gulpjs/messages');
 
 module.exports = {
   message: function (data) {
