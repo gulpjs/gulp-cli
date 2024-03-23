@@ -30,15 +30,16 @@
     "cover": "nyc mocha --async-only --timeout 5000 test/lib test"
   },
   "dependencies": {
+    "@gulpjs/messages": "^1.0.0",
     "chalk": "^4.1.2",
     "copy-props": "^4.0.0",
-    "fancy-log": "^2.0.0",
-    "gulplog": "^2.0.1",
+    "gulplog": "^2.1.0",
     "interpret": "^3.1.1",
     "liftoff": "^5.0.0",
     "mute-stdout": "^2.0.0",
     "replace-homedir": "^2.0.0",
     "semver-greatest-satisfied-range": "^2.0.0",
+    "string-width": "^4.2.3",
     "v8flags": "^4.0.0",
     "yargs": "^16.2.0"
   },

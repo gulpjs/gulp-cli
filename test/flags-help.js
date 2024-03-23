@@ -58,4 +58,15 @@ describe('flag: --help', function() {
     }
   });
 
+  it('show error message and help if options are invalid', function(done) {
+    var opts = { cwd: baseDir };
+    exec(gulp('-f'), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).not.toBeNull();
+      expect(stdout).toEqual('');
+      expect(stderr).toEqual('Not enough arguments following: f\n' + outputText);
+      done();
+    }
+  });
 });

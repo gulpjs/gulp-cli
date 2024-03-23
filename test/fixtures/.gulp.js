@@ -1,3 +1,9 @@
+var messages = require('@gulpjs/messages');
+
 module.exports = {
-  description: "gulp-cli/test/fixtures"
+  message: function (data) {
+    if (data.tag === messages.DESCRIPTION) {
+      return "gulp-cli/test/fixtures";
+    }
+  }
 };

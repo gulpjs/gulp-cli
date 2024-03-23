@@ -8,18 +8,20 @@ var yargs = require('yargs');
 var Liftoff = require('liftoff');
 var interpret = require('interpret');
 var v8flags = require('v8flags');
+var messages = require('@gulpjs/messages');
 var findRange = require('semver-greatest-satisfied-range');
-var chalk = require('chalk');
 
 var exit = require('./lib/shared/exit');
-var tildify = require('./lib/shared/tildify');
+
 var arrayFind = require('./lib/shared/array-find');
 var makeTitle = require('./lib/shared/make-title');
+var makeHelp = require('./lib/shared/options/make-help');
 var cliOptions = require('./lib/shared/options/cli-options');
 var completion = require('./lib/shared/completion');
 var cliVersion = require('./package.json').version;
 var toConsole = require('./lib/shared/log/to-console');
 var mergeCliOpts = require('./lib/shared/config/cli-flags');
+var buildTranslations = require('./lib/shared/translate');
 
 // Get supported ranges
 var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
@@ -31,7 +33,6 @@ process.env.INIT_CWD = process.cwd();
 var cli = new Liftoff({
   name: 'gulp',
   processTitle: makeTitle('gulp', process.argv.slice(2)),
-  completions: completion,
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: [
@@ -49,38 +50,34 @@ var cli = new Liftoff({
   ],
 });
 
-var usage =
-  '\n' + chalk.bold('Usage:') +
-  ' gulp ' + chalk.blue('[options]') + ' tasks';
-
 var parser = yargs
   .help(false)
   .version(false)
   .detectLocale(false)
-  .usage(usage)
+  .showHelpOnFail(false)
+  .exitProcess(false)
+  .fail(onFail)
   .options(cliOptions);
 
 var opts = parser.parse();
 
 // Set up event listeners for logging temporarily.
-toConsole(log, opts);
+// TODO: Rework console logging before we can set up proper config
+// Possibly by batching messages in gulplog until listeners are attached
+var cleanupListeners = toConsole(log, opts, buildTranslations());
 
 cli.on('preload:before', function(name) {
-  log.info('Preloading external module:', chalk.magenta(name));
+  log.info({ tag: messages.PRELOAD_BEFORE, name: name });
 });
 
 cli.on('preload:success', function(name) {
-  log.info('Preloaded external module:', chalk.magenta(name));
+  log.info({ tag: messages.PRELOAD_SUCCESS, name: name });
 });
 
 cli.on('preload:failure', function(name, error) {
-  log.warn(
-    chalk.yellow('Failed to preload external module:'),
-    chalk.magenta(name)
-  );
-  /* istanbul ignore else */
+  log.warn({ tag: messages.PRELOAD_FAILURE, name: name });
   if (error) {
-    log.warn(chalk.yellow(error.toString()));
+    log.warn({ tag: messages.PRELOAD_ERROR, error: error });
   }
 });
 
@@ -90,26 +87,20 @@ cli.on('loader:success', function(name) {
   // However, we don't want to show the mjs-stub loader in the logs
   /* istanbul ignore else */
   if (path.basename(name, '.js') !== 'mjs-stub') {
-    log.info('Loaded external module:', chalk.magenta(name));
+    log.info({ tag: messages.LOADER_SUCCESS, name: name });
   }
 });
 
 cli.on('loader:failure', function(name, error) {
-  log.warn(
-    chalk.yellow('Failed to load external module:'),
-    chalk.magenta(name)
-  );
-  /* istanbul ignore else */
+  log.warn({ tag: messages.LOADER_FAILURE, name: name });
   if (error) {
-    log.warn(chalk.yellow(error.toString()));
+    log.warn({ tag: messages.LOADER_ERROR, error: error });
   }
 });
 
 cli.on('respawn', function(flags, child) {
-  var nodeFlags = chalk.magenta(flags.join(', '));
-  var pid = chalk.magenta(child.pid);
-  log.info('Node flags detected:', nodeFlags);
-  log.info('Respawned to PID:', pid);
+  log.info({ tag: messages.NODE_FLAGS, flags: flags });
+  log.info({ tag: messages.RESPAWNED, pid: child.pid });
 });
 
 function run() {
@@ -117,7 +108,6 @@ function run() {
     cwd: opts.cwd,
     configPath: opts.gulpfile,
     preload: opts.preload,
-    completion: opts.completion,
   }, onPrepare);
 }
 
@@ -127,22 +117,50 @@ function isDefined(cfg) {
   return cfg != null;
 }
 
+function onFail(message, error) {
+  // Run Liftoff#prepare to get the env. Primarily to load themes.
+  cli.prepare({}, function (env) {
+    // We only use the first config found, which is a departure from
+    // the previous implementation that merged with the home
+    var cfg = arrayFind(env.config, isDefined);
+    var translate = buildTranslations(cfg);
+
+    var errorMsg = translate.message({ tag: messages.ARGV_ERROR, message: message, error: error });
+    if (errorMsg) {
+      console.error(errorMsg);
+    }
+
+    makeHelp(parser, translate).showHelp(console.error);
+    exit(1);
+  });
+}
+
 function onPrepare(env) {
   // We only use the first config found, which is a departure from
   // the previous implementation that merged with the home
   var cfg = arrayFind(env.config, isDefined);
   var flags = mergeCliOpts(opts, cfg);
 
-  // Set up event listeners for logging after configuring.
-  toConsole(log, flags);
+  // Remove the previous listeners since we have appropriate config now
+  cleanupListeners();
+
+  var translate = buildTranslations(cfg);
+
+  // Set up event listeners for logging again after configuring.
+  toConsole(log, flags, translate);
 
   cli.execute(env, cfg.nodeFlags, function (env) {
-    onExecute(env, cfg, flags);
+    onExecute(env, flags, translate);
   });
 }
 
 // The actual logic
-function onExecute(env, cfg, flags) {
+function onExecute(env, flags, translate) {
+  // Moved the completion logic outside of Liftoff since we need to include translations
+  if (flags.completion) {
+    return completion(flags.completion, translate);
+  }
+
   // This translates the --continue flag in gulp
   // To the settle env variable for undertaker
   // We use the process.env so the user's gulpfile
@@ -152,7 +170,7 @@ function onExecute(env, cfg, flags) {
   }
 
   if (flags.help) {
-    parser.showHelp(console.log);
+    makeHelp(parser, translate).showHelp(console.log);
     exit(0);
   }
 
@@ -164,36 +182,31 @@ function onExecute(env, cfg, flags) {
   }
 
   if (!env.modulePath) {
-    /* istanbul ignore next */
     var missingNodeModules =
       fs.existsSync(path.join(env.cwd, 'package.json'))
       && !fs.existsSync(path.join(env.cwd, 'node_modules'));
 
-    /* istanbul ignore next */
-    var missingGulpMessage =
-      missingNodeModules
-        ? 'Local modules not found in'
-        : 'Local gulp not found in';
-    log.error(
-      chalk.red(missingGulpMessage),
-      chalk.magenta(tildify(env.cwd))
-    );
     var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
-    /* istanbul ignore next */
-    var installCommand =
-      missingNodeModules
-        ? hasYarn
-          ? 'yarn install'
-          : 'npm install'
-        : hasYarn
-          ? 'yarn add gulp'
-        : 'npm install gulp';
-    log.error(chalk.red('Try running: ' + installCommand));
+    if (missingNodeModules) {
+      log.error({ tag: messages.MISSING_NODE_MODULES, cwd: env.cwd });
+      if (hasYarn) {
+        log.error({ tag: messages.YARN_INSTALL })
+      } else {
+        log.error({ tag: messages.NPM_INSTALL })
+      }
+    } else {
+      log.error({ tag: messages.MISSING_GULP, cwd: env.cwd });
+      if (hasYarn) {
+        log.error({ tag: messages.YARN_INSTALL_GULP });
+      } else {
+        log.error({ tag: messages.NPM_INSTALL_GULP });
+      }
+    }
     exit(1);
   }
 
   if (!env.configPath) {
-    log.error(chalk.red('No gulpfile found'));
+    log.error({ tag: messages.MISSING_GULPFILE });
     exit(1);
   }
 
@@ -201,23 +214,18 @@ function onExecute(env, cfg, flags) {
   // we let them chdir as needed
   if (process.cwd() !== env.cwd) {
     process.chdir(env.cwd);
-    log.info(
-      'Working directory changed to',
-      chalk.magenta(tildify(env.cwd))
-    );
+    log.info({ tag: messages.CWD_CHANGED, cwd: env.cwd });
   }
 
   // Find the correct CLI version to run
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    log.error(
-      chalk.red('Unsupported gulp version', env.modulePackage.version)
-    );
+    log.error({ tag: messages.UNSUPPORTED_GULP_VERSION, version: env.modulePackage.version });
     exit(1);
   }
 
   // Load and execute the CLI version
   var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
-  require(versionedDir)(env, cfg, flags);
+  require(versionedDir)(env, flags, translate);
 }

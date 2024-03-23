@@ -31,7 +31,7 @@ describe('flag: --tasks', function() {
     }
   });
 
-  it('print the task list with description and flags', function(done) {
+  it('prints the task list with description and flags', function(done) {
     var opts = { cwd: baseDir };
     exec(gulp(
       '--tasks',
@@ -50,7 +50,7 @@ describe('flag: --tasks', function() {
     }
   });
 
-  it('print the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
+  it('prints the task list by gulp.task(s).unwrap and gulp.task(s)', function(done) {
     var opts = { cwd: baseDir };
     exec(gulp(
       '--tasks',
@@ -118,6 +118,24 @@ describe('flag: --tasks', function() {
       var filepath = path.join(expectedDir, 'flags-tasks-depth4.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       expect(sliceLines(stdout, 1)).toEqual(sliceLines(expected, 1));
+      done(err);
+    }
+  });
+
+  it('prints the top task only if negative tasks depth is specified', function(done) {
+    var opts = { cwd: baseDir };
+    exec(gulp(
+      '--tasks',
+      '--gulpfile ./test/fixtures/gulpfiles/gulpfile-4.js',
+      '--tasks-depth -1'
+    ), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      var filepath = path.join(expectedDir, 'flags-tasks-depth1.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expect(sliceLines(stdout, 1)).toEqual(expected);
       done(err);
     }
   });

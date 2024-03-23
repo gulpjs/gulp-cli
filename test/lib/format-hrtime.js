@@ -3,7 +3,7 @@
 var expect = require('expect');
 var formatHrtime = require('../../lib/shared/log/format-hrtime');
 
-describe('format-hrtime', function() {
+describe('lib: format-hrtime', function() {
   describe('should convert hrtime to string: unit is "h"', function() {
     it('should be no decimal part if integer part greater than 10', function(done) {
       expect(formatHrtime([36000, 100])).toEqual('10 h');

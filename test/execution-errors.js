@@ -4,6 +4,7 @@ var expect = require('expect');
 var exec = require('child_process').exec;
 var path = require('path');
 var os = require('os');
+var fs = require('fs');
 
 var tildify = require('../lib/shared/tildify');
 
@@ -57,7 +58,7 @@ describe('execution error', function() {
     }
   });
 
-  it('should output an error if gulp is not found', function(done) {
+  it('should output an error if gulp is not found (npm)', function(done) {
     var opts = { cwd: os.tmpdir() };
     exec(gulp(), opts, cb);
 
@@ -67,6 +68,79 @@ describe('execution error', function() {
       expect(sliceLines(stderr, 0, 1)).toMatch('Local gulp not found in ');
       expect(sliceLines(stderr, 1, 2)).toEqual('Try running: npm install gulp');
       done();
+    }
+  });
+
+  it('should output an error if gulp is not found (yarn)', function(done) {
+    var cwd = os.tmpdir();
+    var yarnOrig= path.join(__dirname, 'fixtures/errors/yarn/yarn.lock');
+    var yarnLock = path.join(cwd, 'yarn.lock');
+
+    fs.copyFileSync(yarnOrig, yarnLock);
+
+    var opts = { cwd: cwd };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      try {
+        expect(err).not.toBeNull();
+        expect(err.code).toEqual(1);
+        expect(sliceLines(stderr, 0, 1)).toMatch('Local gulp not found in ');
+        expect(sliceLines(stderr, 1, 2)).toEqual('Try running: yarn add gulp');
+        done();
+      } finally {
+        fs.unlinkSync(yarnLock);
+      }
+    }
+  });
+
+  it('should output an error if local modules are not found (npm)', function(done) {
+    var cwd = os.tmpdir();
+    var pkgOrig = path.join(__dirname, 'fixtures/errors/package.json');
+    var pkgJson = path.join(cwd, 'package.json');
+
+    fs.copyFileSync(pkgOrig, pkgJson);
+
+    var opts = { cwd: cwd };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      try {
+        expect(err).not.toBeNull();
+        expect(err.code).toEqual(1);
+        expect(sliceLines(stderr, 0, 1)).toMatch('Local modules not found in ');
+        expect(sliceLines(stderr, 1, 2)).toEqual('Try running: npm install');
+        done();
+      } finally {
+        fs.unlinkSync(pkgJson);
+      }
+    }
+  });
+
+  it('should output an error if local modules are not found (yarn)', function(done) {
+    var cwd = os.tmpdir();
+    var pkgOrig = path.join(__dirname, 'fixtures/errors/package.json');
+    var pkgJson = path.join(cwd, 'package.json');
+    var yarnOrig= path.join(__dirname, 'fixtures/errors/yarn/yarn.lock');
+    var yarnLock = path.join(cwd, 'yarn.lock');
+
+    fs.copyFileSync(pkgOrig, pkgJson);
+    fs.copyFileSync(yarnOrig, yarnLock);
+
+    var opts = { cwd: cwd };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      try {
+        expect(err).not.toBeNull();
+        expect(err.code).toEqual(1);
+        expect(sliceLines(stderr, 0, 1)).toMatch('Local modules not found in ');
+        expect(sliceLines(stderr, 1, 2)).toEqual('Try running: yarn install');
+        done();
+      } finally {
+        fs.unlinkSync(pkgJson);
+        fs.unlinkSync(yarnLock);
+      }
     }
   });
 

@@ -3,7 +3,7 @@
 var expect = require('expect');
 var mergeCliOpts = require('../../lib/shared/config/cli-flags');
 
-describe('lib: config/cli-flags', function() {
+describe('lib: cli-flags', function() {
 
   it('Should copy only config props specified to cli flags', function(done) {
     var opts = {};

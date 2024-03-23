@@ -1,0 +1,7 @@
+{
+  "name": "node-modules-not-found",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": ".gulp.js"
+}
