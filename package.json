@@ -30,7 +30,7 @@
     "cover": "nyc mocha --async-only --timeout 5000 test/lib test"
   },
   "dependencies": {
-    "@gulpjs/messages": "^1.0.0",
+    "@gulpjs/messages": "^1.1.0",
     "chalk": "^4.1.2",
     "copy-props": "^4.0.0",
     "gulplog": "^2.2.0",
