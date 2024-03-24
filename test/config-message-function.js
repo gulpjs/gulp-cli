@@ -472,4 +472,19 @@ describe('config: message function', function() {
       done();
     }
   });
+
+  it('can change GULPLOG_DEPRECATED with .gulp.*', function(done) {
+    var cwd = path.join(baseDir, 'GULPLOG_DEPRECATED');
+    var expected = 'GULPLOG V1 IS DEPRECATED\n';
+
+    var opts = { cwd: cwd };
+    exec(gulp(), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stdout).toEqual('');
+      expect(stderr).toEqual(expected);
+      done();
+    }
+  });
 });
