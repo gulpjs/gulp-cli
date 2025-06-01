@@ -18,7 +18,8 @@ var gulpJsPath = '\\\\?\\' + path.resolve(__dirname, '../bin/gulp.js');
 
 describe('windows extended length paths', function() {
   it('Should run normaly even if using \'\\\\?\\\'prefix in paths', function(done) {
-    if (os.platform() !== 'win32') {
+    // It seems like Node 24 broke support for this launching an entry point
+    if (os.platform() !== 'win32' || process.versions.node.startsWith("24.")) {
       this.skip();
       return;
     }
