@@ -60,4 +60,29 @@ describe('ESM', function() {
     }
   });
 
+  it('prints the task list (top-level await)', function(done) {
+    if (shouldSkip()) {
+      this.skip();
+    }
+
+    if (semver.satisfies(process.version, '10 || 12')) {
+      this.skip();
+    }
+
+    var options = '--tasks --sort-tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-tla.mjs';
+    var trailingLines = 1;
+
+    var opts = { cwd: baseDir };
+    exec(gulp(options), opts, cb);
+
+    function cb(err, stdout, stderr) {
+      expect(err).toBeNull();
+      expect(stderr).toEqual('');
+      var filepath = path.join(expectedDir, 'esm.txt');
+      var expected = fs.readFileSync(filepath, 'utf-8');
+      expect(sliceLines(stdout, trailingLines)).toEqual(expected);
+      done(err);
+    }
+  });
+
 });
