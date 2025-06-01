@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://www.github.com/gulpjs/gulp-cli/compare/v3.0.0...v3.1.0) (2025-06-01)
+
+
+### Features
+
+* Support top-level await on Node 22.12+ ([#269](https://www.github.com/gulpjs/gulp-cli/issues/269)) ([902f5b2](https://www.github.com/gulpjs/gulp-cli/commit/902f5b28f1979b40b29e183086796387584ae1ec))
+
 ## [3.0.0](https://www.github.com/gulpjs/gulp-cli/compare/v2.3.0...v3.0.0) (2024-03-24)
 
 

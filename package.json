@@ -1,6 +1,6 @@
 {
   "name": "gulp-cli",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Command line interface for gulp",
   "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
   "contributors": [],
