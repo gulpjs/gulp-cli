@@ -65,23 +65,19 @@ describe('ESM', function() {
       this.skip();
     }
 
+    if (semver.satisfies(process.version, '10 || 12')) {
+      this.skip();
+    }
+
     var options = '--tasks --sort-tasks --gulpfile ./test/fixtures/gulpfiles/gulpfile-tla.mjs';
     var trailingLines = 1;
-    if (!semver.satisfies(process.version, '^12.17.0 || >=13.2.0')) {
-      options += ' --experimental-modules';
-      trailingLines += 2;
-    }
 
     var opts = { cwd: baseDir };
     exec(gulp(options), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).toBeNull();
-      if (!semver.satisfies(process.version, '^12.20.0 || >=13.14.0')) {
-        expect(stderr).toMatch('ExperimentalWarning: The ESM module loader is experimental.\n');
-      } else {
-        expect(stderr).toEqual('');
-      }
+      expect(stderr).toEqual('');
       var filepath = path.join(expectedDir, 'esm.txt');
       var expected = fs.readFileSync(filepath, 'utf-8');
       expect(sliceLines(stdout, trailingLines)).toEqual(expected);
