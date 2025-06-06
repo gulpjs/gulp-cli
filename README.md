@@ -107,7 +107,6 @@ Supported configurations properties:
 
 | Property           | Description |
 |--------------------|-------------|
-| description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
 | gulpfile           | Set a default gulpfile |
 | preload            | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
 | nodeFlags          | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
