@@ -4,7 +4,7 @@ var expect = require('expect');
 var exec = require('child_process').exec;
 var fs = require('fs');
 var path = require('path');
-var rimraf = require('rimraf');
+var rimrafSync = require('rimraf').rimrafSync;
 
 var gulp = require('./tool/gulp-cmd');
 
@@ -51,7 +51,7 @@ describe('flag: --tasks-json', function() {
 
   it('writes the task list to file with path', function(done) {
     var output = path.join(__dirname, '/output/');
-    rimraf.sync(output);
+    rimrafSync(output);
     fs.mkdirSync(output);
 
     var opts = { cwd: baseDir };
@@ -68,7 +68,7 @@ describe('flag: --tasks-json', function() {
       var file = fs.readFileSync(path.join(output, '/tasks.json'), 'utf8');
       var parsedJson = JSON.parse(file);
       expect(parsedJson).toEqual(expected);
-      rimraf.sync(output);
+      rimrafSync(output);
       done(err);
     }
   });
