@@ -3,5 +3,5 @@ const dynamicNoop = await Promise.resolve(function noop(cb) {
 });
 
 export const registered = dynamicNoop;
-export function exported(){};
-export const string = 'no function';
+export function exported() {}
+export const string = "no function";

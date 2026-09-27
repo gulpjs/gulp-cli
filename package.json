@@ -5,13 +5,17 @@
   "author": "Gulp Team <team@gulpjs.com> (https://gulpjs.com/)",
   "contributors": [],
   "homepage": "https://gulpjs.com",
-  "repository": "gulpjs/gulp-cli",
+  "funding": "https://github.com/sponsors/gulpjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gulpjs/gulp-cli.git"
+  },
   "license": "MIT",
   "man": "gulp.1",
   "engines": {
-    "node": ">=10.13.0"
+    "node": ">= 22.15.0"
   },
-  "main": "index.js",
+  "main": "./index.js",
   "bin": {
     "gulp": "bin/gulp.js"
   },
@@ -23,11 +27,12 @@
     "gulp.1"
   ],
   "scripts": {
+    "format-check": "prettier . --check",
+    "format-write": "prettier . --write",
     "lint": "eslint .",
     "manpage": "marked-man --name gulp docs/CLI.md > gulp.1",
     "pretest": "npm run lint",
-    "test": "mocha --async-only --timeout 5000 test/lib test",
-    "cover": "nyc mocha --async-only --timeout 5000 test/lib test"
+    "test": "nyc mocha --async-only --timeout 5000 test/lib test"
   },
   "dependencies": {
     "@gulpjs/messages": "^1.1.0",
@@ -48,14 +53,15 @@
     "@babel/preset-env": "^7.20.2",
     "@babel/register": "^7.18.9",
     "@gulpjs/gulplog-v1": "npm:gulplog@1.0.0",
-    "eslint": "^7.32.0",
-    "eslint-config-gulp": "^5.0.1",
+    "eslint": "10.11.0",
+    "eslint-config-gulp": "7.0.0",
     "expect": "^27.5.1",
     "gulp": "^4.0.2",
-    "marked-man": "^0.7.0",
     "marked": "^0.7.0",
+    "marked-man": "^0.7.0",
     "mocha": "^8.4.0",
     "nyc": "^15.1.0",
+    "prettier": "3.9.6",
     "rimraf": "^3.0.2",
     "semver": "^7.3.8"
   },
@@ -64,9 +70,6 @@
       "lcov",
       "text-summary"
     ]
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "keywords": [
     "build",

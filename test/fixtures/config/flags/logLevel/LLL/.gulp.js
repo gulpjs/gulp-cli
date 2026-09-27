@@ -1,5 +1,5 @@
 module.exports = {
   flags: {
-    logLevel: 3
-  }
+    logLevel: 3,
+  },
 };

@@ -1,20 +1,19 @@
-'use strict';
+"use strict";
 
-var expect = require('expect');
+var expect = require("expect");
 
-var taskTree = require('../../lib/versioned/^3.7.0/task-tree');
+var taskTree = require("../../lib/versioned/^3.7.0/task-tree");
 
-describe('lib: taskTree', function() {
-
-  it('forms a tree properly', function(done) {
+describe("lib: taskTree", function () {
+  it("forms a tree properly", function (done) {
     expect(taskTree).not.toBeNull(); // Lol shutup jshint
 
     var tasks = {
       test: {
-        dep: ['dep1', 'dep2'],
+        dep: ["dep1", "dep2"],
       },
       test2: {
-        dep: ['dep3'],
+        dep: ["dep3"],
       },
       test3: {
         dep: [],
@@ -22,26 +21,24 @@ describe('lib: taskTree', function() {
     };
 
     var expectTree = {
-      label: 'Tasks',
+      label: "Tasks",
       nodes: [
         {
-          label: 'test',
-          type: 'task',
+          label: "test",
+          type: "task",
           nodes: [
-            { label: 'dep1', type: 'task', nodes: [] },
-            { label: 'dep2', type: 'task', nodes: [] },
+            { label: "dep1", type: "task", nodes: [] },
+            { label: "dep2", type: "task", nodes: [] },
           ],
         },
         {
-          label: 'test2',
-          type: 'task',
-          nodes: [
-            { label: 'dep3', type: 'task', nodes: [] },
-          ],
+          label: "test2",
+          type: "task",
+          nodes: [{ label: "dep3", type: "task", nodes: [] }],
         },
         {
-          label: 'test3',
-          type: 'task',
+          label: "test3",
+          type: "task",
           nodes: [],
         },
       ],
@@ -51,13 +48,13 @@ describe('lib: taskTree', function() {
     done();
   });
 
-  it('processes children recursively.', function(done) {
+  it("processes children recursively.", function (done) {
     var tasks = {
       test: {
-        dep: ['test2', 'test3'],
+        dep: ["test2", "test3"],
       },
       test2: {
-        dep: ['test3'],
+        dep: ["test3"],
       },
       test3: {
         dep: [],
@@ -65,44 +62,44 @@ describe('lib: taskTree', function() {
     };
 
     var expectTree = {
-      label: 'Tasks',
+      label: "Tasks",
       nodes: [
         {
-          label: 'test',
-          type: 'task',
+          label: "test",
+          type: "task",
           nodes: [
             {
-              label: 'test2',
-              type: 'task',
+              label: "test2",
+              type: "task",
               nodes: [
                 {
-                  label: 'test3',
-                  type: 'task',
+                  label: "test3",
+                  type: "task",
                   nodes: [],
                 },
               ],
             },
             {
-              label: 'test3',
-              type: 'task',
+              label: "test3",
+              type: "task",
               nodes: [],
             },
           ],
         },
         {
-          label: 'test2',
-          type: 'task',
+          label: "test2",
+          type: "task",
           nodes: [
             {
-              label: 'test3',
-              type: 'task',
+              label: "test3",
+              type: "task",
               nodes: [],
             },
           ],
         },
         {
-          label: 'test3',
-          type: 'task',
+          label: "test3",
+          type: "task",
           nodes: [],
         },
       ],

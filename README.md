@@ -26,14 +26,14 @@ npm install --global gulp-cli
 
 When listing tasks with the `gulp -T` command, gulp-cli displays some custom metadata as defined upon task functions. Currently supported properties:
 
-* `task.description` - String of the description to display.
+- `task.description` - String of the description to display.
 
 ```js
 function clean() { ... }
 clean.description = 'Cleans up generated files.';
 ```
 
-* `task.flags` - Object with key/value pairs being flag/description to display.
+- `task.flags` - Object with key/value pairs being flag/description to display.
 
 ```js
 function build() { ... }
@@ -69,6 +69,7 @@ Just running `gulp` will execute the task `default`. If there is no
 `default` task, gulp will error.
 
 ## Completion
+
 > Thanks to the grunt team, specifically Tyler Kellen
 
 To enable tasks auto-completion in shell you should add `eval "$(gulp --completion=shell)"` in your `.shellrc` file.
@@ -105,25 +106,25 @@ A configuration file from the current working directory (`cwd`) or above are sel
 
 Supported configurations properties:
 
-| Property           | Description |
-|--------------------|-------------|
-| description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js") |
-| gulpfile           | Set a default gulpfile |
-| preload            | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths) |
-| nodeFlags          | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here |
-| flags.continue     | Continue execution of tasks upon failure by default. |
-| flags.compactTasks | Reduce the output of task dependency tree by default. |
-| flags.tasksDepth   | Set default depth of task dependency tree. |
-| flags.silent       | Silence logging by default |
-| flags.series       | Run tasks given on the CLI in series (the default is parallel) |
-| message(data)      | A function used to translate messages that pass through gulp-cli. Can receive an object like `{ tag: Symbol(), ...props }` where the `tag` is a symbol from `@gulpjs/messages`. The string returned from this function will be logged. If `false` is explicitly returned, no message will be logged. |
+| Property           | Description                                                                                                                                                                                                                                                                                                  |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| description        | Top-level description of the project/gulpfile (Replaces "Tasks for ~/path/of/gulpfile.js")                                                                                                                                                                                                                   |
+| gulpfile           | Set a default gulpfile                                                                                                                                                                                                                                                                                       |
+| preload            | An array of modules to preload before running the gulpfile. Any relative paths will be resolved against the `--cwd` directory (if you don't want that behavior, use absolute paths)                                                                                                                          |
+| nodeFlags          | An array of flags used to forcibly respawn the process upon startup. For example, if you always want your gulpfiles to run in node's harmony mode, you can set `--harmony` here                                                                                                                              |
+| flags.continue     | Continue execution of tasks upon failure by default.                                                                                                                                                                                                                                                         |
+| flags.compactTasks | Reduce the output of task dependency tree by default.                                                                                                                                                                                                                                                        |
+| flags.tasksDepth   | Set default depth of task dependency tree.                                                                                                                                                                                                                                                                   |
+| flags.silent       | Silence logging by default                                                                                                                                                                                                                                                                                   |
+| flags.series       | Run tasks given on the CLI in series (the default is parallel)                                                                                                                                                                                                                                               |
+| message(data)      | A function used to translate messages that pass through gulp-cli. Can receive an object like `{ tag: Symbol(), ...props }` where the `tag` is a symbol from `@gulpjs/messages`. The string returned from this function will be logged. If `false` is explicitly returned, no message will be logged.         |
 | timestamp(data)    | A function used to provide timestamps for gulp-cli. Can receive an object like `{ tag: Symbol(), ...props }` where the `tag` is a symbol from `@gulpjs/messages`. The string returned from this function will be output before any messages. If `false` is explicitly returned, no timestamp will be output. |
 
 ## Flags
 
 gulp has very few flags to know about. All other flags are for tasks to use if needed.
 
-__Some flags only work with gulp 4 and will be ignored when invoked against gulp 3.__
+**Some flags only work with gulp 4 and will be ignored when invoked against gulp 3.**
 
 <table>
   <thead>
@@ -222,6 +223,16 @@ __Some flags only work with gulp 4 and will be ignored when invoked against gulp
   </tbody>
 </table>
 
+## Strict No LLM / No AI Policy
+
+No LLMs for issues.
+
+No LLMs for patches / pull requests.
+
+No LLMs for comments on the bug tracker, including translation.
+
+English is encouraged, but not required. You are welcome to post in your native language and rely on others to have their own translation tools of choice to interpret your words.
+
 ## License
 
 MIT
@@ -235,9 +246,9 @@ MIT
 [npm-url]: https://www.npmjs.com/package/gulp-cli
 [npm-image]: https://img.shields.io/npm/v/gulp-cli.svg?style=flat-square
 
-[ci-url]: https://github.com/gulpjs/gulp-cli/actions?query=workflow:dev
-[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/gulp-cli/dev.yml?branch=master&style=flat-square
+[ci-url]: https://github.com/gulpjs/gulp-cli/actions/workflows/dev.yml
+[ci-image]: https://img.shields.io/github/actions/workflow/status/gulpjs/gulp-cli/dev.yml?style=flat-square
 
 [coveralls-url]: https://coveralls.io/r/gulpjs/gulp-cli
-[coveralls-image]: https://img.shields.io/coveralls/gulpjs/gulp-cli.svg?style=flat-square
+[coveralls-image]: https://img.shields.io/coveralls/gulpjs/gulp-cli/main.svg?style=flat-square
 <!-- prettier-ignore-end -->

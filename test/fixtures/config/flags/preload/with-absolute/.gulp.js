@@ -1,5 +1,5 @@
-var path = require('path');
+var path = require("path");
 
 module.exports = {
-  preload: path.join(__dirname, '../preload'),
+  preload: path.join(__dirname, "../preload"),
 };

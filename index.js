@@ -1,50 +1,50 @@
-'use strict';
+"use strict";
 
-var fs = require('fs');
-var path = require('path');
+var fs = require("fs");
+var path = require("path");
 
-var log = require('gulplog');
-var yargs = require('yargs');
-var Liftoff = require('liftoff');
-var interpret = require('interpret');
-var v8flags = require('v8flags');
-var messages = require('@gulpjs/messages');
-var findRange = require('semver-greatest-satisfied-range');
+var log = require("gulplog");
+var yargs = require("yargs");
+var Liftoff = require("liftoff");
+var interpret = require("interpret");
+var v8flags = require("v8flags");
+var messages = require("@gulpjs/messages");
+var findRange = require("semver-greatest-satisfied-range");
 
-var exit = require('./lib/shared/exit');
+var exit = require("./lib/shared/exit");
 
-var arrayFind = require('./lib/shared/array-find');
-var makeTitle = require('./lib/shared/make-title');
-var makeHelp = require('./lib/shared/options/make-help');
-var cliOptions = require('./lib/shared/options/cli-options');
-var completion = require('./lib/shared/completion');
-var cliVersion = require('./package.json').version;
-var toConsole = require('./lib/shared/log/to-console');
-var mergeCliOpts = require('./lib/shared/config/cli-flags');
-var buildTranslations = require('./lib/shared/translate');
+var arrayFind = require("./lib/shared/array-find");
+var makeTitle = require("./lib/shared/make-title");
+var makeHelp = require("./lib/shared/options/make-help");
+var cliOptions = require("./lib/shared/options/cli-options");
+var completion = require("./lib/shared/completion");
+var cliVersion = require("./package.json").version;
+var toConsole = require("./lib/shared/log/to-console");
+var mergeCliOpts = require("./lib/shared/config/cli-flags");
+var buildTranslations = require("./lib/shared/translate");
 
 // Get supported ranges
-var ranges = fs.readdirSync(path.join(__dirname, '/lib/versioned/'));
+var ranges = fs.readdirSync(path.join(__dirname, "/lib/versioned/"));
 
 // Set env var for ORIGINAL cwd
 // before anything touches it
 process.env.INIT_CWD = process.cwd();
 
 var cli = new Liftoff({
-  name: 'gulp',
-  processTitle: makeTitle('gulp', process.argv.slice(2)),
+  name: "gulp",
+  processTitle: makeTitle("gulp", process.argv.slice(2)),
   extensions: interpret.jsVariants,
   v8flags: v8flags,
   configFiles: [
     {
-      name: '.gulp',
-      path: '.',
+      name: ".gulp",
+      path: ".",
       extensions: interpret.jsVariants,
       findUp: true,
     },
     {
-      name: '.gulp',
-      path: '~',
+      name: ".gulp",
+      path: "~",
       extensions: interpret.jsVariants,
     },
   ],
@@ -66,49 +66,52 @@ var opts = parser.parse();
 // Possibly by batching messages in gulplog until listeners are attached
 var cleanupListeners = toConsole(log, opts, buildTranslations());
 
-cli.on('preload:before', function(name) {
+cli.on("preload:before", function (name) {
   log.info({ tag: messages.PRELOAD_BEFORE, name: name });
 });
 
-cli.on('preload:success', function(name) {
+cli.on("preload:success", function (name) {
   log.info({ tag: messages.PRELOAD_SUCCESS, name: name });
 });
 
-cli.on('preload:failure', function(name, error) {
+cli.on("preload:failure", function (name, error) {
   log.warn({ tag: messages.PRELOAD_FAILURE, name: name });
   if (error) {
     log.warn({ tag: messages.PRELOAD_ERROR, error: error });
   }
 });
 
-cli.on('loader:success', function(name) {
+cli.on("loader:success", function (name) {
   // This is needed because interpret needs to stub the .mjs extension
   // Without the .mjs require hook, rechoir blows up
   // However, we don't want to show the mjs-stub loader in the logs
   /* istanbul ignore else */
-  if (path.basename(name, '.js') !== 'mjs-stub') {
+  if (path.basename(name, ".js") !== "mjs-stub") {
     log.info({ tag: messages.LOADER_SUCCESS, name: name });
   }
 });
 
-cli.on('loader:failure', function(name, error) {
+cli.on("loader:failure", function (name, error) {
   log.warn({ tag: messages.LOADER_FAILURE, name: name });
   if (error) {
     log.warn({ tag: messages.LOADER_ERROR, error: error });
   }
 });
 
-cli.on('respawn', function(flags, child) {
+cli.on("respawn", function (flags, child) {
   log.info({ tag: messages.NODE_FLAGS, flags: flags });
   log.info({ tag: messages.RESPAWNED, pid: child.pid });
 });
 
 function run() {
-  cli.prepare({
-    cwd: opts.cwd,
-    configPath: opts.gulpfile,
-    preload: opts.preload,
-  }, onPrepare);
+  cli.prepare(
+    {
+      cwd: opts.cwd,
+      configPath: opts.gulpfile,
+      preload: opts.preload,
+    },
+    onPrepare,
+  );
 }
 
 module.exports = run;
@@ -125,7 +128,11 @@ function onFail(message, error) {
     var cfg = arrayFind(env.config, isDefined);
     var translate = buildTranslations(cfg);
 
-    var errorMsg = translate.message({ tag: messages.ARGV_ERROR, message: message, error: error });
+    var errorMsg = translate.message({
+      tag: messages.ARGV_ERROR,
+      message: message,
+      error: error,
+    });
     if (errorMsg) {
       console.error(errorMsg);
     }
@@ -166,7 +173,7 @@ function onExecute(env, flags, translate) {
   // We use the process.env so the user's gulpfile
   // Can know about the flag
   if (flags.continue) {
-    process.env.UNDERTAKER_SETTLE = 'true';
+    process.env.UNDERTAKER_SETTLE = "true";
   }
 
   if (flags.help) {
@@ -176,23 +183,23 @@ function onExecute(env, flags, translate) {
 
   // Anything that needs to print outside of the logging mechanism should use console.log
   if (flags.version) {
-    console.log('CLI version:', cliVersion);
-    console.log('Local version:', env.modulePackage.version || 'Unknown');
+    console.log("CLI version:", cliVersion);
+    console.log("Local version:", env.modulePackage.version || "Unknown");
     exit(0);
   }
 
   if (!env.modulePath) {
     var missingNodeModules =
-      fs.existsSync(path.join(env.cwd, 'package.json'))
-      && !fs.existsSync(path.join(env.cwd, 'node_modules'));
+      fs.existsSync(path.join(env.cwd, "package.json")) &&
+      !fs.existsSync(path.join(env.cwd, "node_modules"));
 
-    var hasYarn = fs.existsSync(path.join(env.cwd, 'yarn.lock'));
+    var hasYarn = fs.existsSync(path.join(env.cwd, "yarn.lock"));
     if (missingNodeModules) {
       log.error({ tag: messages.MISSING_NODE_MODULES, cwd: env.cwd });
       if (hasYarn) {
-        log.error({ tag: messages.YARN_INSTALL })
+        log.error({ tag: messages.YARN_INSTALL });
       } else {
-        log.error({ tag: messages.NPM_INSTALL })
+        log.error({ tag: messages.NPM_INSTALL });
       }
     } else {
       log.error({ tag: messages.MISSING_GULP, cwd: env.cwd });
@@ -221,11 +228,14 @@ function onExecute(env, flags, translate) {
   var range = findRange(env.modulePackage.version, ranges);
 
   if (!range) {
-    log.error({ tag: messages.UNSUPPORTED_GULP_VERSION, version: env.modulePackage.version });
+    log.error({
+      tag: messages.UNSUPPORTED_GULP_VERSION,
+      version: env.modulePackage.version,
+    });
     exit(1);
   }
 
   // Load and execute the CLI version
-  var versionedDir = path.join(__dirname, '/lib/versioned/', range, '/');
+  var versionedDir = path.join(__dirname, "/lib/versioned/", range, "/");
   require(versionedDir)(env, flags, translate);
 }

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-var gulp = require('gulp');
+var gulp = require("gulp");
 
-gulp.task('default', function(done) {
+gulp.task("default", function (done) {
   done();
 });

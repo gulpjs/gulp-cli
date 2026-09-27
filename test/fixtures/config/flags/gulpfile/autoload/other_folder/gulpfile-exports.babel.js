@@ -1,8 +1,14 @@
-'use strict';
+"use strict";
 
-import gulp from 'gulp';
+import gulp from "gulp";
 
-export function clean(done) { console.log('clean!'); done(); };
-export function build(done) { console.log('build!'); done(); };
-export const string = 'no function';
+export function clean(done) {
+  console.log("clean!");
+  done();
+}
+export function build(done) {
+  console.log("build!");
+  done();
+}
+export const string = "no function";
 export const dist = gulp.series(clean, build);

@@ -1,5 +1,3 @@
 module.exports = {
-  preload: [
-    "./preload_two"
-  ]
+  preload: ["./preload_two"],
 };

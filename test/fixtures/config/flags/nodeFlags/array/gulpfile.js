@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-exports.default = function(done) {
-  console.log('Default');
+exports.default = function (done) {
+  console.log("Default");
   done();
 };

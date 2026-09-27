@@ -2,10 +2,8 @@
   "name": "gulp",
   "description": "Test Package for Testing!",
   "version": "1.2.3",
-  "tags": [
-  ],
-  "files": [
-  ],
+  "tags": [],
+  "files": [],
   "licenses": [
     {
       "type": "MIT",

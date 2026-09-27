@@ -1,3 +1,3 @@
 module.exports = {
-  gulpfile: "../cwd/gulpfile.js"
+  gulpfile: "../cwd/gulpfile.js",
 };

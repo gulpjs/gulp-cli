@@ -2,10 +2,8 @@
   "name": "test-package-2",
   "description": "Test Package for Testing!",
   "version": "0.0.1",
-  "tags": [
-  ],
-  "files": [
-  ],
+  "tags": [],
+  "files": [],
   "dependencies": {
     "yargs": "^3.27.0"
   },
