@@ -1,9 +1,9 @@
-var messages = require('@gulpjs/messages');
+var messages = require("@gulpjs/messages");
 
 module.exports = {
   message: function (data) {
     if (data.tag === messages.TASK_FAILURE) {
-      return 'TASK FAILURE: **' + data.task + '**';
+      return "TASK FAILURE: **" + data.task + "**";
     }
 
     // Silence everything else for test
@@ -12,5 +12,5 @@ module.exports = {
   timestamp: function () {
     // Silence timestamps for test
     return false;
-  }
+  },
 };

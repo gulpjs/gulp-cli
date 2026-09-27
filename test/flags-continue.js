@@ -1,60 +1,54 @@
-'use strict';
+"use strict";
 
-var expect = require('expect');
-var exec = require('child_process').exec;
-var path = require('path');
+var expect = require("expect");
+var exec = require("child_process").exec;
+var path = require("path");
 
-var sliceLines = require('./tool/slice-lines');
-var gulp = require('./tool/gulp-cmd');
+var sliceLines = require("./tool/slice-lines");
+var gulp = require("./tool/gulp-cmd");
 
-var baseDir = path.join(__dirname, '..');
+var baseDir = path.join(__dirname, "..");
 
-describe('flag: --continue', function() {
-
-  it('continues execution when flag is set', function(done) {
+describe("flag: --continue", function () {
+  it("continues execution when flag is set", function (done) {
     var opts = { cwd: baseDir };
-    exec(gulp(
-      'test4',
-      '--continue',
-      '--cwd ./test/fixtures/gulpfiles'
-    ), opts, cb);
+    exec(
+      gulp("test4", "--continue", "--cwd ./test/fixtures/gulpfiles"),
+      opts,
+      cb,
+    );
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
       expect(sliceLines(stdout, 2)).toEqual(
-        'Starting \'test4\'...\n' +
-        'Starting \'errorFunction\'...\n' +
-        'Starting \'anon\'...\n' +
-        'Finished \'anon\' after ?\n' +
-        ''
+        "Starting 'test4'...\n" +
+          "Starting 'errorFunction'...\n" +
+          "Starting 'anon'...\n" +
+          "Finished 'anon' after ?\n" +
+          "",
       );
       expect(sliceLines(stderr, 0, 2)).toEqual(
-        '\'errorFunction\' errored after ?\n' +
-        'Error: Error!'
+        "'errorFunction' errored after ?\n" + "Error: Error!",
       );
       done();
     }
   });
 
-  it('stops execution when flag is not set', function(done) {
+  it("stops execution when flag is not set", function (done) {
     var opts = { cwd: baseDir };
-    exec(gulp('test4', '--cwd ./test/fixtures/gulpfiles'), opts, cb);
+    exec(gulp("test4", "--cwd ./test/fixtures/gulpfiles"), opts, cb);
 
     function cb(err, stdout, stderr) {
       expect(err).not.toBeNull();
-      expect(stdout).not.toMatch('Starting \'anon\'');
+      expect(stdout).not.toMatch("Starting 'anon'");
       stdout = sliceLines(stdout, 2);
       expect(stdout).toEqual(
-        'Starting \'test4\'...\n' +
-        'Starting \'errorFunction\'...\n' +
-        ''
+        "Starting 'test4'...\n" + "Starting 'errorFunction'...\n" + "",
       );
       expect(sliceLines(stderr, 0, 2)).toEqual(
-        '\'errorFunction\' errored after ?\n' +
-        'Error: Error!'
+        "'errorFunction' errored after ?\n" + "Error: Error!",
       );
       done();
     }
   });
-
 });

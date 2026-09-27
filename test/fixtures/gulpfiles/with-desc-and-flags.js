@@ -1,38 +1,38 @@
-'use strict';
+"use strict";
 
-var gulp = require('gulp');
+var gulp = require("gulp");
 
 function clean() {}
-clean.description = 'Delete dist folder';
+clean.description = "Delete dist folder";
 gulp.task(clean);
 
-gulp.task('scripts', scripts);
+gulp.task("scripts", scripts);
 function scripts() {}
-scripts.description = 'Bundles JavaScript';
+scripts.description = "Bundles JavaScript";
 
-var styles = function() {};
-gulp.task('styles', styles);
-gulp.task('styles').description = 'Compiles and bundles CSS';
+var styles = function () {};
+gulp.task("styles", styles);
+gulp.task("styles").description = "Compiles and bundles CSS";
 
-var build = gulp.series('clean', 'scripts', 'styles');
-build.description = 'Build all the things!';
+var build = gulp.series("clean", "scripts", "styles");
+build.description = "Build all the things!";
 build.flags = {
-  '--dev': '',
-  '--production': 'compressed into single bundle',
-  '': 'dummy-empty-string',
+  "--dev": "",
+  "--production": "compressed into single bundle",
+  "": "dummy-empty-string",
 };
-gulp.task('build', build);
+gulp.task("build", build);
 
-gulp.task('serve', serve);
+gulp.task("serve", serve);
 function serve() {}
-serve.description = 'Serves files reloading';
+serve.description = "Serves files reloading";
 serve.flags = {
-  '--lr': 'with live reloading',
+  "--lr": "with live reloading",
 };
 
 function watch() {}
-gulp.task('watch', watch);
-watch.description = 'Watch files and build on change';
+gulp.task("watch", watch);
+watch.description = "Watch files and build on change";
 
-gulp.task('default', gulp.series('build', 'watch'));
-gulp.task('default').description = 'Build and watch for changes';
+gulp.task("default", gulp.series("build", "watch"));
+gulp.task("default").description = "Build and watch for changes";

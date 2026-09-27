@@ -1,5 +1,5 @@
 module.exports = {
   flags: {
-    continue: false
-  }
+    continue: false,
+  },
 };

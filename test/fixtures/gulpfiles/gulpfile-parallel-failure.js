@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
-var gulp = require('gulp');
+var gulp = require("gulp");
 
 function noop(cb) {
   cb();
 }
 
 function errorFunction(cb) {
-  cb(new Error('Error!'));
+  cb(new Error("Error!"));
 }
 
 function notCompleting1() {
   // Callback is not called
 }
 
-gulp.task('default', gulp.parallel(errorFunction, noop));
-gulp.task('broken', gulp.parallel(errorFunction, noop, notCompleting1));
+gulp.task("default", gulp.parallel(errorFunction, noop));
+gulp.task("broken", gulp.parallel(errorFunction, noop, notCompleting1));

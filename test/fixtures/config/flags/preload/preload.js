@@ -1,1 +1,1 @@
-global.preload = 'hello preload!';
+global.preload = "hello preload!";

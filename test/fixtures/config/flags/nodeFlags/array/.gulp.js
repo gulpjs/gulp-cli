@@ -1,3 +1,3 @@
 module.exports = {
-  nodeFlags: ["--lazy", "--trace-deprecation"]
-}
+  nodeFlags: ["--lazy", "--trace-deprecation"],
+};

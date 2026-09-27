@@ -1,23 +1,22 @@
-'use strict';
+"use strict";
 
-var expect = require('expect');
-var mergeCliOpts = require('../../lib/shared/config/cli-flags');
+var expect = require("expect");
+var mergeCliOpts = require("../../lib/shared/config/cli-flags");
 
-describe('lib: cli-flags', function() {
-
-  it('Should copy only config props specified to cli flags', function(done) {
+describe("lib: cli-flags", function () {
+  it("Should copy only config props specified to cli flags", function (done) {
     var opts = {};
 
     var config = {
-      description: 'DESCRIPTION.',
+      description: "DESCRIPTION.",
       flags: {
         silent: true,
         continue: true,
-        gulpfile: '/path/to/gulpfile',
+        gulpfile: "/path/to/gulpfile",
       },
     };
 
-    var result =  mergeCliOpts(opts, config);
+    var result = mergeCliOpts(opts, config);
     expect(result).toEqual({
       silent: true,
       continue: true,
@@ -26,7 +25,7 @@ describe('lib: cli-flags', function() {
     done();
   });
 
-  it('Should not override cli flags with config props', function(done) {
+  it("Should not override cli flags with config props", function (done) {
     var opts = {
       help: false,
       depth: 4,
@@ -35,15 +34,15 @@ describe('lib: cli-flags', function() {
     };
 
     var config = {
-      description: 'DESCRIPTION.',
+      description: "DESCRIPTION.",
       flags: {
         silent: false,
         depth: 3,
-        gulpfile: '/path/to/gulpfile',
+        gulpfile: "/path/to/gulpfile",
       },
     };
 
-    var result =  mergeCliOpts(opts, config);
+    var result = mergeCliOpts(opts, config);
     expect(result).toEqual({
       help: false,
       depth: 4,
@@ -54,7 +53,7 @@ describe('lib: cli-flags', function() {
     done();
   });
 
-  it('Should not cause error if config is empty', function(done) {
+  it("Should not cause error if config is empty", function (done) {
     var opts = {
       help: false,
       depth: 4,
@@ -64,7 +63,7 @@ describe('lib: cli-flags', function() {
 
     var config = {};
 
-    var result =  mergeCliOpts(opts, config);
+    var result = mergeCliOpts(opts, config);
     expect(result).toEqual({
       help: false,
       depth: 4,
@@ -74,6 +73,4 @@ describe('lib: cli-flags', function() {
     expect(result).not.toBe(opts);
     done();
   });
-
 });
-

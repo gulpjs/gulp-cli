@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 module.exports = {
-  gulpfile: '../../../../gulpfiles/gulpfile-4.js',
+  gulpfile: "../../../../gulpfiles/gulpfile-4.js",
   flags: {
     compactTasks: false,
   },

@@ -1,3 +1,3 @@
 module.exports = {
-  description: "Description by .gulp.json in directory foo/bar"
+  description: "Description by .gulp.json in directory foo/bar",
 };

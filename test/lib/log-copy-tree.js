@@ -1,17 +1,16 @@
-'use strict';
+"use strict";
 
-var expect = require('expect');
-var copyTree = require('../../lib/shared/log/copy-tree');
+var expect = require("expect");
+var copyTree = require("../../lib/shared/log/copy-tree");
 
-describe('lib: copy-tree', function() {
-
+describe("lib: copy-tree", function () {
   var nonConvertingNodeFactory = {
     topNode: copyNode,
     taskNode: copyNode,
     childNode: copyNode,
   };
 
-  it('Should copy an empty tree', function(done) {
+  it("Should copy an empty tree", function (done) {
     var srcTree = {};
     var opts = {};
     var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
@@ -20,13 +19,9 @@ describe('lib: copy-tree', function() {
     done();
   });
 
-  it('Should copy a tree having empty nodes', function(done) {
+  it("Should copy a tree having empty nodes", function (done) {
     var srcTree = {
-      nodes: [
-        {},
-        { nodes: [] },
-        { nodes: [{}, {}] },
-      ],
+      nodes: [{}, { nodes: [] }, { nodes: [{}, {}] }],
     };
     var opts = {};
     var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
@@ -35,10 +30,7 @@ describe('lib: copy-tree', function() {
         { nodes: [] },
         { nodes: [] },
         {
-          nodes: [
-            { nodes: [] },
-            { nodes: [] },
-          ],
+          nodes: [{ nodes: [] }, { nodes: [] }],
         },
       ],
     });
@@ -46,8 +38,8 @@ describe('lib: copy-tree', function() {
     done();
   });
 
-  it('Should copy a tree', function(done) {
-    var srcTree = require('../fixtures/copy-tree');
+  it("Should copy a tree", function (done) {
+    var srcTree = require("../fixtures/copy-tree");
     var opts = {};
     var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
     expect(newTree).toEqual(srcTree);
@@ -55,8 +47,8 @@ describe('lib: copy-tree', function() {
     done();
   });
 
-  it('Should copy with no nodeFactory', function(done) {
-    var srcTree = require('../fixtures/copy-tree');
+  it("Should copy with no nodeFactory", function (done) {
+    var srcTree = require("../fixtures/copy-tree");
     var opts = {};
     var newTree = copyTree(srcTree, opts);
     expect(newTree).toEqual(srcTree);
@@ -64,20 +56,18 @@ describe('lib: copy-tree', function() {
     done();
   });
 
-  it('Should copy with no opts and no nodeFactory', function(done) {
-    var srcTree = require('../fixtures/copy-tree');
+  it("Should copy with no opts and no nodeFactory", function (done) {
+    var srcTree = require("../fixtures/copy-tree");
     var newTree = copyTree(srcTree);
     expect(newTree).toEqual(srcTree);
     expect(newTree).not.toBe(srcTree);
     done();
   });
 
-  describe('opts.tasksDepth', function() {
-
-    it('Should copy a tree until depth 1 if the specified depth is 0',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-1');
+  describe("opts.tasksDepth", function () {
+    it("Should copy a tree until depth 1 if the specified depth is 0", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-1");
       var opts = { tasksDepth: 0 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -85,10 +75,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a tree until depth 1 if the specified depth is 1',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-1');
+    it("Should copy a tree until depth 1 if the specified depth is 1", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-1");
       var opts = { tasksDepth: 1 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -96,10 +85,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a tree until depth 2 if the specified depth is 2',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-2');
+    it("Should copy a tree until depth 2 if the specified depth is 2", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-2");
       var opts = { tasksDepth: 2 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -107,10 +95,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a tree until depth 3 if the specified depth is 3',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-3');
+    it("Should copy a tree until depth 3 if the specified depth is 3", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-3");
       var opts = { tasksDepth: 3 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -118,10 +105,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a tree until depth 3 if the specified depth is 4',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-4');
+    it("Should copy a tree until depth 3 if the specified depth is 4", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-4");
       var opts = { tasksDepth: 4 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -129,10 +115,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a full depth tree if the specified depth is too large',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-4');
+    it("Should copy a full depth tree if the specified depth is too large", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-4");
       var opts = { tasksDepth: 5 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -140,10 +125,9 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a tree until depth 1 if the specified depth < 1',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-1');
+    it("Should copy a tree until depth 1 if the specified depth < 1", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-1");
       var opts = { tasksDepth: -1 };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
@@ -151,45 +135,43 @@ describe('lib: copy-tree', function() {
       done();
     });
 
-    it('Should copy a full depth tree if the specified depth is not number',
-    function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-depth-4');
+    it("Should copy a full depth tree if the specified depth is not number", function (done) {
+      var srcTree = require("../fixtures/copy-tree");
+      var expectedTree = require("../expected/copy-tree/copy-tree-depth-4");
       var opts = { tasksDepth: null };
       var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
       expect(newTree).not.toBe(srcTree);
 
-      opts = { tasksDepth: 'A' };
+      opts = { tasksDepth: "A" };
       newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
       expect(newTree).toEqual(expectedTree);
       expect(newTree).not.toBe(srcTree);
       done();
     });
-
   });
 
-  describe('opts.compactTasks', function() {
-    it('Should output only nodes of which `.branch` are true and those ' +
-    'children', function(done) {
-      var srcTree = require('../fixtures/copy-tree');
-      var expectedTree = require('../expected/copy-tree/copy-tree-compact');
-      var opts = { compactTasks: true };
-      var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
-      expect(newTree).toEqual(expectedTree);
-      expect(newTree).not.toBe(srcTree);
-      done();
-    });
+  describe("opts.compactTasks", function () {
+    it(
+      "Should output only nodes of which `.branch` are true and those " +
+        "children",
+      function (done) {
+        var srcTree = require("../fixtures/copy-tree");
+        var expectedTree = require("../expected/copy-tree/copy-tree-compact");
+        var opts = { compactTasks: true };
+        var newTree = copyTree(srcTree, opts, nonConvertingNodeFactory);
+        expect(newTree).toEqual(expectedTree);
+        expect(newTree).not.toBe(srcTree);
+        done();
+      },
+    );
   });
-
 });
-
 
 function copyNode(node) {
   var obj = {};
-  Object.keys(node).forEach(function(key) {
+  Object.keys(node).forEach(function (key) {
     obj[key] = node[key];
   });
   return obj;
 }
-

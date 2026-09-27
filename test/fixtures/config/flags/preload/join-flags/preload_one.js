@@ -1,1 +1,1 @@
-global.preload_one = 'preload one!';
+global.preload_one = "preload one!";

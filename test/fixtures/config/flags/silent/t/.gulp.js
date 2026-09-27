@@ -1,5 +1,5 @@
 module.exports = {
   flags: {
-    silent: true
-  }
+    silent: true,
+  },
 };

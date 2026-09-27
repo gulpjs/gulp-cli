@@ -1,3 +1,3 @@
-exports.default = function(done) {
+exports.default = function (done) {
   done();
-}
+};

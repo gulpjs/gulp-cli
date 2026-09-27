@@ -1,8 +1,8 @@
-'use strict';
+"use strict";
 
-var gulp = require('gulp');
+var gulp = require("gulp");
 
-gulp.task('default', function(done) {
-  console.log('Gulpfile : ' + __filename);
+gulp.task("default", function (done) {
+  console.log("Gulpfile : " + __filename);
   done();
 });

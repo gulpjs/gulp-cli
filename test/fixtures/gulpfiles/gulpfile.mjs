@@ -1,10 +1,10 @@
-import gulp from 'gulp';
+import gulp from "gulp";
 
 function noop(cb) {
   cb();
 }
 
-gulp.task('registered', noop);
+gulp.task("registered", noop);
 
-export function exported(){};
-export const string = 'no function';
+export function exported() {}
+export const string = "no function";
